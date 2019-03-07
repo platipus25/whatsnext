@@ -1,3 +1,4 @@
+// A simple time of day class Ravago Jones 3/7/19 V1.0
 class Time {
     hour:number;
     minute:number;
@@ -13,6 +14,7 @@ class Time {
                 hour = hour.getHours()
             }
         }
+        // assign to public variables
         this.hour = hour
         this.minute = minute
         //console.log(`${hour}:${minute}`)
@@ -29,7 +31,7 @@ class Time {
     }
 
     toCompare(){
-        return (this.hour*100)+this.minute
+        return (this.hour*100)+this.minute // concatenate & add zero if neccecary
     }
 
 }
