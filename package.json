@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "serve"
+    "start": "npm run build && serve",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
