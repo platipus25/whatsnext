@@ -1,4 +1,6 @@
 class Time {
+    hour:number;
+    minute:number;
     constructor(hour, minute){
         // default to now
         if(hour == undefined){
