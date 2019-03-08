@@ -26,7 +26,7 @@ class Time {
     }
 
     toString(){
-        var hour = (this.hour > 12? this.hour-12: this.hour) // make 12-hour
+        let hour = (this.hour > 12? this.hour-12: this.hour) // make 12-hour
         return `${hour}:${this.minute}`
     }
 
