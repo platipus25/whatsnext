@@ -10,3 +10,5 @@ interface Period {
     end: Time;
     class: Class;
 }
+
+export default Period;
