@@ -24,7 +24,7 @@ var Time = /** @class */ (function () {
         return hour + ":" + this.minute;
     };
     Time.prototype.toCompare = function () {
-        return (this.hour * 100) + this.minute;
+        return (this.hour * 100) + this.minute; // concatenate & add zero if neccecary
     };
     return Time;
 }());
