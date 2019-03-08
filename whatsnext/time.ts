@@ -2,7 +2,7 @@
 class Time {
     hour:number;
     minute:number;
-    constructor(hour, minute){
+    constructor(hour: number | Date, minute: number){
         // default to now
         if(hour == undefined){
             hour = new Date()
@@ -15,7 +15,7 @@ class Time {
             }
         }
         // assign to public variables
-        this.hour = hour
+        this.hour = hour as number
         this.minute = minute
         //console.log(`${hour}:${minute}`)
     }
