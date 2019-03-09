@@ -10,14 +10,8 @@ class Time {
     }
 
     static fromDate(date: Date){
-        let hour: number;
-        let minute: number;
         // parse date
-        if(date.getHours != undefined && date.getMinutes != undefined){
-            hour = date.getHours()
-            minute = date.getMinutes()
-            return new Time(hour, minute)
-        }
+        return new Time(date.getHours(), date.getMinutes())
     }
 
     static fromTs(ts: {hour: number, minute: number}){
