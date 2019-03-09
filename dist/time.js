@@ -1,3 +1,4 @@
+// A simple time of day class Ravago Jones 3/7/19 V1.0
 var Time = /** @class */ (function () {
     function Time(hour, minute) {
         // default to now
@@ -11,6 +12,7 @@ var Time = /** @class */ (function () {
                 hour = hour.getHours();
             }
         }
+        // assign to public variables
         this.hour = hour;
         this.minute = minute;
         //console.log(`${hour}:${minute}`)
