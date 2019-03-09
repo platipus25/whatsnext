@@ -1,23 +1,27 @@
-// A simple time of day class Ravago Jones 3/7/19 V1.0
+// A simple time of day class Ravago Jones 3/7/19 V1.1
 class Time {
     hour:number;
     minute:number;
-    constructor(hour: number | Date, minute: number){
-        // default to now
-        if(hour == undefined){
-            hour = new Date()
-        }
-        // parse date
-        if(typeof hour === "object"){
-            if(hour.getHours != undefined && hour.getMinutes != undefined){
-                minute = hour.getMinutes()
-                hour = hour.getHours()
-            }
-        }
+    constructor(hour: number, minute: number){
         // assign to public variables
-        this.hour = hour as number
+        this.hour = hour
         this.minute = minute
         //console.log(`${hour}:${minute}`)
+    }
+
+    static fromDate(date: Date){
+        let hour: number;
+        let minute: number;
+        // parse date
+        if(date.getHours != undefined && date.getMinutes != undefined){
+            hour = date.getHours()
+            minute = date.getMinutes()
+            return new Time(hour, minute)
+        }
+    }
+
+    static fromTs(ts: {hour: number, minute: number}){
+        return new Time(ts.hour, ts.minute)
     }
 
     toDate(){
