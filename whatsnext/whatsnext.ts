@@ -1,11 +1,10 @@
-import schedule_base from "./generator.js"
-import Time from "./time.js"
-import { NetworkInterfaceInfo } from "os";
+//import schedule_base from "./generator.ts"
+import Time from "./time.ts"
 
 class Whatsnext {
     schedule_base: Object;
     date: Date
-    contructor(schedule_base, date: Date){
+    constructor(schedule_base: Object, date: Date){
         this.schedule_base = schedule_base
         this.date = date
     }
@@ -17,8 +16,6 @@ class Whatsnext {
     time(){
         return Time.fromDate(this.now())
     }
-
-    
 }
 
 class WhatsnextUpdating extends Whatsnext {
@@ -28,3 +25,4 @@ class WhatsnextUpdating extends Whatsnext {
 }
 
 export default Whatsnext;
+export {WhatsnextUpdating, Whatsnext};
