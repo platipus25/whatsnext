@@ -8,6 +8,6 @@ console.log(now.toString())
 console.log(now2.toString())
 
 schedulePromise.then((schedule_base) => {
-    var whatsnext = new Whatsnext(schedule_base, new Date())
+    var whatsnext = new Whatsnext(schedule_base, new Date(2018, 9, 5))
     console.log(whatsnext)
 })
