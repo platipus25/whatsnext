@@ -29,7 +29,7 @@ class Whatsnext {
 
         // search this.schedule_base["minimum_days"] for this.now()
         for(let entry of this.schedule_base["minimum_days"]){
-            if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now().toDateString()){ 
+            if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now().toDateString()){
                 day = "Minimum"
             }
         }
@@ -61,21 +61,20 @@ class Whatsnext {
 
         for(let periodIndex in schedule.periods){
             let period = schedule.periods[periodIndex]
-            let nextPeriodIndex = periodIndex + 1;
-            let nextPeriod = schedule.periods[nextPeriodIndex]
-            
+
             let start = period.start.toCompare()
             let end = period.end.toCompare()
             let now = this.time().toCompare()
 
-            console.log(start, end, now)
+            console.log(start, now, end)
 
             if(end <= now && start <= now){ // if end is before or is now
-                console.log("la la la")
-                //let nextPeriodIndex = periodIndex + 1;
-                //if(nextPeriodIndex >= schedule.periods.length){ // is within bounds of array
-                //    return schedule.periods[nextPeriodIndex]
-                //}
+                let nextPeriodIndex = periodIndex + 1;
+                if(nextPeriodIndex < schedule.periods.length){ // is within bounds of array
+                    return schedule.periods[nextPeriodIndex]
+                }else{
+                    break;
+                }
             }
         }
         return null
@@ -88,9 +87,9 @@ class Whatsnext {
     nextClassCountdown(){
         console.log(countdown())
     }
-    
+
     endOfSchoolCountdown(){
-        console.log(countdown)
+        console.log(countdown())
     }
 
 }
