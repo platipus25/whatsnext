@@ -49,6 +49,8 @@ class Whatsnext {
             let end = period.end.toCompare()
             let now = this.time().toCompare()
 
+            //console.log(start, now, end)
+
             if(start <= now && end >= now){ // if start is before or is now & end is later than or is now
                 return period
             }
@@ -59,16 +61,17 @@ class Whatsnext {
     nextClass(){
         let schedule = this.schedule
 
-        for(let periodIndex in schedule.periods){
+        for(let periodIndexString in schedule.periods){
+            let periodIndex = parseInt(periodIndexString)
             let period = schedule.periods[periodIndex]
 
             let start = period.start.toCompare()
             let end = period.end.toCompare()
             let now = this.time().toCompare()
 
-            console.log(start, now, end)
+            //console.log(start, now, end)
 
-            if(end <= now && start <= now){ // if end is before or is now
+            if(end >= now && start <= now){ // if end is before or is now 
                 let nextPeriodIndex = periodIndex + 1;
                 if(nextPeriodIndex < schedule.periods.length){ // is within bounds of array
                     return schedule.periods[nextPeriodIndex]
@@ -80,16 +83,22 @@ class Whatsnext {
         return null
     }
 
-    thisClassCountdown(){
-        console.log(countdown())
+    thisClassCountdown(callback: (ts) => void){
+        let thisClass = this.thisClass()
+        if(thisClass == null) return null
+
+        return countdown(callback, thisClass.end.toDate())
     }
 
-    nextClassCountdown(){
-        console.log(countdown())
+    nextClassCountdown(callback: (ts) => void){
+        let nextClass = this.nextClass()
+        if(nextClass == null) return null
+
+        return countdown(callback, nextClass.start.toDate())
     }
 
-    endOfSchoolCountdown(){
-        console.log(countdown())
+    endOfSchoolCountdown(callback: (ts) => void){
+        return countdown(callback, this.schedule_base["end"].toDate())
     }
 
 }
