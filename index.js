@@ -8,11 +8,14 @@ console.log(now.toString())
 console.log(now2.toString())
 
 schedulePromise.then((schedule_base) => {
-    var whatsnext = new Whatsnext(schedule_base, new Date(2018, 9, 5, 9, 31))
+    var whatsnext = new Whatsnext(schedule_base, new Date(2018, 9, 5, 9, 41))
+    //whatsnext = new WhatsnextUpdating(schedule_base)
     console.log(whatsnext,
                 whatsnext.day,
                 whatsnext.schedule,
-                whatsnext.thisClassCountdown(),
+                whatsnext.thisClassCountdown((ts) => { 
+                    document.write(`${ts.toString()}</br>`)
+                }),
                 whatsnext.thisClass(),
                 whatsnext.nextClass())
 })
