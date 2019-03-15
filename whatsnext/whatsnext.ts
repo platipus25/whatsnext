@@ -21,7 +21,7 @@ class Whatsnext {
         return this.day.slice(0, 3).toLowerCase()
     }
 
-    get day(){ // I don't like: 
+    get day(){ // I don't like:
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
         let intDay = this.now().getDay()
@@ -61,23 +61,16 @@ class Whatsnext {
     nextClass(){
         let schedule = this.schedule
 
-        for(let periodIndexString in schedule.periods){
-            let periodIndex = parseInt(periodIndexString)
+        for(let periodIndex in schedule.periods){
             let period = schedule.periods[periodIndex]
-
             let start = period.start.toCompare()
-            let end = period.end.toCompare()
+            //let end = period.end.toCompare()
             let now = this.time().toCompare()
 
             //console.log(start, now, end)
 
-            if(end >= now && start <= now){ // if end is before or is now 
-                let nextPeriodIndex = periodIndex + 1;
-                if(nextPeriodIndex < schedule.periods.length){ // is within bounds of array
-                    return schedule.periods[nextPeriodIndex]
-                }else{
-                    break;
-                }
+            if(now <= start){ // if it is before start
+                return period
             }
         }
         return null
