@@ -21,7 +21,7 @@ class Whatsnext {
         return this.day.slice(0, 3).toLowerCase()
     }
 
-    get day(){
+    get day(){ // I don't like: 
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
         let intDay = this.now().getDay()
@@ -109,5 +109,17 @@ class WhatsnextUpdating extends Whatsnext {
     }
 }
 
+class WhatsnextUpdatingIsh extends Whatsnext {
+    start: Date;
+    constructor(schedule_base: Object, date: Date){
+        super(schedule_base, date)
+        this.start = new Date()
+    }
+
+    now(){
+        return new Date(this.date.valueOf() + (10*60)*(new Date().valueOf() - this.start.valueOf()))
+    }
+}
+
 export default Whatsnext;
-export {WhatsnextUpdating, Whatsnext};
+export {WhatsnextUpdating, Whatsnext, WhatsnextUpdatingIsh};
