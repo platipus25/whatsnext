@@ -1,4 +1,4 @@
-import Time from "./time.ts"
+import Time from "./Time/src/time.ts"
 let countdown = require("countdown")
 
 class Whatsnext {

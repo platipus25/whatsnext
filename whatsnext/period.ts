@@ -1,4 +1,4 @@
-import Time from "./time"
+import Time from "./Time/src/time.ts"
 
 interface Class {
     name:string;
