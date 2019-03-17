@@ -38,12 +38,13 @@ class Whatsnext {
     }
 
     get schedule(){
-        return this.schedule_base[this._day()]
+        return this.schedule_base[this._day()] || null
     }
 
 
     thisClass(){
         let schedule = this.schedule
+        if(!schedule) return null
         for(let period of schedule.periods){
             let start = period.start.toCompare()
             let end = period.end.toCompare()
@@ -60,7 +61,7 @@ class Whatsnext {
 
     nextClass(){
         let schedule = this.schedule
-
+        if(!schedule) return null
         for(let periodIndex in schedule.periods){
             let period = schedule.periods[periodIndex]
             let start = period.start.toCompare()
@@ -78,27 +79,28 @@ class Whatsnext {
 
     thisClassCountdown(callback: (ts) => void){
         let thisClass = this.thisClass()
-        if(thisClass == null) return null
+        if(!thisClass) return null
 
         return setInterval(() => {
-            let ts = countdown(null, thisClass.end.toDate())
+            let ts = countdown(this.now(), thisClass.end.toDate(this.now()))
             callback(ts)
         }, 1000) 
     }
 
     nextClassCountdown(callback: (ts) => void){
         let nextClass = this.nextClass()
-        if(nextClass == null) return null
+        if(!nextClass) return null
 
         return setInterval(() => {
-            let ts = countdown(null, nextClass.end.toDate())
+            let ts = countdown(this.now(), nextClass.end.toDate(this.now()))
             callback(ts)
         }, 1000) 
     }
 
     endOfSchoolCountdown(callback: (ts) => void){
+        if(!this.schedule) return null
         return setInterval(() => {
-            let ts = countdown(null, this.schedule_base["end"].toDate())
+            let ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
             callback(ts)
         }, 1000)
     }
