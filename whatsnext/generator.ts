@@ -21,7 +21,7 @@ let schedule_base = (request.then((data) => {
             data[day]["periods"][periodIndex].class = {name: period.name}
         }
         data[day].start = Time.fromTs(data[day].start)
-        data[day].end = Time.fromTs(data[day].start)
+        data[day].end = Time.fromTs(data[day].end)
     }
     //console.log(data)
     return data;
