@@ -93,7 +93,7 @@ class WhatsnextStatic {
             let nextClass = this.nextClass()
             let ts = null
             if(nextClass){
-                let ts = countdown(this.now(), nextClass.start.toDate(this.now()))
+                ts = countdown(this.now(), nextClass.start.toDate(this.now()))
             }
             callback(ts)
         }
@@ -103,7 +103,7 @@ class WhatsnextStatic {
         return () => {
             let ts = null
             if(this.schedule){
-                let ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
+                ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
             }
             callback(ts)
         }
