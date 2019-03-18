@@ -4,17 +4,17 @@ import data from "schedule2018-19.json"
 
 schedulePromise.then((schedule_base) => {
     var whatsnext = new Whatsnext(schedule_base, new Date(2018, 9, 5, 9, 41))
-    whatsnext = new WhatsnextUpdatingIsh(schedule_base, 0, new Date(2019, 3, 8, 9, 20))
+    //whatsnext = new WhatsnextUpdatingIsh(schedule_base, 1, new Date(2019, 3, 8, 9, 20))
     //whatsnext = new WhatsnextUpdatingIsh(schedule_base)
     var cancel = 0
     let endOfSchoolCountdown = whatsnext.endOfSchoolCountdown((ts) => {
-        document.getElementById("endOfSchoolCountdown").innerHTML = ts.toHTML()
+        document.getElementById("endOfSchoolCountdown").innerHTML = ts? ts.toHTML() : ""
     })
     let thisClassCountdown = whatsnext.thisClassCountdown((ts) => {
-        document.getElementById("thisClassCountdown").innerHTML = ts.toHTML()
+        document.getElementById("thisClassCountdown").innerHTML = ts? ts.toHTML() : ""
     })
     let nextClassCountdown = whatsnext.nextClassCountdown((ts) => {
-        document.getElementById("nextClassCountdown").innerHTML = ts.toHTML()
+        document.getElementById("nextClassCountdown").innerHTML = ts?ts.toHTML() : ""
     })
 
     setInterval(() => {
@@ -28,7 +28,7 @@ schedulePromise.then((schedule_base) => {
                 whatsnext.day,
                 whatsnext.thisClass(),
                 whatsnext.nextClass(),
-                whatsnext.time().toString()
+                whatsnext.time().toStringSeconds()
                 )
             }, 1000)
 })
