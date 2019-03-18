@@ -7,14 +7,13 @@ schedulePromise.then((schedule_base) => {
     whatsnext = new WhatsnextUpdatingIsh(schedule_base, 0, new Date(2019, 3, 8, 9, 20))
     //whatsnext = new WhatsnextUpdatingIsh(schedule_base)
     var cancel = 0
-    let printts = (ts) => console.log(ts.toString())
-    whatsnext.endOfSchoolCountdown((ts) => {
+    let endOfSchoolCountdown = whatsnext.endOfSchoolCountdown((ts) => {
         document.getElementById("endOfSchoolCountdown").innerHTML = ts.toHTML()
     })
-    whatsnext.thisClassCountdown((ts) => {
+    let thisClassCountdown = whatsnext.thisClassCountdown((ts) => {
         document.getElementById("thisClassCountdown").innerHTML = ts.toHTML()
     })
-    whatsnext.nextClassCountdown((ts) => {
+    let nextClassCountdown = whatsnext.nextClassCountdown((ts) => {
         document.getElementById("nextClassCountdown").innerHTML = ts.toHTML()
     })
 
@@ -22,6 +21,9 @@ schedulePromise.then((schedule_base) => {
         clearInterval(cancel)
         document.getElementById("nextClass").innerText = (whatsnext.nextClass() || {name:""}).name
         document.getElementById("thisClass").innerText = (whatsnext.thisClass() || {name:""}).name
+        endOfSchoolCountdown()
+        thisClassCountdown()
+        nextClassCountdown()
         console.log(
                 whatsnext.day,
                 whatsnext.thisClass(),
