@@ -117,7 +117,7 @@ class WhatsnextUpdating extends Whatsnext {
     }
 }
 
-class WhatsnextUpdatingIsh extends Whatsnext {
+class WhatsnextSim extends Whatsnext {
     start: Date;
     constructor(schedule_base: Object, public multiplier: number = 0, date: Date = new Date()){
         super(schedule_base, date)
@@ -130,4 +130,4 @@ class WhatsnextUpdatingIsh extends Whatsnext {
 }
 
 export default Whatsnext;
-export {WhatsnextUpdating, Whatsnext, WhatsnextUpdatingIsh};
+export {WhatsnextUpdating, Whatsnext, WhatsnextSim};

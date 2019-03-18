@@ -1,11 +1,11 @@
 import schedulePromise from "./whatsnext/generator.ts"
-import {Whatsnext, WhatsnextUpdating, WhatsnextUpdatingIsh} from "./whatsnext/whatsnext.ts"
+import {Whatsnext, WhatsnextUpdating, WhatsnextSim} from "./whatsnext/whatsnext.ts"
 import data from "schedule2018-19.json"
 
 schedulePromise.then((schedule_base) => {
     var whatsnext = new Whatsnext(schedule_base, new Date(2018, 9, 5, 9, 41))
-    //whatsnext = new WhatsnextUpdatingIsh(schedule_base, 1, new Date(2019, 3, 8, 9, 20))
-    //whatsnext = new WhatsnextUpdatingIsh(schedule_base)
+    //whatsnext = new WhatsnextSim(schedule_base, 1, new Date(2019, 3, 8, 9, 20))
+    //whatsnext = new WhatsnextSim(schedule_base)
     var cancel = 0
     let endOfSchoolCountdown = whatsnext.endOfSchoolCountdown((ts) => {
         document.getElementById("endOfSchoolCountdown").innerHTML = ts? ts.toHTML() : ""
