@@ -1,7 +1,7 @@
 import Time from "./Time/src/time.ts"
 let countdown = require("countdown")
 
-class Whatsnext {
+class WhatsnextStatic {
     schedule_base: Object;
     date: Date
     constructor(schedule_base: Object, date: Date){
@@ -111,7 +111,7 @@ class Whatsnext {
 
 }
 
-class WhatsnextUpdating extends Whatsnext {
+class Whatsnext extends WhatsnextStatic {
     now(){
         return new Date()
     }
@@ -129,5 +129,5 @@ class WhatsnextSim extends Whatsnext {
     }
 }
 
-export default Whatsnext;
-export {WhatsnextUpdating, Whatsnext, WhatsnextSim};
+export default WhatsnextStatic;
+export {WhatsnextStatic, Whatsnext, WhatsnextSim};
