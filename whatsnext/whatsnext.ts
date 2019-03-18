@@ -80,8 +80,10 @@ class Whatsnext {
     thisClassCountdown(callback: (ts) => void){
         return () => {
             let thisClass = this.thisClass()
-            if(!thisClass) return null
-            let ts = countdown(this.now(), thisClass.end.toDate(this.now()))
+            let ts = null
+            if(thisClass){
+                ts = countdown(this.now(), thisClass.end.toDate(this.now()))
+            }
             callback(ts)
         }
     }
@@ -89,16 +91,20 @@ class Whatsnext {
     nextClassCountdown(callback: (ts) => void){
         return () => {
             let nextClass = this.nextClass()
-            if(!nextClass) return null
-            let ts = countdown(this.now(), nextClass.start.toDate(this.now()))
+            let ts = null
+            if(nextClass){
+                let ts = countdown(this.now(), nextClass.start.toDate(this.now()))
+            }
             callback(ts)
         }
     }
 
     endOfSchoolCountdown(callback: (ts) => void){
         return () => {
-            if(!this.schedule) return null
-            let ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
+            let ts = null
+            if(this.schedule){
+                let ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
+            }
             callback(ts)
         }
     }
