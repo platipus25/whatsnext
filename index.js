@@ -4,8 +4,8 @@ import data from "schedule2018-19.json"
 
 schedulePromise.then((schedule_base) => {
     var whatsnext = new Whatsnext(schedule_base, new Date(2018, 9, 5, 9, 41))
-    whatsnext = new WhatsnextUpdatingIsh(schedule_base, new Date(2018, 9, 5, 7, 0), 1.5)
-    //whatsnext = new WhatsnextUpdating(schedule_base)
+    whatsnext = new WhatsnextUpdatingIsh(schedule_base, 0, new Date(2019, 3, 8, 9, 20))
+    //whatsnext = new WhatsnextUpdatingIsh(schedule_base)
     var cancel = 0
     let printts = (ts) => console.log(ts.toString())
     whatsnext.endOfSchoolCountdown((ts) => {
