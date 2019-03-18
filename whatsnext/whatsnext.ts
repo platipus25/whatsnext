@@ -78,29 +78,29 @@ class Whatsnext {
     }
 
     thisClassCountdown(callback: (ts) => void){
-        return setInterval(() => {
+        return () => {
             let thisClass = this.thisClass()
             if(!thisClass) return null
             let ts = countdown(this.now(), thisClass.end.toDate(this.now()))
             callback(ts)
-        }, 1000) 
+        }
     }
 
     nextClassCountdown(callback: (ts) => void){
-        return setInterval(() => {
+        return () => {
             let nextClass = this.nextClass()
             if(!nextClass) return null
             let ts = countdown(this.now(), nextClass.start.toDate(this.now()))
             callback(ts)
-        }, 1000) 
+        }
     }
 
     endOfSchoolCountdown(callback: (ts) => void){
-        return setInterval(() => {
+        return () => {
             if(!this.schedule) return null
             let ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
             callback(ts)
-        }, 1000)
+        }
     }
 
 }
