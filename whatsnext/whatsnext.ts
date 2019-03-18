@@ -113,7 +113,7 @@ class WhatsnextUpdating extends Whatsnext {
 
 class WhatsnextUpdatingIsh extends Whatsnext {
     start: Date;
-    constructor(schedule_base: Object, date: Date, public multiplier: number = 0){
+    constructor(schedule_base: Object, public multiplier: number = 0, date: Date = new Date()){
         super(schedule_base, date)
         this.start = new Date()
     }
