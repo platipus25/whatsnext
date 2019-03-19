@@ -1,11 +1,11 @@
 import Time from "./Time/src/time.ts"
-import ky from "ky"
+//const ky = require("ky")["default"]
+const data = require("schedule2018-19.json")
+
+//var request = ky("schedule2018-19.json").json()
 
 
-var request = ky("schedule2018-19.json").json()
-
-
-let schedule_base = (request.then((data) => {
+let schedule_base = (() => {
     for(let day in data){
         if(Array.isArray(data[day]) && data[day][0].hasOwnProperty("date")){
             for(let entry in data[day]){
@@ -25,6 +25,6 @@ let schedule_base = (request.then((data) => {
     }
     //console.log(data)
     return data;
-}))
+})()
 
 export default schedule_base;
