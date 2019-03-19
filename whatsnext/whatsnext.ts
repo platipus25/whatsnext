@@ -50,8 +50,6 @@ class WhatsnextStatic {
             let end = period.end.toCompare()
             let now = this.time.toCompare()
 
-            //console.log(start, now, end)
-
             if(start <= now && end >= now){ // if start is before or is now & end is later than or is now
                 return period
             }
@@ -62,13 +60,9 @@ class WhatsnextStatic {
     nextClass(){
         let schedule = this.schedule
         if(!schedule) return null
-        for(let periodIndex in schedule.periods){
-            let period = schedule.periods[periodIndex]
+        for(let period of schedule.periods){
             let start = period.start.toCompare()
-            //let end = period.end.toCompare()
             let now = this.time.toCompare()
-
-            //console.log(start, now, end)
 
             if(now <= start){ // if it is before start
                 return period
