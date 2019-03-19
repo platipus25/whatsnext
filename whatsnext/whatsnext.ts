@@ -9,12 +9,12 @@ class WhatsnextStatic {
         this.date = date
     }
 
-    now(){
+    get now(){
         return this.date
     }
 
-    time(){
-        return Time.fromDate(this.now())
+    get time(){
+        return Time.fromDate(this.now)
     }
 
     private _day(){
@@ -24,12 +24,12 @@ class WhatsnextStatic {
     get day(){ // I don't like:
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
-        let intDay = this.now().getDay()
+        let intDay = this.now.getDay()
         day = days_of_the_week[intDay]
 
-        // search this.schedule_base["minimum_days"] for this.now()
+        // search this.schedule_base["minimum_days"] for this.now
         for(let entry of this.schedule_base["minimum_days"]){
-            if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now().toDateString()){
+            if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now.toDateString()){
                 day = "Minimum"
             }
         }
@@ -48,7 +48,7 @@ class WhatsnextStatic {
         for(let period of schedule.periods){
             let start = period.start.toCompare()
             let end = period.end.toCompare()
-            let now = this.time().toCompare()
+            let now = this.time.toCompare()
 
             //console.log(start, now, end)
 
@@ -66,7 +66,7 @@ class WhatsnextStatic {
             let period = schedule.periods[periodIndex]
             let start = period.start.toCompare()
             //let end = period.end.toCompare()
-            let now = this.time().toCompare()
+            let now = this.time.toCompare()
 
             //console.log(start, now, end)
 
@@ -82,7 +82,7 @@ class WhatsnextStatic {
             let thisClass = this.thisClass()
             let ts = null
             if(thisClass){
-                ts = countdown(this.now(), thisClass.end.toDate(this.now()))
+                ts = countdown(this.now, thisClass.end.toDate(this.now))
             }
             callback(ts)
         }
@@ -93,7 +93,7 @@ class WhatsnextStatic {
             let nextClass = this.nextClass()
             let ts = null
             if(nextClass){
-                ts = countdown(this.now(), nextClass.start.toDate(this.now()))
+                ts = countdown(this.now, nextClass.start.toDate(this.now))
             }
             callback(ts)
         }
@@ -103,7 +103,7 @@ class WhatsnextStatic {
         return () => {
             let ts = null
             if(this.schedule){
-                ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
+                ts = countdown(this.now, this.schedule["end"].toDate(this.now))
             }
             callback(ts)
         }
@@ -112,7 +112,7 @@ class WhatsnextStatic {
 }
 
 class Whatsnext extends WhatsnextStatic {
-    now(){
+    get now(){
         return new Date()
     }
 }
@@ -124,7 +124,7 @@ class WhatsnextSim extends Whatsnext {
         this.start = new Date()
     }
 
-    now(){
+    get now(){
         return new Date(this.date.valueOf() + (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()))
     }
 }
