@@ -1,44 +1,19 @@
-import Time from "./Time/src/time.ts"
+import Time from "./Time/src/time"
+import Schedule from "./schedule";
 let countdown = require("countdown")
 
-class WhatsnextStatic {
-    schedule_base: Object;
-    date: Date
-    constructor(schedule_base: Object, date: Date){
-        this.schedule_base = schedule_base
-        this.date = date
+class Whatsnext {
+    schedule: Schedule;
+    constructor(schedule: Schedule){
+        this.schedule = schedule
+    }
+    
+    get time(): Time {
+        return Time.fromDate(this.now)
     }
 
-    now(){
-        return this.date
-    }
-
-    time(){
-        return Time.fromDate(this.now())
-    }
-
-    private _day(){
-        return this.day.slice(0, 3).toLowerCase()
-    }
-
-    get day(){ // I don't like:
-        let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        let day = ""
-        let intDay = this.now().getDay()
-        day = days_of_the_week[intDay]
-
-        // search this.schedule_base["minimum_days"] for this.now()
-        for(let entry of this.schedule_base["minimum_days"]){
-            if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now().toDateString()){
-                day = "Minimum"
-            }
-        }
-
-        return day
-    }
-
-    get schedule(){
-        return this.schedule_base[this._day()] || null
+    get now(): Date {
+        return new Date()
     }
 
 
@@ -48,7 +23,7 @@ class WhatsnextStatic {
         for(let period of schedule.periods){
             let start = period.start.toCompare()
             let end = period.end.toCompare()
-            let now = this.time().toCompare()
+            let now = this.time.toCompare()
 
             //console.log(start, now, end)
 
@@ -66,7 +41,7 @@ class WhatsnextStatic {
             let period = schedule.periods[periodIndex]
             let start = period.start.toCompare()
             //let end = period.end.toCompare()
-            let now = this.time().toCompare()
+            let now = this.time.toCompare()
 
             //console.log(start, now, end)
 
@@ -82,7 +57,7 @@ class WhatsnextStatic {
             let thisClass = this.thisClass()
             let ts = null
             if(thisClass){
-                ts = countdown(this.now(), thisClass.end.toDate(this.now()))
+                ts = countdown(this.now, thisClass.end.toDate(this.now))
             }
             callback(ts)
         }
@@ -93,7 +68,7 @@ class WhatsnextStatic {
             let nextClass = this.nextClass()
             let ts = null
             if(nextClass){
-                ts = countdown(this.now(), nextClass.start.toDate(this.now()))
+                ts = countdown(this.now, nextClass.start.toDate(this.now))
             }
             callback(ts)
         }
@@ -103,7 +78,7 @@ class WhatsnextStatic {
         return () => {
             let ts = null
             if(this.schedule){
-                ts = countdown(this.now(), this.schedule["end"].toDate(this.now()))
+                ts = countdown(this.now, this.schedule["end"].toDate(this.now))
             }
             callback(ts)
         }
@@ -111,23 +86,4 @@ class WhatsnextStatic {
 
 }
 
-class Whatsnext extends WhatsnextStatic {
-    now(){
-        return new Date()
-    }
-}
-
-class WhatsnextSim extends Whatsnext {
-    start: Date;
-    constructor(schedule_base: Object, public multiplier: number = 0, date: Date = new Date()){
-        super(schedule_base, date)
-        this.start = new Date()
-    }
-
-    now(){
-        return new Date(this.date.valueOf() + (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()))
-    }
-}
-
-export default WhatsnextStatic;
-export {WhatsnextStatic, Whatsnext, WhatsnextSim};
+export default Whatsnext;
