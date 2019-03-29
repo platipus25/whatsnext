@@ -21,16 +21,19 @@ class WhatsnextStatic {
         return this.day.slice(0, 3).toLowerCase()
     }
 
-    get day(){ // I don't like:
+    get day(){
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
         let intDay = this.now.getDay()
         day = days_of_the_week[intDay]
 
-        // search this.schedule_base["minimum_days"] for this.now
-        for(let entry of this.schedule_base["minimum_days"]){
-            if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now.toDateString()){
-                day = "Minimum"
+        if(this.schedule_base){
+            
+            // search this.schedule_base["minimum_days"] for this.now
+            for(let entry of this.schedule_base["minimum_days"]){
+                if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now.toDateString()){
+                    day = "Minimum"
+                }
             }
         }
 
@@ -38,6 +41,7 @@ class WhatsnextStatic {
     }
 
     get schedule(){
+        if(!this.schedule_base) return null
         return this.schedule_base[this._day()] || null
     }
 
