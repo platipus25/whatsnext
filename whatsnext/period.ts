@@ -1,14 +1,10 @@
 import Time from "./Time/src/time.ts"
 
-interface Class {
-    name:string;
-}
-
-interface Period { 
+class Period { 
     name: string;
     start: Time;
     end: Time;
-    class: Class;
+    class: { name: string };
 }
 
 export default Period;
