@@ -5,8 +5,13 @@ class WhatsnextStatic {
     schedule_base: Object;
     date: Date
     constructor(schedule_base: Object, date: Date){
-        this.schedule_base = schedule_base
         this.date = date
+        
+        if(schedule_base instanceof Promise){
+            schedule_base.then((base) => this.schedule_base = base)
+        }else{
+            this.schedule_base = schedule_base
+        }
     }
 
     get now(){
