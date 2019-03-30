@@ -73,7 +73,7 @@ class WhatsnextStatic {
             let start = period.start.toCompare()
             let now = this.time.toCompare()
 
-            if(now <= start){ // if it is before start
+            if(now < start){ // if it is before start
                 return period
             }
         }
