@@ -128,7 +128,11 @@ class WhatsnextSim extends Whatsnext {
     }
 
     get now(){
-        return new Date(this.date.valueOf() + (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()))
+        let diff = (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()) // get the time since instantiation and multiply by 
+        let newDate = new Date(this.date.valueOf() + diff)
+        let seconds = this.date.getSeconds() // or this.start.getSeconds() or 0
+        let withseconds = new Date(newDate.setSeconds(seconds))
+        return withseconds
     }
 }
 
