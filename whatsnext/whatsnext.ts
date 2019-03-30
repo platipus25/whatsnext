@@ -18,19 +18,18 @@ class WhatsnextStatic {
         return this.date
     }
 
-    get tomorrow(){
-        return new Date(this.now.setDate(this.now.getDate()+1))
-    }
-
     get time(){
         return Time.fromDate(this.now)
     }
 
-    private _day(date: Date | undefined = undefined): string {
-        if(!date) date = this.now
+    private _day(){
+        return this.day.slice(0, 3).toLowerCase()
+    }
+
+    get day(){
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
-        let intDay = date.getDay()
+        let intDay = this.now.getDay()
         day = days_of_the_week[intDay]
 
         if(this.schedule_base){
@@ -46,20 +45,9 @@ class WhatsnextStatic {
         return day
     }
 
-    get day(){
-        return this._day()
-    }
-
     get schedule(){
         if(!this.schedule_base) return null
-        var day = this._day()
-        
-        for(let x = 0; x < 2; x++){ // do it twice
-            var schedule = this.schedule_base[day.slice(0, 3).toLowerCase()] || null
-            if(this.time.toCompare() > schedule.end.toCompare()) day = this._day(this.tomorrow) // if it is after school, then make day = tommorrow
-        }
-
-        return schedule
+        return this.schedule_base[this._day()] || null
     }
 
 
