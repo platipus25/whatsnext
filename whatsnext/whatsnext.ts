@@ -153,9 +153,10 @@ class WhatsnextStatic {
     weekendCountdown(callback: (ts) => void){
         return () => {
             let ts = null
-            let weekend = this.weekend()
-            if(weekend){ 
-                if(this.now < weekend){
+            let weekendDate = this.weekend()
+            if(weekendDate){ 
+                let weekend = weekendDate.toDate()
+                if(this.now){
                     ts = countdown(this.now, weekend)
                 }
             }
