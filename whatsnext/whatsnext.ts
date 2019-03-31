@@ -85,6 +85,7 @@ class WhatsnextStatic {
     }
 
     enumerateNextClass(){
+        if(!this.schedule_base) return null
         let nextClass = this.nextClass()
         if(!nextClass){
             let tomorrowMidnight = new Date(new Date(this.tomorrow.setHours(0)).setMinutes(0))
@@ -98,6 +99,20 @@ class WhatsnextStatic {
             }
         }
         return nextClass
+    }
+
+    weekend(){
+        if(!this.schedule_base) return null
+        // find the end of the last day of the week
+        let date = this.now
+        let incr = (date) => new Date(date.setDate(date.getDate()+1))
+        while(date.getDay() != 5){ // in `Date` speak, 5 is friday (ref the array in day())
+            date = incr(date)
+        }
+        let schedule = new WhatsnextStatic(this.schedule_base, date).schedule
+        if(schedule){
+            return Time.fromDate(schedule.end.toDate(date))
+        } 
     }
 
     thisClassCountdown(callback: (ts) => void){
@@ -129,6 +144,19 @@ class WhatsnextStatic {
                 let end = this.schedule["end"].toDate(this.now)
                 if(this.now < end){
                     ts = countdown(this.now, end)
+                }
+            }
+            callback(ts)
+        }
+    }
+
+    weekendCountdown(callback: (ts) => void){
+        return () => {
+            let ts = null
+            let weekend = this.weekend()
+            if(weekend){ 
+                if(this.now < weekend){
+                    ts = countdown(this.now, weekend)
                 }
             }
             callback(ts)
