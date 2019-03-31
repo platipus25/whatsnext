@@ -116,63 +116,53 @@ class WhatsnextStatic {
     }
 
     thisClassCountdown(callback: (ts) => void){
-        return () => {
-            let thisClass = this.thisClass()
-            let ts = null
-            if(thisClass){
-                ts = countdown(this.now, thisClass.end.toDate(this.now))
-            }
-            callback(ts)
+        let thisClass = this.thisClass()
+        let ts = null
+        if(thisClass){
+            ts = countdown(this.now, thisClass.end.toDate(this.now))
         }
+        callback(ts)
     }
 
     nextClassCountdown(callback: (ts) => void){
-        return () => {
-            let nextClass = this.nextClass()
-            let ts = null
-            if(nextClass){
-                ts = countdown(this.now, nextClass.start.toDate(this.now))
-            }
-            callback(ts)
+        let nextClass = this.nextClass()
+        let ts = null
+        if(nextClass){
+            ts = countdown(this.now, nextClass.start.toDate(this.now))
         }
+        callback(ts)
     }
 
     enumerateNextClassCountdown(callback: (ts) => void){
-        return () => {
-            let nextClass = this.enumerateNextClass()
-            let ts = null
-            if(nextClass){
-                ts = countdown(this.now, nextClass.start.toDate())
-            }
-            callback(ts)
+        let nextClass = this.enumerateNextClass()
+        let ts = null
+        if(nextClass){
+            ts = countdown(this.now, nextClass.start.toDate())
         }
+        callback(ts)
     }
 
     endOfSchoolCountdown(callback: (ts) => void){
-        return () => {
-            let ts = null
-            if(this.schedule){ 
-                let end = this.schedule["end"].toDate(this.now)
-                if(this.now < end){
-                    ts = countdown(this.now, end)
-                }
+        let ts = null
+        if(this.schedule){ 
+            let end = this.schedule["end"].toDate(this.now)
+            if(this.now < end){
+                ts = countdown(this.now, end)
             }
-            callback(ts)
         }
+        callback(ts)
     }
 
     weekendCountdown(callback: (ts) => void){
-        return () => {
-            let ts = null
-            let weekendDate = this.weekend()
-            if(weekendDate){ 
-                let weekend = weekendDate.toDate()
-                if(this.now){
-                    ts = countdown(this.now, weekend)
-                }
+        let ts = null
+        let weekendDate = this.weekend()
+        if(weekendDate){ 
+            let weekend = weekendDate.toDate()
+            if(this.now){
+                ts = countdown(this.now, weekend)
             }
-            callback(ts)
         }
+        callback(ts)
     }
 
 }
