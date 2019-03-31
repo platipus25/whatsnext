@@ -137,6 +137,17 @@ class WhatsnextStatic {
         }
     }
 
+    enumerateNextClassCountdown(callback: (ts) => void){
+        return () => {
+            let nextClass = this.enumerateNextClass()
+            let ts = null
+            if(nextClass){
+                ts = countdown(this.now, nextClass.start.toDate())
+            }
+            callback(ts)
+        }
+    }
+
     endOfSchoolCountdown(callback: (ts) => void){
         return () => {
             let ts = null
