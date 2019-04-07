@@ -115,34 +115,34 @@ class WhatsnextStatic {
         } 
     }
 
-    thisClassCountdown(callback: (ts) => void){
+    thisClassCountdown(){
         let thisClass = this.thisClass()
         let ts = null
         if(thisClass){
             ts = countdown(this.now, thisClass.end.toDate(this.now))
         }
-        callback(ts)
+        return ts
     }
 
-    nextClassCountdown(callback: (ts) => void){
+    nextClassCountdown(){
         let nextClass = this.nextClass()
         let ts = null
         if(nextClass){
             ts = countdown(this.now, nextClass.start.toDate(this.now))
         }
-        callback(ts)
+        return ts
     }
 
-    enumerateNextClassCountdown(callback: (ts) => void){
+    enumerateNextClassCountdown(){
         let nextClass = this.enumerateNextClass()
         let ts = null
         if(nextClass){
             ts = countdown(this.now, nextClass.start.toDate())
         }
-        callback(ts)
+        return ts
     }
 
-    endOfSchoolCountdown(callback: (ts) => void){
+    endOfSchoolCountdown(){
         let ts = null
         if(this.schedule){ 
             let end = this.schedule["end"].toDate(this.now)
@@ -150,10 +150,10 @@ class WhatsnextStatic {
                 ts = countdown(this.now, end)
             }
         }
-        callback(ts)
+        return ts
     }
 
-    weekendCountdown(callback: (ts) => void){
+    weekendCountdown(){
         let ts = null
         let weekendDate = this.weekend()
         if(weekendDate){ 
@@ -162,7 +162,7 @@ class WhatsnextStatic {
                 ts = countdown(this.now, weekend)
             }
         }
-        callback(ts)
+        return ts
     }
 
 }
