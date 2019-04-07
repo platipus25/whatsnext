@@ -1,10 +1,10 @@
 const path = require('path');
 
 module.exports = {
-    entry: './index.js',
-    mode: "development",
+    entry: './src/whatsnext.ts',
+    mode: "production",
     output: {
-        filename: 'bundle.js',
+        filename: 'whatsnext.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {
@@ -20,7 +20,7 @@ module.exports = {
     resolve: {
       modules: [
         "node_modules",
-        path.resolve(__dirname, "whatsnext")
+        path.resolve(__dirname, "src")
       ]
     }
   };

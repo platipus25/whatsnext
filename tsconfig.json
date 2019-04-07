@@ -11,6 +11,6 @@
         "allowJs": true,             // allow a partial TypeScript and JavaScript codebase
     },
     "include": [
-        "./whatsnext/"
+        "./src/"
     ]
 }
