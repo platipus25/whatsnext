@@ -1,5 +1,5 @@
-import schedule_base from "./whatsnext/generator.ts"
-import {Whatsnext, WhatsnextStatic, WhatsnextSim} from "./whatsnext/whatsnext.ts"
+import schedule_base from "./src/generator.ts"
+import {Whatsnext, WhatsnextStatic, WhatsnextSim} from "./src/whatsnext.ts"
 
 
 var whatsnext = new WhatsnextStatic(schedule_base, new Date(2018, 9, 5, 7, 55))
