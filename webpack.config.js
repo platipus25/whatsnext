@@ -67,29 +67,4 @@ let nodeConfig = {
   }
 };
 
-module.exports = {
-    entry: './src/whatsnext.ts',
-    mode: "production",
-    output: {
-        filename: 'whatsnext.js',
-        path: path.resolve(__dirname, 'dist'),
-        library: 'whatsnext',
-        libraryTarget: 'umd'
-    },
-    module: {
-      rules: [
-        { test: /\.ts$/, use: 'ts-loader' }
-      ]
-    },
-    devServer: {
-      contentBase: path.join(__dirname, 'dist'),
-      compress: true,
-      port: 8080
-    },
-    resolve: {
-      modules: [
-        "node_modules",
-        path.resolve(__dirname, "src")
-      ]
-    }
-  };
+module.exports = [testConfig, webConfig, nodeConfig]
