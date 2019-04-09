@@ -18,6 +18,7 @@ let testConfig = {
     port: 8080
   },
   resolve: {
+    enforceExtension: false,
     modules: [
       "node_modules",
       path.resolve(__dirname, "src")
@@ -39,6 +40,7 @@ let webConfig = {
     ]
   },
   resolve: {
+    enforceExtension: false,
     modules: [
       "node_modules",
       path.resolve(__dirname, "src")
@@ -57,6 +59,7 @@ let nodeConfig = {
       libraryTarget: "umd"
   },
   module: {
+    enforceExtension: false,
     rules: [
       { test: /\.ts$/, use: 'ts-loader' }
     ]
