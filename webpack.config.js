@@ -52,7 +52,9 @@ let nodeConfig = {
   mode: "production",
   output: {
       filename: 'whatsnext.node.js',
-      path: path.resolve(__dirname, 'dist')
+      path: path.resolve(__dirname, 'dist'),
+      library: "whatsnext",
+      libraryTarget: "umd"
   },
   module: {
     rules: [
