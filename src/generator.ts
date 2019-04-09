@@ -4,9 +4,32 @@ const ky = require("ky")["default"]
 
 var request = ky("schedule2018-19.json").json()
 
+function isIterable(object: any){
+    // checks for null and undefined
+    if (object == null) {
+        return false;
+    }
+    return typeof object[Symbol.iterator] === 'function';
+}
+
+function changeToTime(object: any){
+    for(let nodeIndex in object){
+        let node = object[nodeIndex]
+        let isTs = node.hasOwnProperty("hour") && node.hasOwnProperty("minute")
+        if(isIterable(node) && !isTs){
+            object[nodeIndex] = changeToTime(node);
+        }else if(isTs){
+            object[nodeIndex] = Time.fromTs(node)
+        }
+    }
+    return object
+}
 
 let schedule_basePromise = request.then((data) => {
-    for(let day in data){
+
+    changeToTime(data)
+
+    /*for(let day in data){
         if(Array.isArray(data[day]) && data[day][0].hasOwnProperty("date")){
             for(let entry in data[day]){
                 let date = data[day][entry].date
@@ -22,8 +45,8 @@ let schedule_basePromise = request.then((data) => {
         }
         data[day].start = Time.fromTs(data[day].start)
         data[day].end = Time.fromTs(data[day].end)
-    }
-    //console.log(data)
+    }*/
+    console.log(data)
     return data;
 })
 
