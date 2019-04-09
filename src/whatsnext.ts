@@ -191,3 +191,4 @@ class WhatsnextSim extends Whatsnext {
 
 export default WhatsnextStatic;
 export {WhatsnextStatic, Whatsnext, WhatsnextSim};
+export {transformFromTs} from "./generator.ts";
