@@ -1,53 +1,41 @@
 import Time from "./Time/src/time.ts"
-const ky = require("ky")["default"]
-//const data = require("schedule2018-19.json")
 
-var request = ky("schedule2018-19.json").json()
+// EXAMPLE USAGE:
 
-function isIterable(object: any){
-    // checks for null and undefined
-    if (object == null) {
-        return false;
-    }
-    return typeof object[Symbol.iterator] === 'function';
-}
+/*
+    const ky = require("ky")["default"]
+    var request = ky("schedule2018-19.json").json()
 
-function changeToTime(object: any){
+    let schedule_basePromise = request.then((data) => {
+        data = transformFromTs(data)
+        //console.log(data)
+        return data;
+    })
+*/
+
+function transformFromTs(object: any){
     for(let nodeIndex in object){
         let node = object[nodeIndex]
-        let isTs = node.hasOwnProperty("hour") && node.hasOwnProperty("minute")
-        if(isIterable(node) && !isTs){
-            object[nodeIndex] = changeToTime(node);
-        }else if(isTs){
+        let isTsTime = node.hasOwnProperty("hour") && node.hasOwnProperty("minute")
+        let isTsDate = node.hasOwnProperty("year") && node.hasOwnProperty("month") && node.hasOwnProperty("day")
+        let isIterable = typeof node == "object" && node != null;
+        
+        // if this instance can't fufill the change
+        if(isIterable && !isTsTime && !isTsDate){ // checking if this instance can fulfill so as not to make extras
+            object[nodeIndex] = transformFromTs(node);
+        }
+
+        // at the end of the tree
+        if(isTsTime){
             object[nodeIndex] = Time.fromTs(node)
+        }else if(isTsDate){
+            object[nodeIndex] = new Date(node.year, node.month, node.day)
         }
     }
     return object
 }
 
-let schedule_basePromise = request.then((data) => {
 
-    changeToTime(data)
+export { transformFromTs }
+export default transformFromTs;
 
-    /*for(let day in data){
-        if(Array.isArray(data[day]) && data[day][0].hasOwnProperty("date")){
-            for(let entry in data[day]){
-                let date = data[day][entry].date
-                data[day][entry].date = new Date(date.year, date.month, date.day)
-            }
-            continue;
-        } 
-        for(let periodIndex in data[day].periods){
-            let period = data[day]["periods"][periodIndex]
-            data[day]["periods"][periodIndex].start = Time.fromTs(period.start)
-            data[day]["periods"][periodIndex].end = Time.fromTs(period.end)
-            data[day]["periods"][periodIndex].class = {name: period.name}
-        }
-        data[day].start = Time.fromTs(data[day].start)
-        data[day].end = Time.fromTs(data[day].end)
-    }*/
-    console.log(data)
-    return data;
-})
-
-export default schedule_basePromise;
