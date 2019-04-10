@@ -19,7 +19,7 @@ class WhatsnextStatic {
     }
 
     get tomorrow(){
-        return new Date(this.now.setDate(this.now.getDate()+1))
+        return new Date(new Date(new Date(this.now.setDate(this.now.getDate()+1)).setHours(0)).setMinutes(0))
     }
 
     get time(){
@@ -88,7 +88,7 @@ class WhatsnextStatic {
         if(!this.schedule_base) return null
         let nextClass = this.nextClass()
         if(!nextClass){
-            let tomorrowMidnight = new Date(new Date(this.tomorrow.setHours(0)).setMinutes(0))
+            let tomorrowMidnight = this.tomorrow
             let whatsnextTomorrow = new WhatsnextStatic(this.schedule_base, tomorrowMidnight)
             nextClass = whatsnextTomorrow.enumerateNextClass()
         }else{
@@ -113,6 +113,45 @@ class WhatsnextStatic {
         if(schedule){
             return Time.fromDate(schedule.end.toDate(date))
         } 
+    }
+
+    enumerateNextTime(){
+        let thisClass = this.thisClass()
+        if(!thisClass) return null
+
+        let foundClass: any = null
+
+        let isThisClass = false
+        let needle = thisClass.name
+        let instance: WhatsnextStatic = this
+        while(!isThisClass){
+            let tomorrow = instance.tomorrow
+            instance = new WhatsnextStatic(this.schedule_base, tomorrow)
+
+            let schedule = instance.schedule
+            if(!schedule) continue;
+
+            for(let period of schedule.periods){
+                let name = period.name
+
+                if(name === needle){
+                    foundClass = period
+                    isThisClass = true;
+                    break;
+                }
+            }
+        }
+
+        if(!foundClass) return null
+        let outputClass: any = {}
+        for(let field in foundClass){
+            if(foundClass[field] instanceof Time){
+                outputClass[field] = Time.fromDate(foundClass[field].toDate(instance.now))
+            }else{
+                outputClass[field] = foundClass[field]
+            }
+        }
+        return outputClass
     }
 
     thisClassCountdown(){
@@ -165,6 +204,18 @@ class WhatsnextStatic {
         return ts
     }
 
+    nextTimeCountdown(){
+        let ts = null
+        let nextTime = this.enumerateNextTime()
+        if(nextTime){ 
+            let nextTimeStart = nextTime.start.toDate()
+            if(this.now){
+                ts = countdown(this.now, nextTimeStart)
+            }
+        }
+        return ts
+    }
+
 }
 
 class Whatsnext extends WhatsnextStatic {
@@ -183,9 +234,9 @@ class WhatsnextSim extends Whatsnext {
     get now(){
         let diff = (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()) // get the time since instantiation and multiply by 
         let newDate = new Date(this.date.valueOf() + diff)
-        let seconds = this.date.getSeconds() // or this.start.getSeconds() or 0
-        let withseconds = new Date(newDate.setSeconds(seconds))
-        return withseconds
+        //let seconds = this.date.getSeconds() // or this.start.getSeconds() or 0
+        //let withseconds = new Date(newDate.setSeconds(seconds))
+        return newDate//withseconds
     }
 }
 
