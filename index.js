@@ -1,9 +1,9 @@
-import schedule_base from "./src/generator.ts"
-import {Whatsnext, WhatsnextStatic, WhatsnextSim} from "./src/whatsnext.ts"
-
+import {Whatsnext, WhatsnextStatic, WhatsnextSim, transformFromTs} from "./src/whatsnext.ts"
+import schedule_baseRaw from "./src/schedule2018-19.json"
+let schedule_base = transformFromTs(schedule_baseRaw)
 
 var whatsnext = new WhatsnextStatic(schedule_base, new Date(2018, 9, 5, 7, 55))
-whatsnext = new WhatsnextSim(schedule_base, 60, new Date(2019, 3, 8, 9, 20))
+whatsnext = new WhatsnextSim(schedule_base, 1/60, new Date(2019, 3, 8, 9, 20))
 //whatsnext = new Whatsnext(schedule_base)
 
 setInterval(() => {
@@ -22,9 +22,7 @@ setInterval(() => {
             whatsnext.day,
             whatsnext.schedule,
             whatsnext.thisClass(),
-            whatsnext.nextClass(),
             whatsnext.enumerateNextClass(),
-            whatsnext.weekend().toDate(),
             whatsnext.time.toStringSeconds()
             )
         }, 1000)
