@@ -40,7 +40,9 @@ async function web(url: string){
     let response = await ky(url).json()
     let output = transformFromTs(response)
     return output
-}*/
+}
+export { web }
+*/
 
 /*
 import * as got from "got"
@@ -49,8 +51,10 @@ async function node(url: string){
     const response = await got(url, {json: true});
     output = transformFromTs(response)
    return output
-}*/
+}
+export { node }
+*/
 
-export { transformFromTs, web, node }
+export { transformFromTs }
 export default transformFromTs;
 
