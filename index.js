@@ -9,9 +9,7 @@ whatsnext = new WhatsnextSim(schedule_base, 1/60, new Date(2019, 3, 8, 9, 20))
 setInterval(() => {
     document.getElementById("nextClass").innerText = (whatsnext.nextClass() || {name:""}).name
     document.getElementById("thisClass").innerText = (whatsnext.thisClass() || {name:""}).name
-    whatsnext.endOfSchoolCountdown((ts) => {
-        document.getElementById("endOfSchoolCountdown").innerHTML = ts? ts.toHTML() : ""
-    })
+    //document.getElementById("endOfSchoolCountdown").innerHTML = ts? ts.toHTML() : "";whatsnext.endOfSchoolCountdown()
     whatsnext.thisClassCountdown((ts) => {
         document.getElementById("thisClassCountdown").innerHTML = ts? ts.toHTML() : ""
     })

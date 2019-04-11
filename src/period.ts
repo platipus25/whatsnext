@@ -1,4 +1,4 @@
-import Time from "./Time/src/time.ts"
+import Time from "./Time/dist/time"
 
 class Period { 
     name: string;

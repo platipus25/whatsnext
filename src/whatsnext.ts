@@ -1,4 +1,4 @@
-import Time from "./Time/src/time.ts"
+import Time from "./Time/dist/time"
 let countdown = require("countdown")
 
 class WhatsnextStatic {
@@ -94,7 +94,7 @@ class WhatsnextStatic {
         }else{
             for(let field in nextClass){
                 if(nextClass[field] instanceof Time){
-                    nextClass[field] = Time.fromDate(nextClass[field].toDate(this.now))
+                    nextClass[field].setDate(this.now)
                 }
             }
         }
@@ -111,7 +111,7 @@ class WhatsnextStatic {
         }
         let schedule = new WhatsnextStatic(this.schedule_base, date).schedule
         if(schedule){
-            return Time.fromDate(schedule.end.toDate(date))
+            return schedule.end.setDate(date)
         } 
     }
 
@@ -143,15 +143,12 @@ class WhatsnextStatic {
         }
 
         if(!foundClass) return null
-        let outputClass: any = {}
         for(let field in foundClass){
             if(foundClass[field] instanceof Time){
-                outputClass[field] = Time.fromDate(foundClass[field].toDate(instance.now))
-            }else{
-                outputClass[field] = foundClass[field]
+                foundClass[field].setDate(instance.now)
             }
         }
-        return outputClass
+        return foundClass
     }
 
     thisClassCountdown(){
