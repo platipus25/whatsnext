@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "countdown": "^2.6.0",
+    "got": "^9.6.0",
     "ky": "^0.9.0",
     "time_ts": "git+https://github.com/platipus25/Time.git"
   },

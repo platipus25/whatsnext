@@ -1,5 +1,4 @@
 import Time from "./Time/dist/time"
-
 // EXAMPLE USAGE:
 
 /*
@@ -35,7 +34,23 @@ function transformFromTs(object: any){
     return object
 }
 
+/*
+import ky from "ky"
+async function web(url: string){
+    let response = await ky(url).json()
+    let output = transformFromTs(response)
+    return output
+}*/
 
-export { transformFromTs }
+/*
+import * as got from "got"
+async function node(url: string){
+    let output = null
+    const response = await got(url, {json: true});
+    output = transformFromTs(response)
+   return output
+}*/
+
+export { transformFromTs, web, node }
 export default transformFromTs;
 
