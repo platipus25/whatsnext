@@ -2,6 +2,10 @@ import {Whatsnext, WhatsnextStatic, WhatsnextSim, transformFromTs} from "./src/w
 import schedule_baseRaw from "./src/schedule2018-19.json"
 let schedule_base = transformFromTs(schedule_baseRaw)
 
+window.Whatsnext = Whatsnext
+window.WhatsnextStatic = WhatsnextStatic
+window.Whatsnext = WhatsnextSim
+window.schedule_base = schedule_base
 var whatsnext = new WhatsnextStatic(schedule_base, new Date(2018, 9, 5, 7, 55))
 whatsnext = new WhatsnextSim(schedule_base, 1/60, new Date(2019, 3, 8, 9, 20))
 //whatsnext = new Whatsnext(schedule_base)
