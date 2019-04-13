@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "gen": "tsc --emitDeclarationOnly",
+    "genWhatsnext": "tsc -t ES6 -d --emitDeclarationOnly --outDir ./dist/ ./src/whatsnext.ts"
   },
   "keywords": [],
   "author": "",
