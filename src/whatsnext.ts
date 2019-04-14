@@ -87,6 +87,7 @@ class WhatsnextStatic {
     enumerateNextClass(){
         if(!this.schedule_base) return null
         let nextClass = this.nextClass()
+        if(nextClass) nextClass = {...nextClass}
         if(!nextClass){
             let tomorrowMidnight = this.tomorrow
             let whatsnextTomorrow = new WhatsnextStatic(this.schedule_base, tomorrowMidnight)
@@ -94,7 +95,7 @@ class WhatsnextStatic {
         }else{
             for(let field in nextClass){
                 if(nextClass[field] instanceof Time){
-                    nextClass[field].setDate(this.now)
+                    nextClass[field] = nextClass[field].setDate(this.now)
                 }
             }
         }
@@ -143,9 +144,10 @@ class WhatsnextStatic {
         }
 
         if(!foundClass) return null
+        foundClass = {...foundClass }
         for(let field in foundClass){
             if(foundClass[field] instanceof Time){
-                foundClass[field].setDate(instance.now)
+                foundClass[field] = foundClass[field].setDate(instance.now)
             }
         }
         return foundClass
