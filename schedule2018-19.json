@@ -1,0 +1,103 @@
+{
+    "minimum_days":[
+        {"name":"First Day Of School", "date":{"year":2018, "month":7, "day":20}},
+        {"name":"Back To School Night", "date":{"year":2018, "month":7, "day":28}},
+        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":1}},
+        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":2}},
+        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":3}},
+        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":4}},
+        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":5}},
+        {"name":"End of First Trimester", "date":{"year":2018, "month":10, "day":2}},
+        {"name":"End of Second Trimester", "date":{"year":2019, "month":1, "day":15}},
+        {"name":"End of Third Trimester", "date":{"year":2019, "month":4, "day":24}},
+        {"name":"Last Day of School", "date":{"year":2019, "month":5, "day":7}}
+    ],
+
+    "min": {
+        "start": {"hour": 7, "minute": 55},
+        "end": {"hour": 12, "minute": 20},
+        "periods": [
+            {"name": "1", "start": {"hour": 7, "minute": 55}, "end": {"hour": 8, "minute": 26}},
+            {"name": "2", "start": {"hour": 8, "minute": 29}, "end": {"hour": 8, "minute": 58}},
+            {"name": "3", "start": {"hour": 9, "minute": 1}, "end": {"hour": 9, "minute": 30}},
+            {"name": "4", "start": {"hour": 9, "minute": 33}, "end": {"hour": 10, "minute": 2}},
+            {"name": "Break", "start": {"hour": 10, "minute": 2}, "end": {"hour": 10, "minute": 12}},
+            {"name": "5", "start": {"hour": 10, "minute": 15}, "end": {"hour": 10, "minute": 44}},
+            {"name": "6", "start": {"hour": 10, "minute": 47}, "end": {"hour": 11, "minute": 16}},
+            {"name": "7", "start": {"hour": 11, "minute": 19}, "end": {"hour": 11, "minute": 48}},
+            {"name": "8", "start": {"hour": 11, "minute": 51}, "end": {"hour": 12, "minute": 20}}
+        ]
+    },
+    "mon":{
+        "start": {"hour": 9, "minute": 28},
+        "end": {"hour": 14, "minute": 55},
+        "periods": [
+            {"name": "1", "start": {"hour": 9, "minute": 28}, "end": {"hour": 10, "minute": 0}},
+            {"name": "2", "start": {"hour": 10, "minute": 3}, "end": {"hour": 10, "minute": 35}},
+            {"name": "3", "start": {"hour": 10, "minute": 38}, "end": {"hour": 11, "minute": 10}},
+            {"name": "Break", "start": {"hour": 11, "minute": 10}, "end": {"hour": 11, "minute": 20}},
+            {"name": "4", "start": {"hour": 11, "minute": 23}, "end": {"hour": 11, "minute": 55}},
+            {"name": "5", "start": {"hour": 11, "minute": 58}, "end": {"hour": 12, "minute": 30}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 30}, "end": {"hour": 13, "minute": 10}},
+            {"name": "6", "start": {"hour": 13, "minute": 13}, "end": {"hour": 13, "minute": 45}},
+            {"name": "7", "start": {"hour": 13, "minute": 48}, "end": {"hour": 14, "minute": 20}},
+            {"name": "8", "start": {"hour": 14, "minute": 23} , "end": {"hour": 14, "minute": 55}}
+        ]
+    },
+    "tue": {
+        "start": {"hour": 7, "minute": 55},
+        "end": {"hour": 14, "minute": 55},
+        "periods": [
+            {"name": "2", "start": {"hour": 7, "minute": 55}, "end": {"hour": 8, "minute": 59}},
+            {"name": "3", "start": {"hour": 9, "minute": 2}, "end": {"hour": 10, "minute": 0}},
+            {"name": "Break", "start": {"hour": 10, "minute": 0}, "end": {"hour": 10, "minute": 10}},
+            {"name": "4", "start": {"hour": 10, "minute": 13}, "end": {"hour": 11, "minute": 11}},
+            {"name": "6", "start": {"hour": 11, "minute": 14}, "end": {"hour": 12, "minute": 12}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 12}, "end": {"hour": 12, "minute": 52}},
+            {"name": "7", "start": {"hour": 12, "minute": 56}, "end": {"hour": 13, "minute": 54}},
+            {"name": "8", "start": {"hour": 13, "minute": 57}, "end": {"hour": 14, "minute": 55}}
+        ]
+    },
+    "wed": {
+        "start": {"hour": 7, "minute": 55},
+        "end": {"hour": 14, "minute": 55},
+        "periods": [
+            {"name": "1", "start": {"hour": 7, "minute": 55}, "end": {"hour": 8, "minute": 59}},
+            {"name": "3", "start": {"hour": 9, "minute": 2}, "end": {"hour": 10, "minute": 0}},
+            {"name": "Break", "start": {"hour": 10, "minute": 0}, "end": {"hour": 10, "minute": 10}},
+            {"name": "4", "start": {"hour": 10, "minute": 13}, "end": {"hour": 11, "minute": 11}},
+            {"name": "5", "start": {"hour": 11, "minute": 14}, "end": {"hour": 12, "minute": 12}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 12}, "end": {"hour": 12, "minute": 52}},
+            {"name": "7", "start": {"hour": 12, "minute": 56}, "end": {"hour": 13, "minute": 54}},
+            {"name": "8", "start": {"hour": 13, "minute": 57}, "end": {"hour": 14, "minute": 55}}
+        ]
+    },
+    "thu": {
+        "start": {"hour": 7, "minute": 55},
+        "end": {"hour": 14, "minute": 55},
+        "periods": [
+            {"name": "1", "start": {"hour": 7, "minute": 55}, "end": {"hour": 8, "minute": 59}},
+            {"name": "2", "start": {"hour": 9, "minute": 2}, "end": {"hour": 10, "minute": 0}},
+            {"name": "Break", "start": {"hour": 10, "minute": 0}, "end": {"hour": 10, "minute": 10}},
+            {"name": "4", "start": {"hour": 10, "minute": 13}, "end": {"hour": 11, "minute": 11}},
+            {"name": "5", "start": {"hour": 11, "minute": 14}, "end": {"hour": 12, "minute": 12}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 12}, "end": {"hour": 12, "minute": 52}},
+            {"name": "7", "start": {"hour": 12, "minute": 56}, "end": {"hour": 13, "minute": 54}},
+            {"name": "8", "start": {"hour": 13, "minute": 57}, "end": {"hour": 14, "minute": 55}}
+        ]
+    },
+    "fri": {
+        "start": {"hour": 7, "minute": 55},
+        "end": {"hour": 14, "minute": 55},
+        "periods": [
+            {"name": "1", "start": {"hour": 7, "minute": 55}, "end": {"hour": 8, "minute": 59}},
+            {"name": "2", "start": {"hour": 9, "minute": 2}, "end": {"hour": 10, "minute": 0}},
+            {"name": "Break", "start": {"hour": 10, "minute": 0}, "end": {"hour": 10, "minute": 10}},
+            {"name": "3", "start": {"hour": 10, "minute": 13}, "end": {"hour": 11, "minute": 11}},
+            {"name": "5", "start": {"hour": 11, "minute": 14}, "end": {"hour": 12, "minute": 12}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 12}, "end": {"hour": 12, "minute": 52}},
+            {"name": "6", "start": {"hour": 12, "minute": 56}, "end": {"hour": 13, "minute": 54}},
+            {"name": "7", "start": {"hour": 13, "minute": 57}, "end": {"hour": 14, "minute": 55}}
+        ]
+    }
+}
