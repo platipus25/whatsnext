@@ -1,3 +1,3 @@
 [submodule "src/Time"]
 	path = src/Time
-	url = git://github.com/platipus25/Time.git
+	url = https://github.com/platipus25/Time.git
