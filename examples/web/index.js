@@ -4,8 +4,8 @@
 
 let schedule_baseRaw = {}
 console.log(window.whatsnext)
-for(let i of window.whatsnext){
-    console.log(i)
+for(let i in window.whatsnext){
+    window[i] = window.whatsnext[i]
 }
 let transformFromTs = window.whatsnext.transformFromTs
 
