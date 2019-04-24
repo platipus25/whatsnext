@@ -102,7 +102,7 @@ class WhatsnextStatic {
         return nextClass
     }
 
-    weekend(){
+    nextWeekend(){
         if(!this.schedule_base) return null
         // find the end of the last day of the week
         let date = this.now
@@ -191,9 +191,9 @@ class WhatsnextStatic {
         return ts
     }
 
-    weekendCountdown(){
+    nextWeekendCountdown(){
         let ts = null
-        let weekendDate = this.weekend()
+        let weekendDate = this.nextWeekend()
         if(weekendDate){ 
             let weekend = weekendDate.toDate()
             if(this.now){
