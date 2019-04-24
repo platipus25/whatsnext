@@ -5,9 +5,7 @@ let baseConfig = {
   mode: "production",
   output: {
       filename: 'whatsnext.js',
-      path: path.resolve(__dirname, 'dist'),
-      library: "whatsnext",
-      libraryTarget: "ES2015"
+      path: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
@@ -25,8 +23,11 @@ let baseConfig = {
 let webConfig = {
   ...baseConfig, 
   target: "web",
-  output:{
-    filename: "whatsnext.web.js"
+  output: {
+    ...baseConfig.output,
+    filename: "whatsnext.web.js",
+    library: "whatsnext",
+    libraryTarget: ""
   }
 }
 
@@ -35,7 +36,10 @@ let nodeConfig = {
   ...baseConfig, 
   target: "node",
   output:{
-    filename: "whatsnext.node.js"
+    ...baseConfig.output,
+    filename: "whatsnext.node.js",
+    library: "whatsnext",
+    libraryTarget: "commonjs2"
   }
 }
 
