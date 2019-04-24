@@ -27,7 +27,7 @@ let webConfig = {
     ...baseConfig.output,
     filename: "whatsnext.web.js",
     library: "whatsnext",
-    libraryTarget: ""
+    libraryTarget: "umd"
   }
 }
 
