@@ -36,8 +36,8 @@ class WhatsnextStatic {
         let intDay = this.now.getDay()
         day = days_of_the_week[intDay]
 
-        if(this.schedule_base){
-            
+        if(this.schedule_base && this.schedule_base.hasOwnProperty("minimum_days")){
+        
             // search this.schedule_base["minimum_days"] for this.now
             for(let entry of this.schedule_base["minimum_days"]){
                 if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now.toDateString()){
