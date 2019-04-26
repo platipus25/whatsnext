@@ -1,4 +1,5 @@
 import Time from "./Time/dist/time"
+import transformFromTs from "./generator.ts"
 let countdown = require("countdown")
 
 class WhatsnextStatic {
@@ -6,11 +7,13 @@ class WhatsnextStatic {
     date: Date
     constructor(schedule_base: Object, date: Date){
         this.date = date
-        
+
         if(schedule_base instanceof Promise){
-            schedule_base.then((base) => this.schedule_base = base)
+            schedule_base.then((base) => {
+                this.schedule_base = transformFromTs(base)
+                })
         }else{
-            this.schedule_base = schedule_base
+            this.schedule_base = transformFromTs(schedule_base)
         }
     }
 
@@ -26,6 +29,26 @@ class WhatsnextStatic {
         return Time.fromDate(this.now)
     }
 
+    private setTimeDate(obj, date){
+        let object = {... obj}
+        for(let nodeIndex in object){
+            let node = object[nodeIndex]
+            let isIterable = typeof node == "object" && node != null && Object.getPrototypeOf(node) == Object.prototype;
+            let isTime = node instanceof Time
+
+            // if this instance can't fufill the change
+            if(isIterable){
+                object[nodeIndex] = this.setTimeDate(node, date);
+            }
+
+            // at the end of the tree
+            if(isTime){
+                object[nodeIndex] = node.setDate(date);
+            }
+        }
+        return object
+    }
+
     private _day(){
         return this.day.slice(0, 3).toLowerCase()
     }
@@ -37,7 +60,7 @@ class WhatsnextStatic {
         day = days_of_the_week[intDay]
 
         if(this.schedule_base && this.schedule_base.hasOwnProperty("minimum_days")){
-        
+
             // search this.schedule_base["minimum_days"] for this.now
             for(let entry of this.schedule_base["minimum_days"]){
                 if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now.toDateString()){
@@ -87,17 +110,12 @@ class WhatsnextStatic {
     enumerateNextClass(){
         if(!this.schedule_base) return null
         let nextClass = this.nextClass()
-        if(nextClass) nextClass = {...nextClass}
         if(!nextClass){
             let tomorrowMidnight = this.tomorrow
             let whatsnextTomorrow = new WhatsnextStatic(this.schedule_base, tomorrowMidnight)
             nextClass = whatsnextTomorrow.enumerateNextClass()
         }else{
-            for(let field in nextClass){
-                if(nextClass[field] instanceof Time){
-                    nextClass[field] = nextClass[field].setDate(this.now)
-                }
-            }
+            nextClass = this.setTimeDate(nextClass, this.now)
         }
         return nextClass
     }
@@ -113,7 +131,7 @@ class WhatsnextStatic {
         let schedule = new WhatsnextStatic(this.schedule_base, date).schedule
         if(schedule){
             return schedule.end.setDate(date)
-        } 
+        }
     }
 
     enumerateNextTime(){
@@ -144,12 +162,7 @@ class WhatsnextStatic {
         }
 
         if(!foundClass) return null
-        foundClass = {...foundClass }
-        for(let field in foundClass){
-            if(foundClass[field] instanceof Time){
-                foundClass[field] = foundClass[field].setDate(instance.now)
-            }
-        }
+        foundClass = this.setTimeDate(foundClass, instance.now)
         return foundClass
     }
 
@@ -182,7 +195,7 @@ class WhatsnextStatic {
 
     endOfSchoolCountdown(){
         let ts = null
-        if(this.schedule){ 
+        if(this.schedule){
             let end = this.schedule["end"].toDate(this.now)
             if(this.now < end){
                 ts = countdown(this.now, end)
@@ -194,7 +207,7 @@ class WhatsnextStatic {
     nextWeekendCountdown(){
         let ts = null
         let weekendDate = this.nextWeekend()
-        if(weekendDate){ 
+        if(weekendDate){
             let weekend = weekendDate.toDate()
             if(this.now){
                 ts = countdown(this.now, weekend)
@@ -206,7 +219,7 @@ class WhatsnextStatic {
     nextTimeCountdown(){
         let ts = null
         let nextTime = this.enumerateNextTime()
-        if(nextTime){ 
+        if(nextTime){
             let nextTimeStart = nextTime.start.toDate()
             if(this.now){
                 ts = countdown(this.now, nextTimeStart)
@@ -231,7 +244,7 @@ class WhatsnextSim extends Whatsnext {
     }
 
     get now(){
-        let diff = (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()) // get the time since instantiation and multiply by 
+        let diff = (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()) // get the time since instantiation and multiply by
         let newDate = new Date(this.date.valueOf() + diff)
         //let seconds = this.date.getSeconds() // or this.start.getSeconds() or 0
         //let withseconds = new Date(newDate.setSeconds(seconds))
