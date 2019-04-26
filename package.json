@@ -8,8 +8,7 @@
     "build": "webpack",
     "dev": "webpack-dev-server",
     "gen": "tsc --emitDeclarationOnly",
-    "genWhatsnext": "tsc -t ES6 -d --emitDeclarationOnly --outDir ./dist/ ./src/whatsnext.ts",
-    "now-build": "npx webpack"
+    "genWhatsnext": "tsc -t ES6 -d --emitDeclarationOnly --outDir ./dist/ ./src/whatsnext.ts"
   },
   "keywords": [],
   "author": "",

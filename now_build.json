@@ -1,0 +1,18 @@
+{
+  "name": "whatsnext",
+  "version": "1.0.0",
+  "description": "",
+  "repository": "https://github.com/platipus25/whatsnext",
+  "main": "index.js",
+  "scripts": {
+    "now-build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^11.13.4",
+    "countdown": "^2.6.0",
+    "webpack": "^4.29.6"
+  }
+}
