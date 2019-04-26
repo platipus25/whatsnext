@@ -29,8 +29,9 @@ class WhatsnextStatic {
         return Time.fromDate(this.now)
     }
 
-    private setTimeDate(obj, date){
+    /*private*/ setTimeDate(obj, date){
         let object = {... obj}
+        console.log(object, obj)
         for(let nodeIndex in object){
             let node = object[nodeIndex]
             let isIterable = typeof node == "object" && node != null && Object.getPrototypeOf(node) == Object.prototype;
@@ -255,3 +256,4 @@ class WhatsnextSim extends Whatsnext {
 export default WhatsnextStatic;
 export {WhatsnextStatic, Whatsnext, WhatsnextSim};
 export * from "./generator.ts";
+export { Time }
