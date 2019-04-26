@@ -31,7 +31,6 @@ class WhatsnextStatic {
 
     /*private*/ setTimeDate(obj, date){
         let object = {... obj}
-        console.log(object, obj)
         for(let nodeIndex in object){
             let node = object[nodeIndex]
             let isIterable = typeof node == "object" && node != null && Object.getPrototypeOf(node) == Object.prototype;
