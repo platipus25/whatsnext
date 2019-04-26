@@ -12,7 +12,7 @@ declare class Time {
         minute: number;
         second: number | undefined;
     }): Time;
-    setDate(date: Date): Time;
+    setDate(date: Date): void;
     toDate(date?: Date): Date;
     toString(): string;
     toStringSeconds(): string;

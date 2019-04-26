@@ -6,6 +6,7 @@ declare class WhatsnextStatic {
     readonly now: Date;
     readonly tomorrow: Date;
     readonly time: Time;
+    private setTimeDate;
     private _day;
     readonly day: string;
     readonly schedule: any;
