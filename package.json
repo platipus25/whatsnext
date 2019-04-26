@@ -2,6 +2,7 @@
   "name": "whatsnext",
   "version": "1.0.0",
   "description": "",
+  "repository": "https://github.com/platipus25/whatsnext",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
