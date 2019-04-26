@@ -6,7 +6,7 @@ declare class WhatsnextStatic {
     readonly now: Date;
     readonly tomorrow: Date;
     readonly time: Time;
-    private setTimeDate;
+    setTimeDate(obj: any, date: any): any;
     private _day;
     readonly day: string;
     readonly schedule: any;
@@ -34,3 +34,4 @@ declare class WhatsnextSim extends Whatsnext {
 export default WhatsnextStatic;
 export { WhatsnextStatic, Whatsnext, WhatsnextSim };
 export * from "./generator.ts";
+export { Time };
