@@ -2,14 +2,10 @@
 
 (async () => {
 
-let schedule_baseRaw = {}
+let schedule_base = {}
 console.log(window.whatsnext)
-for(let i in window.whatsnext){
-    window[i] = window.whatsnext[i]
-}
-let transformFromTs = window.whatsnext.transformFromTs
+let { Whatsnext, WhatsnextStatic, WhatsnextSim } = window.whatsnext
 
-let schedule_base = transformFromTs(schedule_baseRaw)
 
 
 
