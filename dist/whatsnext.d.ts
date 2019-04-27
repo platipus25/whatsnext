@@ -1,4 +1,4 @@
-import Time from "./Time/dist/time";
+import Time from "../node_modules/time_ts/dist/time";
 declare class WhatsnextStatic {
     schedule_base: Object;
     date: Date;
