@@ -1,4 +1,4 @@
-import Time from "./Time/dist/time"
+import Time from "../node_modules/time_ts/dist/time"
 import transformFromTs from "./generator.ts"
 let countdown = require("countdown")
 
