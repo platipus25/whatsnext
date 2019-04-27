@@ -1,5 +1,5 @@
 {
   "version": 2,
   "builds": [{ "src": "package.json", "use": "@now/static-build" }],
-  "alias": ["whatsnext.platipus25.com"]
+  "alias": ["whatsnext.cdn.platipus25.com"]
 }
