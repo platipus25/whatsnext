@@ -18,19 +18,19 @@ class WhatsnextStatic {
         }
     }
 
-    get now(){
+    get now(): Date {
         return this.date
     }
 
-    get tomorrow(){
+    get tomorrow(): Date {
         return new Date(new Date(new Date(this.now.setDate(this.now.getDate()+1)).setHours(0)).setMinutes(0))
     }
 
-    get time(){
+    get time(): Time {
         return Time.fromDate(this.now)
     }
 
-    /*private*/ setTimeDate(obj, date){
+    private setTimeDate(obj, date): any {
         let object = {... obj}
         for(let nodeIndex in object){
             let node = object[nodeIndex]
@@ -50,36 +50,41 @@ class WhatsnextStatic {
         return object
     }
 
-    private _day(){
+    private _day(): string {
         return this.day.slice(0, 3).toLowerCase()
     }
 
-    get day(){
+    get day(): string{
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
         let intDay = this.now.getDay()
         day = days_of_the_week[intDay]
 
-        if(this.schedule_base && this.schedule_base.hasOwnProperty("minimum_days")){
+        if(this.schedule_base && this.schedule_base.hasOwnProperty("custom")){
 
-            // search this.schedule_base["minimum_days"] for this.now
-            for(let entry of this.schedule_base["minimum_days"]){
-                if(entry.hasOwnProperty("date") && entry.date == this.time){
-                    day = "Minimum"
+            let midnight = this.time; midnight.hour, midnight.minute, midnight.second = 0
+            for(let custom_schedule in this.schedule_base["custom"]){
+                if(!this.schedule_base.hasOwnProperty("custom_schedule")) continue;
+                let custom_schedule_dates = this.schedule_base["custom"][custom_schedule]
+                for(let entry of custom_schedule_dates){
+                    if(entry.hasOwnProperty("date") && entry.date == this.time || entry instanceof Time && entry == this.time){
+                        day = custom_schedule
+                    }
                 }
             }
+            
         }
 
         return day
     }
 
-    get schedule(){
+    get schedule(): {start: Time, end: Time, periods: [Period]} | null {
         if(!this.schedule_base) return null
         return this.schedule_base[this._day()] || null
     }
 
 
-    thisClass(){
+    thisClass(): Period | null {
         let schedule = this.schedule
         if(!schedule) return null
         for(let period of schedule.periods){
@@ -94,7 +99,7 @@ class WhatsnextStatic {
         return null
     }
 
-    nextClass(){
+    nextClass(): Period | null {
         let schedule = this.schedule
         if(!schedule) return null
         for(let period of schedule.periods){
@@ -108,7 +113,7 @@ class WhatsnextStatic {
         return null
     }
 
-    enumerateNextClass(){
+    enumerateNextClass(): Period | null {
         if(!this.schedule_base) return null
         let nextClass = this.nextClass()
         if(!nextClass){
@@ -121,7 +126,7 @@ class WhatsnextStatic {
         return nextClass
     }
 
-    nextWeekend(){
+    nextWeekend(): Time | null {
         if(!this.schedule_base) return null
         // find the end of the last day of the week
         let date = this.now
@@ -133,9 +138,10 @@ class WhatsnextStatic {
         if(schedule){
             return schedule.end.setDate(date)
         }
+        return null
     }
 
-    enumerateNextTime(){
+    enumerateNextTime(): Period | null {
         let thisClass = this.thisClass()
         if(!thisClass) return null
 
@@ -167,7 +173,7 @@ class WhatsnextStatic {
         return foundClass
     }
 
-    thisClassCountdown(){
+    thisClassCountdown(): any {
         let thisClass = this.thisClass()
         let ts = null
         if(thisClass){
@@ -176,7 +182,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    nextClassCountdown(){
+    nextClassCountdown(): any {
         let nextClass = this.nextClass()
         let ts = null
         if(nextClass){
@@ -185,7 +191,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    enumerateNextClassCountdown(){
+    enumerateNextClassCountdown(): any {
         let nextClass = this.enumerateNextClass()
         let ts = null
         if(nextClass){
@@ -194,7 +200,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    endOfSchoolCountdown(){
+    endOfSchoolCountdown(): any {
         let ts = null
         if(this.schedule){
             let end = this.schedule["end"].toDate(this.now)
@@ -205,7 +211,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    nextWeekendCountdown(){
+    nextWeekendCountdown(): any {
         let ts = null
         let weekendDate = this.nextWeekend()
         if(weekendDate){
@@ -217,7 +223,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    nextTimeCountdown(){
+    nextTimeCountdown(): any {
         let ts = null
         let nextTime = this.enumerateNextTime()
         if(nextTime){
