@@ -1,5 +1,4 @@
 {
-    "minimum_days": [],
     "mon":{
         "start": {"hour": 8, "minute": 20},
         "end": {"hour": 15, "minute": 15},

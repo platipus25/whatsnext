@@ -1,17 +1,19 @@
 {
-    "minimum_days":[
-        {"name":"First Day Of School", "date":{"year":2018, "month":7, "day":20}},
-        {"name":"Back To School Night", "date":{"year":2018, "month":7, "day":28}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":1}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":2}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":3}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":4}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":5}},
-        {"name":"End of First Trimester", "date":{"year":2018, "month":10, "day":2}},
-        {"name":"End of Second Trimester", "date":{"year":2019, "month":1, "day":15}},
-        {"name":"End of Third Trimester", "date":{"year":2019, "month":4, "day":24}},
-        {"name":"Last Day of School", "date":{"year":2019, "month":5, "day":7}}
-    ],
+    "custom": {
+        "min": [
+            {"name":"First Day Of School", "date":{"year":2018, "month":7, "day":20}},
+            {"name":"Back To School Night", "date":{"year":2018, "month":7, "day":28}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":1}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":2}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":3}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":4}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":5}},
+            {"name":"End of First Trimester", "date":{"year":2018, "month":10, "day":2}},
+            {"name":"End of Second Trimester", "date":{"year":2019, "month":1, "day":15}},
+            {"name":"End of Third Trimester", "date":{"year":2019, "month":4, "day":24}},
+            {"name":"Last Day of School", "date":{"year":2019, "month":5, "day":7}}
+        ]
+    },
 
     "min": {
         "start": {"hour": 7, "minute": 50},
@@ -38,7 +40,7 @@
             {"name": "Break", "start": {"hour": 11, "minute": 5}, "end": {"hour": 11, "minute": 15}},
             {"name": "4", "start": {"hour": 11, "minute": 18}, "end": {"hour": 11, "minute": 50}},
             {"name": "5", "start": {"hour": 11, "minute": 53}, "end": {"hour": 12, "minute": 25}},
-            {"name": "Lunch", "start": {"hour": 12, "minute": 25}, "end": {"hour": 13, "minute": 05}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 25}, "end": {"hour": 13, "minute": 5}},
             {"name": "6", "start": {"hour": 18, "minute": 8}, "end": {"hour": 13, "minute": 40}},
             {"name": "7", "start": {"hour": 13, "minute": 43}, "end": {"hour": 14, "minute": 15}},
             {"name": "8", "start": {"hour": 14, "minute": 18} , "end": {"hour": 14, "minute": 50}}

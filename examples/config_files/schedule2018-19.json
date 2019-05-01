@@ -1,18 +1,19 @@
 {
-    "minimum_days":[
-        {"name":"First Day Of School", "date":{"year":2018, "month":7, "day":20}},
-        {"name":"Back To School Night", "date":{"year":2018, "month":7, "day":28}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":1}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":2}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":3}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":4}},
-        {"name":"School Conferences", "date":{"year":2018, "month":9, "day":5}},
-        {"name":"End of First Trimester", "date":{"year":2018, "month":10, "day":2}},
-        {"name":"End of Second Trimester", "date":{"year":2019, "month":1, "day":15}},
-        {"name":"End of Third Trimester", "date":{"year":2019, "month":4, "day":24}},
-        {"name":"Last Day of School", "date":{"year":2019, "month":5, "day":7}}
-    ],
-
+    "custom": {
+        "min":[
+            {"name":"First Day Of School", "date":{"year":2018, "month":7, "day":20}},
+            {"name":"Back To School Night", "date":{"year":2018, "month":7, "day":28}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":1}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":2}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":3}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":4}},
+            {"name":"School Conferences", "date":{"year":2018, "month":9, "day":5}},
+            {"name":"End of First Trimester", "date":{"year":2018, "month":10, "day":2}},
+            {"name":"End of Second Trimester", "date":{"year":2019, "month":1, "day":15}},
+            {"name":"End of Third Trimester", "date":{"year":2019, "month":4, "day":24}},
+            {"name":"Last Day of School", "date":{"year":2019, "month":5, "day":7}}
+        ]
+    },
     "min": {
         "start": {"hour": 7, "minute": 55},
         "end": {"hour": 12, "minute": 20},
