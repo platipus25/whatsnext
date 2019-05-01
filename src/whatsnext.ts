@@ -1,5 +1,6 @@
 import Time from "../node_modules/time_ts/dist/time"
-import transformFromTs from "./generator.ts"
+import transformFromRaw from "./generator.ts"
+import Period from "./period.ts"
 let countdown = require("countdown")
 
 class WhatsnextStatic {
@@ -10,10 +11,10 @@ class WhatsnextStatic {
 
         if(schedule_base instanceof Promise){
             schedule_base.then((base) => {
-                this.schedule_base = transformFromTs(base)
+                this.schedule_base = transformFromRaw(base)
                 })
         }else{
-            this.schedule_base = transformFromTs(schedule_base)
+            this.schedule_base = transformFromRaw(schedule_base)
         }
     }
 
