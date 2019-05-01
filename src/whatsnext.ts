@@ -64,7 +64,7 @@ class WhatsnextStatic {
 
             // search this.schedule_base["minimum_days"] for this.now
             for(let entry of this.schedule_base["minimum_days"]){
-                if(entry.hasOwnProperty("date") && entry.date.toDateString() == this.now.toDateString()){
+                if(entry.hasOwnProperty("date") && entry.date == this.time){
                     day = "Minimum"
                 }
             }
