@@ -1,4 +1,5 @@
 import Time from "../node_modules/time_ts/dist/time";
+import Period from "./period.ts";
 declare class WhatsnextStatic {
     schedule_base: Object;
     date: Date;
@@ -6,21 +7,25 @@ declare class WhatsnextStatic {
     readonly now: Date;
     readonly tomorrow: Date;
     readonly time: Time;
-    setTimeDate(obj: any, date: any): any;
+    private setTimeDate;
     private _day;
     readonly day: string;
-    readonly schedule: any;
-    thisClass(): any;
-    nextClass(): any;
-    enumerateNextClass(): any;
-    nextWeekend(): any;
-    enumerateNextTime(): any;
-    thisClassCountdown(): null;
-    nextClassCountdown(): null;
-    enumerateNextClassCountdown(): null;
-    endOfSchoolCountdown(): null;
-    nextWeekendCountdown(): null;
-    nextTimeCountdown(): null;
+    readonly schedule: {
+        start: Time;
+        end: Time;
+        periods: [Period];
+    } | null;
+    thisClass(): Period | null;
+    nextClass(): Period | null;
+    enumerateNextClass(): Period | null;
+    nextWeekend(): Time | null;
+    enumerateNextTime(): Period | null;
+    thisClassCountdown(): any;
+    nextClassCountdown(): any;
+    enumerateNextClassCountdown(): any;
+    endOfSchoolCountdown(): any;
+    nextWeekendCountdown(): any;
+    nextTimeCountdown(): any;
 }
 declare class Whatsnext extends WhatsnextStatic {
     readonly now: Date;

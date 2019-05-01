@@ -1,3 +1,3 @@
-declare function transformFromTs(object: any): any;
-export { transformFromTs };
-export default transformFromTs;
+declare function transformFromRaw(object: any): any;
+export { transformFromRaw };
+export default transformFromRaw;

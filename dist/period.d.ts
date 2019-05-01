@@ -6,5 +6,11 @@ declare class Period {
     class: {
         name: string;
     };
+    constructor(obj: {
+        name: string;
+        start: Time;
+        end: Time;
+        class: Object | undefined;
+    });
 }
 export default Period;
