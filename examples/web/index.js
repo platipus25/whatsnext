@@ -3,6 +3,7 @@
     let schedule_base = await window.ky.default.get("/examples/config_files/schedule2018-19.json").json()
     let instance = new whatsnext.Whatsnext(schedule_base)
     window.instance = instance
+    window.schedule_base = schedule_base
     setInterval(() => {
         $("#thisClassCountdown").text(instance.thisClassCountdown())
         $("#nextClassCountdown").text(instance.enumerateNextClassCountdown())
