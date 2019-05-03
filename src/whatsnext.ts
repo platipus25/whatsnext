@@ -14,7 +14,6 @@ class WhatsnextStatic {
                 this.schedule_base = transformFromRaw(base)
                 })
         }else{
-            console.log(schedule_base)
             this.schedule_base = transformFromRaw(schedule_base)
         }
     }
