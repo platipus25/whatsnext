@@ -14,6 +14,7 @@ class WhatsnextStatic {
                 this.schedule_base = transformFromRaw(base)
                 })
         }else{
+            console.log(schedule_base)
             this.schedule_base = transformFromRaw(schedule_base)
         }
     }
@@ -54,17 +55,15 @@ class WhatsnextStatic {
         return this.day.slice(0, 3).toLowerCase()
     }
 
-    get day(): string{
+    get day(): string {
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
         let intDay = this.now.getDay()
-        day = days_of_the_week[intDay]
-
+        day = days_of_the_week[intDay] 
         if(this.schedule_base && this.schedule_base.hasOwnProperty("custom")){
-
             let midnight = this.time; midnight.hour, midnight.minute, midnight.second = 0
             for(let custom_schedule in this.schedule_base["custom"]){
-                if(!this.schedule_base.hasOwnProperty("custom_schedule")) continue;
+                if(!this.schedule_base.hasOwnProperty(custom_schedule)) continue;
                 let custom_schedule_dates = this.schedule_base["custom"][custom_schedule]
                 for(let entry of custom_schedule_dates){
                     if(entry.hasOwnProperty("date") && entry.date == this.time || entry instanceof Time && entry == this.time){
