@@ -28,7 +28,7 @@
         "periods": [
             {"name": "1", "start": {"hour": 7, "minute": 55}, "end": {"hour": 9, "minute": 4}},
             {"name": "3", "start": {"hour": 9, "minute": 8}, "end": {"hour": 10, "minute": 13}},
-            {"name": "Break", "start": {"hour": 10, "minute": 2}, "end": {"hour": 10, "minute": 12}},
+            {"name": "Break", "start": {"hour": 10, "minute": 13}, "end": {"hour": 10, "minute": 12}},
             {"name": "Testing", "start": {"hour": 10, "minute": 37}, "end": {"hour": 10, "minute": 57}},
             {"name": "Lunch", "start": {"hour": 11, "minute": 57}, "end": {"hour": 12, "minute": 37}},
             {"name": "5", "start": {"hour": 12, "minute": 41}, "end": {"hour": 13, "minute": 46}},
@@ -41,7 +41,7 @@
         "periods": [
             {"name": "2", "start": {"hour": 7, "minute": 55}, "end": {"hour": 9, "minute": 4}},
             {"name": "4", "start": {"hour": 9, "minute": 8}, "end": {"hour": 10, "minute": 13}},
-            {"name": "Break", "start": {"hour": 10, "minute": 2}, "end": {"hour": 10, "minute": 12}},
+            {"name": "Break", "start": {"hour": 10, "minute": 13}, "end": {"hour": 10, "minute": 12}},
             {"name": "Testing", "start": {"hour": 10, "minute": 37}, "end": {"hour": 10, "minute": 57}},
             {"name": "Lunch", "start": {"hour": 11, "minute": 57}, "end": {"hour": 12, "minute": 37}},
             {"name": "6", "start": {"hour": 12, "minute": 41}, "end": {"hour": 13, "minute": 46}},
