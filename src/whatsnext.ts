@@ -59,14 +59,24 @@ class WhatsnextStatic {
         let day = ""
         let intDay = this.now.getDay()
         day = days_of_the_week[intDay] 
+        
         if(this.schedule_base && this.schedule_base.hasOwnProperty("custom")){
-            for(let custom_schedule in this.schedule_base["custom"]){
-                if(!this.schedule_base.hasOwnProperty(custom_schedule)) continue;
-                let custom_schedule_dates = this.schedule_base["custom"][custom_schedule]
-                for(let entry of custom_schedule_dates){
+            for(let custom_schedule_id in this.schedule_base["custom"]){ 
+
+                let special_occurance_today = null;
+                // check if the day is today
+                let special_occurance_dates = this.schedule_base["custom"][custom_schedule_id]
+                for(let entry of special_occurance_dates){
                     let date = entry.date || entry;
                     if(date instanceof Date && date.toDateString() == this.now.toDateString()){
-                        day = custom_schedule
+                        special_occurance_today = entry.name || custom_schedule_id
+                    }
+                }
+
+                if(special_occurance_today){
+                    day = special_occurance_today
+                    if(this.schedule_base.hasOwnProperty(custom_schedule_id) && special_occurance_today != null){ // if there is a listing for the custom schedule ex. half_day instead of days_off which would mean no school
+                        day = custom_schedule_id
                     }
                 }
             }
