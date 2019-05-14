@@ -1,0 +1,37 @@
+<style>
+    body{
+        font-size:2em;
+        font-family:"moteserrat", sans-serif;
+    }
+    form{
+        font-size:0.5em;
+    }
+    input{
+        font-size:1em;
+        border: #000 solid 1px;
+        border-radius: 4px; 
+        padding:2px;
+    }
+    input[type="submit"]{
+        border-width: calc(inherit + 2px);
+    }
+</style>
+<form id="whatsnext_form">
+    Date: <input type="date" id="date"/><br/>
+    Interval: <input type="number" id="interval" value="0"/><br/>
+    <input type="submit"/>
+</form>
+    End of period countdown: <span id="thisClassCountdown"></span>
+</br>
+    Next period countdown: <span id="nextClassCountdown"></span>
+</br>
+    End of school countdown: <span id="endOfSchoolCountdown"></span>
+<hr>
+    This period: <span id="thisClass"></span>
+</br>
+    Next period: <span id="nextClass"></span>
+</br>
+<script src="/whatsnext.web.js"></script>
+<script src="https://unpkg.com/ky@0.10.0/umd.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+<script src="./index.js"></script>
