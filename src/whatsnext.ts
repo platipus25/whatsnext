@@ -88,7 +88,8 @@ class WhatsnextStatic {
 
     get schedule(): {start: Time, end: Time, periods: [Period]} | null {
         if(!this.schedule_base) return null
-        return this.schedule_base[this._day()] || null
+        let day = this.day
+        return this.schedule_base[day.slice(0, 3).toLowerCase()] || this.schedule_base[day] || null
     }
 
 
