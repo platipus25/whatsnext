@@ -4,9 +4,9 @@ import Period from "./period.ts"
 let countdown = require("countdown")
 
 class WhatsnextStatic {
-    schedule_base: Object;
+    schedule_base: any;
     date: Date
-    constructor(schedule_base: Object, date: Date){
+    constructor(schedule_base: any, date: Date){
         this.date = date
 
         if(schedule_base instanceof Promise){
@@ -50,8 +50,32 @@ class WhatsnextStatic {
         return object
     }
 
+    get specialOccuranceToday(): { name: string, date: Date, type: string} | null {
+        let base = this.schedule_base
+        if(!base || !base.hasOwnProperty("custom")) return null
+        let occuranceToday = null
+        for(let occurance of base["custom"]){
+            let occuranceDate = occurance.date.toDateString()
+            let isToday = occuranceDate == this.now.toDateString()
+            if(isToday){
+                occuranceToday = occurance
+            }
+        }
+        return occuranceToday
+    }
+
     private _day(): string {
-        return this.day.slice(0, 3).toLowerCase()
+        let days_of_the_week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
+        let day = ""
+        let intDay = this.now.getDay()
+        day = days_of_the_week[intDay] 
+        
+        let occuranceToday = this.specialOccuranceToday
+        if(occuranceToday){
+            day = occuranceToday.type
+        }
+
+        return day
     }
 
     get day(): string {
@@ -60,27 +84,9 @@ class WhatsnextStatic {
         let intDay = this.now.getDay()
         day = days_of_the_week[intDay] 
         
-        if(this.schedule_base && this.schedule_base.hasOwnProperty("custom")){
-            for(let custom_schedule_id in this.schedule_base["custom"]){ 
-
-                let special_occurance_today = null;
-                // check if the day is today
-                let special_occurance_dates = this.schedule_base["custom"][custom_schedule_id]
-                for(let entry of special_occurance_dates){
-                    let date = entry.date || entry;
-                    if(date instanceof Date && date.toDateString() == this.now.toDateString()){
-                        special_occurance_today = entry.name || custom_schedule_id
-                    }
-                }
-
-                if(special_occurance_today){
-                    day = special_occurance_today
-                    if(this.schedule_base.hasOwnProperty(custom_schedule_id) && special_occurance_today != null){ // if there is a listing for the custom schedule ex. half_day instead of days_off which would mean no school
-                        day = custom_schedule_id
-                    }
-                }
-            }
-            
+        let occuranceToday = this.specialOccuranceToday
+        if(occuranceToday){
+            day = occuranceToday.name
         }
 
         return day
@@ -88,8 +94,8 @@ class WhatsnextStatic {
 
     get schedule(): {start: Time, end: Time, periods: [Period]} | null {
         if(!this.schedule_base) return null
-        let day = this.day
-        return this.schedule_base[day.slice(0, 3).toLowerCase()] || this.schedule_base[day] || null
+        let day = this._day()
+        return this.schedule_base[day] || null
     }
 
 
