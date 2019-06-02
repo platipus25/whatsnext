@@ -68,7 +68,7 @@ class WhatsnextStatic {
         let days_of_the_week = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
         let day = ""
         let intDay = this.now.getDay()
-        day = days_of_the_week[intDay] 
+        day = days_of_the_week[intDay]
         
         let occuranceToday = this.specialOccuranceToday
         if(occuranceToday){
@@ -276,5 +276,4 @@ class WhatsnextSim extends Whatsnext {
 
 export default WhatsnextStatic;
 export {WhatsnextStatic, Whatsnext, WhatsnextSim};
-export * from "./generator.ts";
 export { Time }

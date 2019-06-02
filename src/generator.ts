@@ -4,15 +4,17 @@ import Period from "./period.ts"
 function transformFromRaw(object: any){
     for(let nodeIndex in object){
         let node = object[nodeIndex]
+        if(!node) continue;
+
         let prototype = Object.getPrototypeOf(node)
         let isPlainObject = prototype == Object.prototype || prototype == Array.prototype
         let isTsTime = node.hasOwnProperty("hour") && node.hasOwnProperty("minute") && isPlainObject
         let isTsDate = node.hasOwnProperty("year") && node.hasOwnProperty("month") && node.hasOwnProperty("day") && isPlainObject
         let isPeriod = node.hasOwnProperty("start") && node.hasOwnProperty("end") && node.hasOwnProperty("name") && isPlainObject
-        let isIterable = typeof node == "object" && node != null && isPlainObject;
+        let shouldIterateOn = typeof node == "object" && node != null && isPlainObject;
         
         // if this instance can't fufill the change
-        if(isIterable && !isTsTime && !isTsDate){ // checking if this instance can fulfill so as not to make extras
+        if(shouldIterateOn && !isTsTime && !isTsDate){ // checking if this instance can fulfill so as not to make extras
             object[nodeIndex] = transformFromRaw(node);
         }
 
