@@ -22,6 +22,10 @@ class WhatsnextStatic {
         return this.date
     }
 
+    get yesterday(): Date {
+        return new Date(new Date(new Date(this.now.setDate(this.now.getDate()-1)).setHours(0)).setMinutes(0))
+    }
+
     get tomorrow(): Date {
         return new Date(new Date(new Date(this.now.setDate(this.now.getDate()+1)).setHours(0)).setMinutes(0))
     }
@@ -48,6 +52,12 @@ class WhatsnextStatic {
             }
         }
         return object
+    }
+
+    get percent(): number | null {
+        let thisClass = this.thisClass()
+        if(!thisClass) return null
+        return thisClass.percent(this.now);
     }
 
     get specialOccuranceToday(): { name: string, date: Date, type: string} | null {
@@ -103,9 +113,9 @@ class WhatsnextStatic {
         let schedule = this.schedule
         if(!schedule) return null
         for(let period of schedule.periods){
-            let start = period.start.toCompare()
-            let end = period.end.toCompare()
-            let now = this.time.toCompare()
+            let start = period.start.toMs(this.now)
+            let end = period.end.toMs(this.now)
+            let now = this.time.toMs(this.now)
 
             if(start <= now && end >= now){ // if start is before or is now & end is later than or is now
                 return period
@@ -118,10 +128,27 @@ class WhatsnextStatic {
         let schedule = this.schedule
         if(!schedule) return null
         for(let period of schedule.periods){
-            let start = period.start.toCompare()
-            let now = this.time.toCompare()
+            let start = period.start.toMs(this.now)
+            let now = this.time.toMs(this.now)
 
             if(now < start){ // if it is before start
+                return period
+            }
+        }
+        return null
+    }
+
+    lastClass(): Period | null {
+        let schedule = this.schedule
+        if(!schedule) return null
+        let periods = schedule.periods
+        for(let periodIndex = periods.length -1; periodIndex >= 0; periodIndex--){ // loop backwards
+            let period = periods[periodIndex]
+            let start = period.start.toMs(this.now)
+            let end = period.end.toMs(this.now)
+            let now = this.time.toMs(this.now)
+
+            if(now > start && now > end){ // if it is before start
                 return period
             }
         }
@@ -139,6 +166,20 @@ class WhatsnextStatic {
             nextClass = this.setTimeDate(nextClass, this.now)
         }
         return nextClass
+    }
+
+    enumerateLastClass(): Period | null {
+        if(!this.schedule_base) return null
+        let lastClass = this.lastClass()
+        if(!lastClass){
+            let yesterdayMidnight = this.yesterday
+            let yesterday = new Date(new Date(new Date(yesterdayMidnight.setHours(23)).setMinutes(59)).setSeconds(59))
+            let whatsnextYesterday = new WhatsnextStatic(this.schedule_base, yesterday)
+            lastClass = whatsnextYesterday.enumerateLastClass()
+        }else{
+            lastClass = this.setTimeDate(lastClass, this.now)
+        }
+        return lastClass
     }
 
     nextWeekend(): Time | null {

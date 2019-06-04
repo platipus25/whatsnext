@@ -11,6 +11,14 @@ class Period {
         this.end = obj.end
         this.class = { name: obj.name, ...obj.class }
     }
+
+    percent(now: Date = new Date()): number | null {
+        let lengthMs = this.end.toDate(now).valueOf() - this.start.toDate(now).valueOf()
+        let timePass = now.valueOf() - this.start.toDate(now).valueOf()
+        let percent = (timePass / lengthMs) * 100
+
+        return percent
+    }
 }
 
 export default Period;
