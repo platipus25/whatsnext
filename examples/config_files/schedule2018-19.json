@@ -62,9 +62,9 @@
             {"name": "Lunch", "start": {"hour": 11, "minute": 56}, "end": {"hour": 12, "minute": 36}},
             {"name": "6", "start": {"hour": 12, "minute": 40}, "end": {"hour": 13, "minute": 23}},
             {"name": "7", "start": {"hour": 13, "minute": 26}, "end": {"hour": 14, "minute": 9}},
-            {"name": "7", "start": {"hour": 14, "minute": 12}, "end": {"hour": 14, "minute":55}}
+            {"name": "8", "start": {"hour": 14, "minute": 12}, "end": {"hour": 14, "minute":55}}
         ]
-    }
+    },
     "testing_odd":{
         "start": {"hour": 7, "minute": 55},
         "end": {"hour": 14, "minute": 55},
