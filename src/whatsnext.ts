@@ -163,7 +163,7 @@ class WhatsnextStatic {
             let whatsnextTomorrow = new WhatsnextStatic(this.schedule_base, tomorrowMidnight)
             nextClass = whatsnextTomorrow.enumerateNextClass()
         }else{
-            nextClass = this.setTimeDate(nextClass, this.now)
+            nextClass = new Period(this.setTimeDate(nextClass, this.now))
         }
         return nextClass
     }
@@ -177,7 +177,7 @@ class WhatsnextStatic {
             let whatsnextYesterday = new WhatsnextStatic(this.schedule_base, yesterday)
             lastClass = whatsnextYesterday.enumerateLastClass()
         }else{
-            lastClass = this.setTimeDate(lastClass, this.now)
+            lastClass = new Period(this.setTimeDate(lastClass, this.now))
         }
         return lastClass
     }
@@ -225,7 +225,7 @@ class WhatsnextStatic {
         }
 
         if(!foundClass) return null
-        foundClass = this.setTimeDate(foundClass, instance.now)
+        foundClass = new Period(this.setTimeDate(foundClass, instance.now))
         return foundClass
     }
 
