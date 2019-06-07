@@ -297,6 +297,10 @@ class Whatsnext extends WhatsnextStatic {
     get now(){
         return new Date()
     }
+
+    constructor(schedule_base: Object){
+        super(schedule_base, new Date())
+    }
 }
 
 class WhatsnextSim extends Whatsnext {
