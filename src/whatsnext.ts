@@ -303,7 +303,7 @@ class Whatsnext extends WhatsnextStatic {
     }
 }
 
-class WhatsnextSim extends Whatsnext {
+class WhatsnextSim extends WhatsnextStatic {
     start: Date;
     constructor(schedule_base: Object, public multiplier: number = 0, date: Date = new Date()){
         super(schedule_base, date)
@@ -313,9 +313,9 @@ class WhatsnextSim extends Whatsnext {
     get now(){
         let diff = (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()) // get the time since instantiation and multiply by
         let newDate = new Date(this.date.valueOf() + diff)
-        //let seconds = this.date.getSeconds() // or this.start.getSeconds() or 0
-        //let withseconds = new Date(newDate.setSeconds(seconds))
-        return newDate//withseconds
+        let milliseconds = this.date.getMilliseconds() // or this.start.getMilliseconds() or 0
+        let withoutmilliseconds = new Date(newDate.setSeconds(milliseconds))
+        return withoutmilliseconds
     }
 }
 
