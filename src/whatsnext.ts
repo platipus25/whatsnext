@@ -229,63 +229,81 @@ class WhatsnextStatic {
         return foundClass
     }
 
-    thisClassCountdown(): any {
+    thisClassCountdown(precision = countdown.DEFAULT): any {
         let thisClass = this.thisClass()
         let ts = null
         if(thisClass){
-            ts = countdown(this.now, thisClass.end.toDate(this.now))
+            ts = countdown(this.now, thisClass.end.toDate(this.now), precision)
         }
         return ts
     }
 
-    nextClassCountdown(): any {
+    nextClassCountdown(precision = countdown.DEFAULT): any {
         let nextClass = this.nextClass()
         let ts = null
         if(nextClass){
-            ts = countdown(this.now, nextClass.start.toDate(this.now))
+            ts = countdown(this.now, nextClass.start.toDate(this.now), precision)
         }
         return ts
     }
 
-    enumerateNextClassCountdown(): any {
+    lastClassCountdown(precision = countdown.DEFAULT): any {
+        let lastClass = this.lastClass()
+        let ts = null
+        if(lastClass){
+            ts = countdown(this.now, lastClass.start.toDate(this.now), precision)
+        }
+        return ts
+    }
+
+    enumerateNextClassCountdown(precision = countdown.DEFAULT): any {
         let nextClass = this.enumerateNextClass()
         let ts = null
         if(nextClass){
-            ts = countdown(this.now, nextClass.start.toDate())
+            ts = countdown(this.now, nextClass.start.toDate(), precision)
         }
         return ts
     }
 
-    endOfSchoolCountdown(): any {
+    enumerateLastClassCountdown(precision = countdown.DEFAULT): any {
+        let enumerateLastClass = this.enumerateLastClass()
+        let ts = null
+        if(enumerateLastClass){
+            ts = countdown(this.now, enumerateLastClass.start.toDate(this.now), precision)
+        }
+        return ts
+    }
+
+    endOfSchoolCountdown(precision = countdown.DEFAULT): any {
         let ts = null
         if(this.schedule){
             let end = this.schedule["end"].toDate(this.now)
             if(this.now < end){
-                ts = countdown(this.now, end)
+                ts = countdown(this.now, end, precision)
             }
         }
         return ts
     }
 
-    nextWeekendCountdown(): any {
+    nextWeekendCountdown(precision = countdown.DEFAULT): any {
         let ts = null
         let weekendDate = this.nextWeekend()
         if(weekendDate){
             let weekend = weekendDate.toDate()
             if(this.now){
-                ts = countdown(this.now, weekend)
+                ts = countdown(this.now, weekend, precision)
             }
         }
         return ts
     }
 
-    nextTimeCountdown(): any {
+    nextTimeCountdown(precision = countdown.DEFAULT): any {
         let ts = null
         let nextTime = this.enumerateNextTime()
         if(nextTime){
             let nextTimeStart = nextTime.start.toDate()
             if(this.now){
-                ts = countdown(this.now, nextTimeStart)
+                ts = countdown(this.now, nextTimeStart, precision)
             }
         }
         return ts
