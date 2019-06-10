@@ -311,11 +311,13 @@ class WhatsnextSim extends WhatsnextStatic {
     }
 
     get now(){
-        let diff = (this.multiplier*60 || 1)*(new Date().valueOf() - this.start.valueOf()) // get the time since instantiation and multiply by
-        let newDate = new Date(this.date.valueOf() + diff)
+        let now = new Date()
         let milliseconds = this.date.getMilliseconds() // or this.start.getMilliseconds() or 0
-        let withoutmilliseconds = new Date(newDate.setSeconds(milliseconds))
-        return withoutmilliseconds
+        let withoutmilliseconds = new Date(now.setMilliseconds(milliseconds))
+        let diff = (this.multiplier*60 || 1)*(withoutmilliseconds.valueOf() - this.start.valueOf()) // get the time since instantiation and multiply by
+        let newDate = new Date(this.date.valueOf() + diff)
+        
+        return newDate
     }
 }
 
