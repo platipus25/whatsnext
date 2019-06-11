@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/countdown": "0.0.7",
     "@types/node": "^11.13.4",
     "countdown": "^2.6.0",
     "got": "^9.6.0",

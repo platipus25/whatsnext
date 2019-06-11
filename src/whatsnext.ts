@@ -55,9 +55,11 @@ class WhatsnextStatic {
     }
 
     get percent(): number | null {
-        let thisClass = this.thisClass()
-        if(!thisClass) return null
-        return thisClass.percent(this.now);
+        let period = this.thisClass()
+        /*if(!period) {
+            period = this.enumerateNextClass()
+        }*/
+        return period.percent(this.now);
     }
 
     get specialOccuranceToday(): { name: string, date: Date, type: string} | null {
@@ -181,7 +183,24 @@ class WhatsnextStatic {
         }
         return lastClass
     }
-
+    /*
+    get nextDayOff(): { name: string, date: Date, type: string} | null {
+        let base = this.schedule_base
+        if(!base || !base.hasOwnProperty("custom")) return null
+        let nextDayOff = null
+        let daysOff = base["custom"].filter((obj) => obj.type == null)
+        daysOff = daysOff.reduce((accumulator, val) => {
+            
+        })
+        for(let dayOff of daysOff){
+            let date = dayOff.date.toDateString()
+            if(isToday){
+                nextDayOff = occurance
+            }
+        }
+        return occuranceToday
+    }
+    */
     nextWeekend(): Time | null {
         if(!this.schedule_base) return null
         // find the end of the last day of the week
@@ -229,7 +248,7 @@ class WhatsnextStatic {
         return foundClass
     }
 
-    thisClassCountdown(precision = countdown.DEFAULT): any {
+    thisClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let thisClass = this.thisClass()
         let ts = null
         if(thisClass){
@@ -238,7 +257,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    nextClassCountdown(precision = countdown.DEFAULT): any {
+    nextClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let nextClass = this.nextClass()
         let ts = null
         if(nextClass){
@@ -247,7 +266,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    lastClassCountdown(precision = countdown.DEFAULT): any {
+    lastClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let lastClass = this.lastClass()
         let ts = null
         if(lastClass){
@@ -256,7 +275,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    enumerateNextClassCountdown(precision = countdown.DEFAULT): any {
+    enumerateNextClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let nextClass = this.enumerateNextClass()
         let ts = null
         if(nextClass){
@@ -265,7 +284,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    enumerateLastClassCountdown(precision = countdown.DEFAULT): any {
+    enumerateLastClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let enumerateLastClass = this.enumerateLastClass()
         let ts = null
         if(enumerateLastClass){
@@ -274,7 +293,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    endOfSchoolCountdown(precision = countdown.DEFAULT): any {
+    endOfSchoolCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let ts = null
         if(this.schedule){
             let end = this.schedule["end"].toDate(this.now)
@@ -285,7 +304,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    nextWeekendCountdown(precision = countdown.DEFAULT): any {
+    nextWeekendCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let ts = null
         let weekendDate = this.nextWeekend()
         if(weekendDate){
@@ -297,7 +316,7 @@ class WhatsnextStatic {
         return ts
     }
 
-    nextTimeCountdown(precision = countdown.DEFAULT): any {
+    nextTimeCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let ts = null
         let nextTime = this.enumerateNextTime()
         if(nextTime){
@@ -342,3 +361,4 @@ class WhatsnextSim extends WhatsnextStatic {
 export default WhatsnextStatic;
 export {WhatsnextStatic, Whatsnext, WhatsnextSim};
 export { Time }
+export { countdown }
