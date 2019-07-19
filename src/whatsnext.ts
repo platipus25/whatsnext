@@ -248,90 +248,90 @@ class WhatsnextStatic {
         return foundClass
     }
 
-    thisClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    thisClassCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let thisClass = this.thisClass()
         let ts = null
         if(thisClass){
-            ts = countdown(this.now, thisClass.end.toDate(this.now), precision)
+            ts = countdown(this.now, thisClass.end.toDate(this.now), units, max, digits)
         }
         return ts
     }
 
-    nextClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    nextClassCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let nextClass = this.nextClass()
         let ts = null
         if(nextClass){
-            ts = countdown(this.now, nextClass.start.toDate(this.now), precision)
+            ts = countdown(this.now, nextClass.start.toDate(this.now), units, max, digits)
         }
         return ts
     }
 
-    lastClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    lastClassCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let lastClass = this.lastClass()
         let ts = null
         if(lastClass){
-            ts = countdown(this.now, lastClass.start.toDate(this.now), precision)
+            ts = countdown(this.now, lastClass.start.toDate(this.now), units, max, digits)
         }
         return ts
     }
 
-    enumerateNextClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    enumerateNextClassCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let nextClass = this.enumerateNextClass()
         let ts = null
         if(nextClass){
-            ts = countdown(this.now, nextClass.start.toDate(), precision)
+            ts = countdown(this.now, nextClass.start.toDate(), units, max, digits)
         }
         return ts
     }
 
-    enumerateLastClassCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    enumerateLastClassCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let enumerateLastClass = this.enumerateLastClass()
         let ts = null
         if(enumerateLastClass){
-            ts = countdown(this.now, enumerateLastClass.start.toDate(this.now), precision)
+            ts = countdown(this.now, enumerateLastClass.start.toDate(this.now), units, max, digits)
         }
         return ts
     }
 
-    endOfSchoolCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    endOfSchoolCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let ts = null
         if(this.schedule){
             let end = this.schedule["end"].toDate(this.now)
             if(this.now < end){
-                ts = countdown(this.now, end, precision)
+                ts = countdown(this.now, end, units, max, digits)
             }
         }
         return ts
     }
 
-    nextWeekendCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    nextWeekendCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let ts = null
         let weekendDate = this.nextWeekend()
         if(weekendDate){
             let weekend = weekendDate.toDate()
             if(this.now){
-                ts = countdown(this.now, weekend, precision)
+                ts = countdown(this.now, weekend, units, max, digits)
             }
         }
         return ts
     }
 
-    nextDayOffCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    nextDayOffCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let nextDayOff = this.nextDayOff()
         let ts = null
         if(nextDayOff){
-            ts = countdown(this.now, nextDayOff.date, precision)
+            ts = countdown(this.now, nextDayOff.date, units, max, digits)
         }
         return ts
     }
 
-    nextTimeCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+    nextTimeCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let ts = null
         let nextTime = this.enumerateNextTime()
         if(nextTime){
             let nextTimeStart = nextTime.start.toDate()
             if(this.now){
-                ts = countdown(this.now, nextTimeStart, precision)
+                ts = countdown(this.now, nextTimeStart, units, max, digits)
             }
         }
         return ts
