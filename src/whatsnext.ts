@@ -56,9 +56,7 @@ class WhatsnextStatic {
 
     get percent(): number | null {
         let period = this.thisClass()
-        /*if(!period) {
-            period = this.enumerateNextClass()
-        }*/
+        if(!period) return null
         return period.percent(this.now);
     }
 
@@ -183,24 +181,26 @@ class WhatsnextStatic {
         }
         return lastClass
     }
-    /*
-    get nextDayOff(): { name: string, date: Date, type: string} | null {
+    
+    nextDayOff(): { name: string, date: Date, type: string} | null { // TODO: make less messy
         let base = this.schedule_base
         if(!base || !base.hasOwnProperty("custom")) return null
-        let nextDayOff = null
         let daysOff = base["custom"].filter((obj) => obj.type == null)
-        daysOff = daysOff.reduce((accumulator, val) => {
-            
-        })
+        if(!daysOff) return null
+        daysOff = daysOff.sort((a , b) => a["date"] > b["date"])
+        let nextDayOff: { name: string, date: Date, type: string} | null = null // has date greater than and closest to now
+        let now = this.now
         for(let dayOff of daysOff){
-            let date = dayOff.date.toDateString()
-            if(isToday){
-                nextDayOff = occurance
+            let date = dayOff.date
+            if(date > now){
+                if(!nextDayOff || date < nextDayOff.date){
+                    nextDayOff = dayOff
+                }
             }
         }
-        return occuranceToday
+        return nextDayOff
     }
-    */
+    
     nextWeekend(): Time | null {
         if(!this.schedule_base) return null
         // find the end of the last day of the week
