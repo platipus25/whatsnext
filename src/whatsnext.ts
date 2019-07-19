@@ -316,6 +316,15 @@ class WhatsnextStatic {
         return ts
     }
 
+    nextDayOffCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
+        let nextDayOff = this.nextDayOff()
+        let ts = null
+        if(nextDayOff){
+            ts = countdown(this.now, nextDayOff.date, precision)
+        }
+        return ts
+    }
+
     nextTimeCountdown(precision = countdown.DEFAULT): countdown.Timespan | null {
         let ts = null
         let nextTime = this.enumerateNextTime()
