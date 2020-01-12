@@ -9,16 +9,19 @@
     "dev": "webpack-dev-server",
     "typescript": "tsc"
   },
-  "keywords": ["typescript", "school-schedule"],
+  "keywords": [
+    "typescript",
+    "school-schedule"
+  ],
   "author": "platipus25",
   "license": "ISC",
   "dependencies": {
     "@types/countdown": "0.0.7",
-    "@types/node": "^11.15.4",
+    "@types/node": "^13.1.6",
     "countdown": "^2.6.0"
   },
   "devDependencies": {
-    "ts-loader": "^5.4.5",
+    "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
