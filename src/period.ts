@@ -1,4 +1,4 @@
-import Time from "../node_modules/time_ts/dist/time"
+import Time from "./Time"
 
 class Period { 
     name: string;
