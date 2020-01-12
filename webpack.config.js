@@ -13,6 +13,7 @@ let baseConfig = {
     ]
   },
   resolve: {
+    extensions: ['.js', '.ts'],
     modules: [
       "node_modules",
       path.resolve(__dirname, "src")
