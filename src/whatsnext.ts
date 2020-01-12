@@ -1,6 +1,6 @@
-import Time from "../node_modules/time_ts/dist/time"
-import transformFromRaw from "./generator.ts"
-import Period from "./period.ts"
+import Time from "./Time"
+import transformFromRaw from "./Generator"
+import Period from "./Period"
 let countdown = require("countdown")
 
 class WhatsnextStatic {
@@ -187,7 +187,7 @@ class WhatsnextStatic {
         if(!base || !base.hasOwnProperty("custom")) return null
         let daysOff = base["custom"].filter((obj) => obj.type == null)
         if(!daysOff) return null
-        daysOff = daysOff.sort((a , b) => a["date"] > b["date"])
+        daysOff = daysOff.sort((a, b) => a["date"] > b["date"])
         let nextDayOff: { name: string, date: Date, type: string} | null = null // has date greater than and closest to now
         let now = this.now
         for(let dayOff of daysOff){
@@ -198,6 +198,19 @@ class WhatsnextStatic {
                 }
             }
         }
+        return nextDayOff
+    }
+
+    enumerateNextDayOff(): { name: string, date: Date, type: string} | null {
+        let nextDayOff = {...this.nextDayOff()} as { name: string, date: Date, type: string}
+        if(nextDayOff == null) return null
+        let lastClassFinder = new WhatsnextStatic(this.schedule_base, nextDayOff.date)
+        let lastClass: Period | null = lastClassFinder.enumerateLastClass()
+        if(lastClass == null) {
+            return nextDayOff
+        }
+        nextDayOff.date = lastClass.end.toDate()
+
         return nextDayOff
     }
     
