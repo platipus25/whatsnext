@@ -16,18 +16,18 @@
   "license": "ISC",
   "dependencies": {
     "@types/countdown": "0.0.7",
-    "@types/node": "^11.13.4",
+    "@types/node": "^11.15.4",
     "countdown": "^2.6.0",
     "got": "^9.6.0",
-    "ky": "^0.9.0",
+    "ky": "^0.9.1",
     "time_ts": "git+https://github.com/platipus25/Time.git"
   },
   "devDependencies": {
     "serve": "^10.1.2",
-    "ts-loader": "^5.3.3",
-    "typescript": "^3.3.3333",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1"
+    "ts-loader": "^5.4.5",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   }
 }
