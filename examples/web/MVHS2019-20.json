@@ -1,0 +1,113 @@
+{
+    "custom": [
+        {"type": null, "name": "Memorial Day", "date":{"year":2020, "month":4, "day":27}},
+        {"type": null, "name": "Labor Day", "date":{"year":2019, "month":8, "day":2}},
+        {"type": null, "name": "Veteran's Day ", "date":{"year":2019, "month":10, "day":11}},
+        {"type": null, "name": "Thanksgiving Break", "date":{"year":2019, "month":10, "day":27}},
+        {"type": null, "name": "Thanksgiving Day", "date":{"year":2019, "month":10, "day":28}},
+        {"type": null, "name": "Day After Thamksgiving Day", "date":{"year":2019, "month":10, "day":29}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":23}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":24}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":25}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":26}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":27}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":28}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":29}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":30}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2019, "month":11, "day":31}},
+        {"type": null, "name": "Holiday Break", "date":{"year":2020, "month":0, "day":1}},
+        {"type": null, "name": "Holiday Recess", "date":{"year":2020, "month":0, "day":2}},
+        {"type": null, "name": "Holidays Recess", "date":{"year":2020, "month":0, "day":3}},
+        {"type": null, "name": "Teacher Service Day", "date":{"year":2020, "month":0, "day":6}},
+        {"type": null, "name": "Martin Luther King Jr. Day", "date":{"year":2020, "month":0, "day":20}},
+        {"type": null, "name": "Washington Day", "date":{"year":2020, "month":1, "day":17}},
+        {"type": null, "name": "Lincoln Day", "date":{"year":2020, "month":1, "day":18}},
+        {"type": null, "name": "Winter Break", "date":{"year":2020, "month":1, "day":19}},
+        {"type": null, "name": "Winter Break", "date":{"year":2020, "month":1, "day":20}},
+        {"type": null, "name": "Winter Break", "date":{"year":2020, "month":1, "day":21}},
+        {"type": null, "name": "Recess", "date":{"year":2020, "month":2, "day":16}},
+        {"type": null, "name": "Teacher Service Day", "date":{"year":2020, "month":2, "day":17}},
+        {"type": null, "name": "Spring Recess", "date":{"year":2020, "month":3, "day":6}},
+        {"type": null, "name": "Spring Recess", "date":{"year":2020, "month":3, "day":7}},
+        {"type": null, "name": "Spring Recess", "date":{"year":2020, "month":3, "day":8}},
+        {"type": null, "name": "Spring Recess", "date":{"year":2020, "month":3, "day":9}},
+        {"type": null, "name": "Spring Recess", "date":{"year":2020, "month":3, "day":10}},
+        {"type": null, "name": "Memorial Day", "date":{"year":2020, "month":4, "day":25}},
+        {"type": null, "name": "Day After Graduation", "date":{"year":2020, "month":5, "day":6}}
+    ],
+    "mon":{
+        "start": {"hour":7, "minute": 15},
+        "end": {"hour": 15, "minute": 30},
+        "periods": [
+            {"name": "0", "start": {"hour": 7, "minute": 15}, "end": {"hour": 8, "minute": 5}},
+            {"name": "1", "start": {"hour": 8, "minute": 10}, "end": {"hour": 9, "minute": 0}},
+            {"name": "2", "start": {"hour": 9, "minute": 5}, "end": {"hour": 10, "minute": 0}},
+            {"name": "Brunch", "start": {"hour": 10, "minute": 0}, "end": {"hour": 10, "minute": 10}},
+            {"name": "3", "start": {"hour": 10, "minute": 15}, "end": {"hour": 11, "minute": 5}},
+            {"name": "4", "start": {"hour": 11, "minute": 10}, "end": {"hour": 12, "minute": 0}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 0}, "end": {"hour": 12, "minute": 45}},
+            {"name": "5", "start": {"hour": 12, "minute": 50}, "end": {"hour": 12, "minute": 45}},
+            {"name": "6", "start": {"hour": 13, "minute": 45}, "end": {"hour": 14, "minute": 35}},
+            {"name": "7", "start": {"hour": 14, "minute": 40} , "end": {"hour": 15, "minute": 30}}
+        ]
+    },
+    "tue": {
+        "start": {"hour": 7, "minute": 55},
+        "end": {"hour": 15, "minute": 30},
+        "periods": [
+            {"name": "0", "start": {"hour": 7, "minute": 20}, "end": {"hour": 8, "minute": 5}},
+            {"name": "1", "start": {"hour": 8, "minute": 10}, "end": {"hour": 8, "minute": 55}},
+            {"name": "2", "start": {"hour": 9, "minute": 0}, "end": {"hour": 9, "minute": 50}},
+            {"name": "Brunch", "start": {"hour": 9, "minute": 50}, "end": {"hour": 10, "minute": 0}},
+            {"name": "3", "start": {"hour": 10, "minute": 5}, "end": {"hour": 10, "minute": 50}},
+            {"name": "Tutorial", "start": {"hour": 10, "minute": 50}, "end": {"hour": 11, "minute":25}},
+            {"name": "4", "start": {"hour": 11, "minute": 30}, "end": {"hour": 12, "minute": 15}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 15}, "end": {"hour": 13, "minute": 0}},
+            {"name": "5", "start": {"hour": 13, "minute": 5}, "end": {"hour": 13, "minute": 50}},
+            {"name": "6", "start": {"hour": 13, "minute": 55}, "end": {"hour": 14, "minute": 40}},
+            {"name": "7", "start": {"hour": 14, "minute": 45} , "end": {"hour": 15, "minute": 30}}
+        ]
+    },
+    "wed": {
+        "start": {"hour": 7, "minute": 15},
+        "end": {"hour": 14, "minute": 35},
+        "periods": [
+            {"name": "0", "start": {"hour": 7, "minute": 15}, "end": {"hour": 8, "minute": 45}},
+            {"name": "2", "start": {"hour": 8, "minute": 50}, "end": {"hour": 10, "minute": 25}},
+            {"name": "Brunch", "start": {"hour": 10, "minute": 25}, "end": {"hour": 10, "minute": 40}},
+            {"name": "4", "start": {"hour": 11, "minute": 45}, "end": {"hour": 12, "minute": 45}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 15}, "end": {"hour": 13, "minute": 0}},
+            {"name": "6", "start": {"hour": 13, "minute": 5}, "end": {"hour": 14, "minute": 35}},
+            {"name": "Department Meeting", "start": {"hour": 14, "minute": 25}, "end": {"hour": 15, "minute": 30}}
+        ]
+    },
+    "thu": {
+        "start": {"hour": 8, "minute": 10},
+        "end": {"hour": 3, "minute": 30},
+        "periods": [
+            {"name": "Staff Meeting", "start": {"hour": 7, "minute": 30}, "end": {"hour": 8, "minute": 5}},
+            {"name": "1", "start": {"hour": 8, "minute": 10}, "end": {"hour": 9, "minute": 45}},
+            {"name": "Brunch", "start": {"hour": 9, "minute": 45}, "end": {"hour": 10, "minute": 0}},
+            {"name": "3", "start": {"hour": 10, "minute": 5}, "end": {"hour": 11, "minute": 35}},
+            {"name": "Lunch", "start": {"hour": 11, "minute": 35}, "end": {"hour": 12, "minute": 20}},
+            {"name": "5", "start": {"hour": 12, "minute": 25}, "end": {"hour": 13, "minute": 55}},
+            {"name": "7", "start": {"hour": 14, "minute": 20} , "end": {"hour": 15, "minute": 30}}
+        ]
+    },
+    "fri": {
+        "start": {"hour": 7, "minute": 15},
+        "end": {"hour": 15, "minute": 30},
+        "periods": [
+            {"name": "0", "start": {"hour": 7, "minute": 15}, "end": {"hour": 8, "minute": 5}},
+            {"name": "1", "start": {"hour": 8, "minute": 10}, "end": {"hour": 9, "minute": 0}},
+            {"name": "2", "start": {"hour": 9, "minute": 5}, "end": {"hour": 10, "minute": 0}},
+            {"name": "Brunch", "start": {"hour": 10, "minute": 0}, "end": {"hour": 10, "minute": 10}},
+            {"name": "3", "start": {"hour": 10, "minute": 15}, "end": {"hour": 11, "minute": 5}},
+            {"name": "4", "start": {"hour": 11, "minute": 10}, "end": {"hour": 12, "minute": 0}},
+            {"name": "Lunch", "start": {"hour": 12, "minute": 0}, "end": {"hour": 12, "minute": 45}},
+            {"name": "5", "start": {"hour": 12, "minute": 50}, "end": {"hour": 12, "minute": 45}},
+            {"name": "6", "start": {"hour": 13, "minute": 45}, "end": {"hour": 14, "minute": 35}},
+            {"name": "7", "start": {"hour": 14, "minute": 40} , "end": {"hour": 15, "minute": 30}}
+        ]
+    }
+}

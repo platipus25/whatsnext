@@ -1,20 +1,29 @@
-<style>
-    body{
-        font-size:2em;
-        font-family:"moteserrat", sans-serif;
-    }
-</style>
-    End of period countdown: <span id="thisClassCountdown"></span>
-</br>
-    Next period countdown: <span id="nextClassCountdown"></span>
-</br>
-    End of school countdown: <span id="endOfSchoolCountdown"></span>
-<hr>
-    This period: <span id="thisClass"></span>
-</br>
-    Next period: <span id="nextClass"></span>
-</br>
-<script src="/whatsnext.web.js"></script>
-<script src="https://unpkg.com/ky@0.10.0/umd.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-<script src="./index.js"></script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>School Schedule: Whatsnext</title>
+        <link rel="stylesheet" href="css/index.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:300|Overlock&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="favicon.ico">
+        <link rel="icon" sizes="192x192" href="img/favicon-192.png">
+    </head>
+    <body>
+        <h2 class="title">Whatsnext</h2>
+        <question id="percent_container"><answer id="percent"></answer><answer id="percent_bar"></answer></question>
+        <question>This Period:<wbr/><answer id="thisClass-period"></answer><answer id="thisClass" class="className"></answer>&ndash;<answer id="thisClassCountdown" class="countdown"></answer></question>
+        <question>Next Period:<wbr/><answer id="enumerateNextClass-period"></answer><answer id="enumerateNextClass" class="className"></answer>&ndash;<answer id="enumerateNextClassCountdown" class="countdown"></answer></question>
+        <question>End of Schoolday:<wbr/><answer id="endOfSchoolCountdown" class="countdown"></answer></question>
+        <question>Next day off:<wbr/><answer id="nextDayOff"></answer>&ndash;<answer id="nextDayOffCountdown" class="countdown"></answer></question>
+        <div id="footer">
+            <a id="openOptions">Input your own classes</a>
+            
+        </div>
+
+        <script src="/whatsnext.web.js"></script>
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/store.modern.min.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>
