@@ -1,29 +1,23 @@
 {
   "name": "whatsnext",
   "version": "1.0.0",
-  "description": "",
+  "description": "A school schedule library",
   "repository": "https://github.com/platipus25/whatsnext",
-  "main": "index.js",
+  "main": "src/whatsnext.ts",
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server",
-    "gen": "tsc --emitDeclarationOnly",
-    "genWhatsnext": "tsc -t ES6 -d --emitDeclarationOnly --outDir ./dist/ ./src/whatsnext.ts",
-    "now-build": "webpack"
+    "typescript": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["typescript", "school-schedule"],
+  "author": "platipus25",
   "license": "ISC",
   "dependencies": {
     "@types/countdown": "0.0.7",
     "@types/node": "^11.15.4",
-    "countdown": "^2.6.0",
-    "got": "^9.6.0",
-    "ky": "^0.9.1",
-    "time_ts": "git+https://github.com/platipus25/Time.git"
+    "countdown": "^2.6.0"
   },
   "devDependencies": {
-    "serve": "^10.1.2",
     "ts-loader": "^5.4.5",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
