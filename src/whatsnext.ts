@@ -210,7 +210,7 @@ class WhatsnextStatic {
             return nextDayOff
         }
         nextDayOff.date = lastClass.end.toDate()
-
+        
         return nextDayOff
     }
     
@@ -302,6 +302,15 @@ class WhatsnextStatic {
         let ts = null
         if(enumerateLastClass){
             ts = countdown(this.now, enumerateLastClass.start.toDate(this.now), units, max, digits)
+        }
+        return ts
+    }
+
+    enumerateNextDayOffCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
+        let nextDayOff = this.enumerateNextDayOff()
+        let ts = null
+        if(nextDayOff){
+            ts = countdown(this.now, nextDayOff.date, units, max, digits)
         }
         return ts
     }
