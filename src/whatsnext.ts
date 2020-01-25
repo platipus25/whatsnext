@@ -1,6 +1,6 @@
-import Time from "./Time"
-import transformFromRaw from "./Generator"
-import Period from "./Period"
+import Time from "./time"
+import transformFromRaw from "./generator"
+import Period from "./period"
 let countdown = require("countdown")
 
 class WhatsnextStatic {

@@ -1,5 +1,5 @@
-import Time from "./Time"
-import Period from "./Period"
+import Time from "./time"
+import Period from "./period"
 
 function transformFromRaw(object: any){
     for(let nodeIndex in object){
