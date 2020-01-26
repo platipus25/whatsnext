@@ -5,7 +5,7 @@ let baseConfig = {
   mode: "production",
   output: {
       filename: 'whatsnext.js',
-      path: path.resolve(__dirname, 'dist')
+      path: path.resolve(__dirname, 'public')
   },
   module: {
     rules: [

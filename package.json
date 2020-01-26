@@ -5,7 +5,7 @@
   "repository": "https://github.com/platipus25/whatsnext",
   "main": "src/whatsnext.ts",
   "scripts": {
-    "build": "webpack --output-path './public'",
+    "build": "webpack",
     "dev": "webpack-dev-server",
     "typescript": "tsc"
   },

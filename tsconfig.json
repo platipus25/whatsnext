@@ -2,7 +2,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": { "*": ["types/*"] },
-        "outDir": "./dist/",
+        "outDir": "./public/",
         "sourceMap": true,
         "strictNullChecks": true,
         "module": "es2015",
