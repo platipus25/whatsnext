@@ -1,9 +1,17 @@
 import Time from "./time"
-import transformFromRaw from "./generator"
+//import transformFromRaw from "./generator"
 import Period from "./period"
 let countdown = require("countdown")
 
-class WhatsnextStatic {
+class Whatsnext {
+    schedule_base: Object
+
+    constructor(schedule_base: Object) {
+
+    }
+}
+
+/*class WhatsnextStatic {
     schedule_base: any;
     date: Date
     constructor(schedule_base: any, date: Date){
@@ -390,6 +398,9 @@ class WhatsnextSim extends WhatsnextStatic {
 }
 
 export default WhatsnextStatic;
-export {WhatsnextStatic, Whatsnext, WhatsnextSim};
+export {WhatsnextStatic, Whatsnext, WhatsnextSim};*/
+export { Config } from "./config"
+export { parse, parseISODate } from "./generator" 
 export { Time }
+export { Period }
 export { countdown }

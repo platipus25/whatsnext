@@ -2,7 +2,7 @@ const path = require('path');
 
 let baseConfig = {
   entry: './src/whatsnext.ts',
-  mode: "production",
+  mode: "development",
   output: {
       filename: 'whatsnext.js',
       path: path.resolve(__dirname, 'public')

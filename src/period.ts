@@ -1,15 +1,13 @@
 import Time from "./time"
 
 class Period { 
-    name: string;
-    start: Time;
-    end: Time;
-    class: { name: string };
-    constructor(obj: {name: string, start: Time, end: Time, class: Object | undefined}){
-        this.name = obj.name
-        this.start = obj.start
-        this.end = obj.end
-        this.class = { name: obj.name, ...obj.class }
+    readonly name: string;
+    readonly start: Time;
+    readonly end: Time;
+    constructor(name: string, start: Time, end: Time){
+        this.name = name
+        this.start = start
+        this.end = end
     }
 
     percent(now: Date = new Date()): number | null {
@@ -18,6 +16,15 @@ class Period {
         let percent = (timePass / lengthMs) * 100
 
         return percent
+    }
+
+    static compare(a: Period, b: Period): number {
+        if (a.start > b.start) {
+            return 1; // a is greater than b
+        } else if (a.start < b.start) {
+            return -1; // a is less than b
+        }
+        return 0;
     }
 }
 
