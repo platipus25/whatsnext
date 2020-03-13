@@ -1,3 +1,5 @@
+// debug only
+const util = require("util")
 
 class Time {
     readonly year: number | null;
@@ -65,6 +67,15 @@ class Time {
 
     toMs(date: Date = new Date()): number {
         return new Date(this.toDate(date)).valueOf()
+    }
+
+    valueOf(): number {
+        return this.toMs()
+    }
+
+    // debug only
+    [util.inspect.custom](depth, options) {
+        return this.toString();
     }
 }
 
