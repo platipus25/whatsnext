@@ -1,13 +1,26 @@
+import Timeline from "./timeline"
 import Time from "./time"
 //import transformFromRaw from "./generator"
 import Period from "./period"
-let countdown = require("countdown")
+import TimelineGenerator from "./generator"
+const countdown: object = require("countdown")
 
 class Whatsnext {
-    schedule_base: Object
+    schedule_base: TimelineGenerator
 
-    constructor(schedule_base: Object) {
+    constructor(schedule_base_raw: Object) {
+        this.schedule_base = new TimelineGenerator(schedule_base_raw)
 
+    }
+
+    get schedule() {
+        let config_id = ""
+        // figure out which config it is
+        // this should definitely be memoized
+        // maybe some of the logic should be broken out
+
+        
+        return this.schedule_base.getTimeline(config_id)
     }
 }
 
@@ -399,8 +412,9 @@ class WhatsnextSim extends WhatsnextStatic {
 
 export default WhatsnextStatic;
 export {WhatsnextStatic, Whatsnext, WhatsnextSim};*/
-export { Config } from "./config"
-export { parse, parseISODate } from "./generator" 
+export { Whatsnext }
+export * from "./timeline"
+export * from "./generator" 
 export { Time }
 export { Period }
 export { countdown }
