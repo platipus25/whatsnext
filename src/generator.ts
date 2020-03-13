@@ -1,5 +1,7 @@
 import Time from "./time"
 import Period from "./period"
+import Timeline from "./timeline"
+import { strictEqual } from "assert"
 
 // should lazy load 
 
@@ -41,38 +43,48 @@ function parseISODate(date: string): Date {
 
     return new Date(year, month, day);
 }
-/*
-function transformFromRaw(object: any){
-    for(let nodeIndex in object){
-        let node = object[nodeIndex]
-        if(node != null) {
 
-            let prototype = Object.getPrototypeOf(node)
-            let isPlainObject = prototype == Object.prototype || prototype == Array.prototype
-            let isTsTime = node.hasOwnProperty("hour") && node.hasOwnProperty("minute") && isPlainObject
-            let isTsDate = node.hasOwnProperty("year") && node.hasOwnProperty("month") && node.hasOwnProperty("day") && isPlainObject
-            let isPeriod = node.hasOwnProperty("start") && node.hasOwnProperty("end") && node.hasOwnProperty("name") && isPlainObject
-            let shouldIterateOn = typeof node == "object" && node != null && isPlainObject;
-            
-            // if this instance can't fufill the change
-            if(shouldIterateOn && !isTsTime && !isTsDate){ // checking if this instance can fulfill so as not to make extras
-                object[nodeIndex] = transformFromRaw(node);
-            }
-
-            // at the end of the tree
-            if(isTsTime){
-                object[nodeIndex] = Time.fromTs(node)
-            }else if(isTsDate){
-                object[nodeIndex] = new Date(node.year, node.month, node.day)
-            }else if(isPeriod){
-                object[nodeIndex] = new Period(node)
-            }
-        }
-    }
-    return object
+function isPeriod(obj: object){
+    return (
+        "start" in obj && 
+        "end" in obj &&
+        "name" in obj &&
+        iso_time.test(obj["start"]) &&
+        iso_time.test(obj["end"])
+        )
 }
 
-export { transformFromRaw }
-export default transformFromRaw;
-*/
-export { parse, parseISODate }
+class TimelineGenerator {
+    schedule_base: object
+
+    constructor(schedule_base_raw: object){
+        // deep copy here?
+        Object.assign(this.schedule_base, schedule_base_raw)
+        Object.freeze(schedule_base_raw)
+    }
+
+    // add memoization
+    getTimeline(config_id: string): Timeline {
+        let value = this.schedule_base[config_id]
+
+        if (!value)
+            throw new Error(`Key "${config_id}" does not exist; it is not one of ${JSON.stringify(Object.keys(this.schedule_base))}`)
+
+        if (!value.every(isPeriod))
+            throw new SyntaxError(`The entry for "${config_id}" has impropper syntax`)
+        
+            // isRawPeriod returns true for Period objects; this is a problem!
+        value = new Timeline(value)
+
+        return value
+    }
+
+    getIdForDate(date: Time): string {
+        
+
+        return ""
+    }
+}
+
+export default TimelineGenerator
+export { parse, parseISODate, TimelineGenerator }
