@@ -77,5 +77,11 @@
         {"name": "Lunch", "start": "11:35", "end": "12:20"},
         {"name": "5", "start": "12:25", "end": "13:55"},
         {"name": "7", "start": "14:20" , "end": "15:30"}
+    ],
+    "invalid_date": [
+        {"name": "invalid date", "start": "730", "end": "8:05"}
+    ],
+    "invalid_periods": [
+        {"name": "name", "start": "2:30"}
     ]
 }
