@@ -9,6 +9,7 @@ class Time {
     readonly hour:number;
     readonly minute:number;
     readonly second: number;
+
     constructor(hour: number, 
                 minute: number, 
                 second: number = 0, 
@@ -43,6 +44,26 @@ class Time {
         return new Time(ts.hour, ts.minute, ts.second)
     }
 
+    // Parse ISO dates and times
+    static readonly iso_time = /(?<hour>\d+):(?<minute>\d+):?(?<second>\d*)/
+
+    static parse(time: string): Time {
+        if (!Time.iso_time.test(time)) {
+            throw new SyntaxError(`"${time}" is not proper ISO 8601 time format`)
+        }
+
+        const groups = time.match(Time.iso_time)!.groups!
+        
+        const hour = parseInt(groups.hour)
+        const minute = parseInt(groups.minute)
+        let second = 0;
+        if (groups.second) {
+            second = parseInt(groups.second)
+        }
+
+        return new Time(hour, minute, second);
+    }
+
     onDate(date: Date): Time {
         return new Time(this.hour, this.minute, this.second, date.getFullYear(), date.getMonth(), date.getDate())
     }
@@ -74,7 +95,7 @@ class Time {
     }
 
     // debug only
-    [util.inspect.custom](depth, options) {
+    [util.inspect.custom]() {
         return this.toString();
     }
 }
