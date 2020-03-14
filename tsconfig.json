@@ -1,17 +1,20 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
-        "paths": { "*": ["types/*"] },
-        "outDir": "./public/",
-        "sourceMap": true,
-        "strictNullChecks": true,
+        "paths": { 
+            "*": ["types/*", "src/*"],
+        },
+        "outDir": "./dist/",
+        "sourceMap": false,
+        "strict": true,
+        "removeComments": true,
+        "noImplicitAny": true,
         "module": "es2015",
-        "jsx": "react",
         "target": "es6",
         "declaration": true,
         "types": ["node", "countdown"]
     },
     "include": [
-        "./src/"
+        "src/**/*"
     ]
 }
