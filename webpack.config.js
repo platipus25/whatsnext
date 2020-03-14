@@ -1,11 +1,14 @@
 const path = require('path');
 
-let baseConfig = {
+let config = {
   entry: './src/whatsnext.ts',
   mode: "development",
   output: {
       filename: 'whatsnext.js',
-      path: path.resolve(__dirname, 'public')
+      path: path.resolve(__dirname, 'dist'),
+      library: "whatsnext",
+      globalObject: 'this',
+      libraryTarget: "umd",
   },
   module: {
     rules: [
@@ -21,27 +24,4 @@ let baseConfig = {
   }
 }
 
-let webConfig = {
-  ...baseConfig, 
-  target: "web",
-  output: {
-    ...baseConfig.output,
-    filename: "whatsnext.web.js",
-    library: "whatsnext",
-    libraryTarget: "umd"
-  }
-}
-
-
-let nodeConfig = {
-  ...baseConfig, 
-  target: "node",
-  output:{
-    ...baseConfig.output,
-    filename: "whatsnext.node.js",
-    library: "whatsnext",
-    libraryTarget: "commonjs2"
-  }
-}
-
-module.exports = [webConfig, nodeConfig]
+module.exports = config
