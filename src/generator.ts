@@ -44,7 +44,13 @@ function parseISODate(date: string): Date {
     return new Date(year, month, day);
 }
 
-function isPeriod(obj: object){
+interface RawPeriod {
+    name: string,
+    start: string,
+    end: string
+}
+
+function isPeriod(obj: RawPeriod){
     return (
         "start" in obj && 
         "end" in obj &&
@@ -55,7 +61,7 @@ function isPeriod(obj: object){
 }
 
 class TimelineGenerator {
-    schedule_base: object
+    schedule_base: { [config_id: string]: [ RawPeriod ] } = {};
 
     constructor(schedule_base_raw: object){
         // deep copy here?
@@ -72,16 +78,13 @@ class TimelineGenerator {
 
         if (!value.every(isPeriod))
             throw new SyntaxError(`The entry for "${config_id}" has impropper syntax`)
-        
-            // isRawPeriod returns true for Period objects; this is a problem!
-        value = new Timeline(value)
 
-        return value
+            // isRawPeriod returns true for Period objects; this is a problem!
+
+        return new Timeline(value)
     }
 
     getIdForDate(date: Time): string {
-        
-
         return ""
     }
 }
