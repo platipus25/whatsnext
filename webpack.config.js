@@ -10,8 +10,7 @@ let config = {
       path: path.resolve(__dirname, 'public'),
       library: "whatsnext",
       globalObject: 'this',
-      //libraryTarget: "umd",
-      libraryTarget: "this",
+      libraryTarget: "umd",
   },
   module: {
     rules: [
