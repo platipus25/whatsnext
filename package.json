@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A school schedule library",
   "repository": "https://github.com/platipus25/whatsnext",
-  "main": "src/whatsnext.ts",
+  "main": "public/whatsnext.js",
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server",
@@ -21,6 +21,7 @@
     "countdown": "^2.6.0"
   },
   "devDependencies": {
+    "terser-webpack-plugin": "^2.3.5",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",

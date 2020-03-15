@@ -1,14 +1,17 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 let config = {
   entry: './src/whatsnext.ts',
   mode: "development",
+  //externals: ["countdown"],
   output: {
       filename: 'whatsnext.js',
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'public'),
       library: "whatsnext",
       globalObject: 'this',
-      libraryTarget: "umd",
+      //libraryTarget: "umd",
+      libraryTarget: "this",
   },
   module: {
     rules: [
@@ -21,7 +24,17 @@ let config = {
       "node_modules",
       path.resolve(__dirname, "src")
     ]
-  }
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          keep_classnames: true,
+          //keep_fnames: true,
+        },
+      }),
+    ],
+  },
 }
 
 module.exports = config
