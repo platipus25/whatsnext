@@ -1,7 +1,5 @@
 import Time from "./time"
-import Period from "./period"
 import Timeline from "./timeline"
-import { strictEqual } from "assert"
 
 // should lazy load 
 

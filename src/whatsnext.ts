@@ -1,9 +1,7 @@
-import Timeline from "./timeline"
 import Time from "./time"
-//import transformFromRaw from "./generator"
 import Period from "./period"
 import TimelineGenerator from "./generator"
-const countdown: object = require("countdown")
+//const countdown: object = require("countdown")
 
 class Whatsnext {
     schedule_base: TimelineGenerator
@@ -16,7 +14,7 @@ class Whatsnext {
     get schedule() {
         let config_id = ""
         // figure out which config it is
-        // this should definitely be memoized
+        // memoized?
         // maybe some of the logic should be broken out
 
         
@@ -415,6 +413,6 @@ export {WhatsnextStatic, Whatsnext, WhatsnextSim};*/
 export { Whatsnext }
 export * from "./timeline"
 export * from "./generator" 
-export { Time }
-export { Period }
-export { countdown }
+export * from "./time"
+export * from "./period"
+//export { countdown }
