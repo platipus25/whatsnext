@@ -1,20 +1,10 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
-        "paths": { 
-            "*": ["types/*", "src/*"],
-        },
         "outDir": "./public/",
-        "sourceMap": false,
         "strict": true,
-        "removeComments": true,
-        "noImplicitAny": true,
         "module": "es2015",
-        //"module": "UMD",
         "target": "es6",
-        //"declaration": true,
-        "declaration": false,
-        "types": ["node", "countdown"],
+        "types": ["node", "countdown"]
     },
     "include": [
         "src/**/*"
