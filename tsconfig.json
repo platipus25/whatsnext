@@ -4,19 +4,22 @@
         "paths": { 
             "*": ["types/*", "src/*"],
         },
-        "outDir": "./public/",
+        "rootDir": ".",
+        "outDir": "dist",
         "sourceMap": false,
         "strict": true,
         "removeComments": true,
         "noImplicitAny": true,
         "module": "es2015",
-        //"module": "UMD",
         "target": "es6",
-        //"declaration": true,
-        "declaration": false,
-        "types": ["node", "countdown"],
+        "declaration": true,
+        "composite": true,
+        "types": ["node", "countdown", "ava"],
     },
     "include": [
-        "src/**/*"
+    ],
+    "references": [
+        { "path": "test" },
+        { "path": "src" }
     ]
 }
