@@ -3,7 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 let config = {
   entry: './src/whatsnext.ts',
-  mode: "development",
+  mode: "production",
   //externals: ["countdown"],
   output: {
       filename: 'whatsnext.js',
