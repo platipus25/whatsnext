@@ -1,7 +1,7 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
-let config = {
+const config = {
   entry: './src/whatsnext.ts',
   mode: "development",
   //externals: ["countdown"],
@@ -36,4 +36,15 @@ let config = {
   },
 }
 
-module.exports = config
+const test = {
+  ...config,
+  externals: ["ava"],
+  entry: ["./test/time-tests.ts"],
+  output: {
+    filename: 'test.js',
+    path: path.resolve(__dirname, 'dist/test'),
+    libraryTarget: "commonjs2",
+  },
+}
+ 
+module.exports = [config, test]

@@ -19,6 +19,7 @@
     "include": [
     ],
     "references": [
+        { "path": "test" },
         { "path": "src" }
     ]
 }

@@ -8,7 +8,7 @@
     "build": "webpack",
     "test": "ava",
     "dev": "webpack-dev-server",
-    "typescript": "tsc"
+    "typescript": "tsc -b"
   },
   "keywords": [
     "typescript",
@@ -22,12 +22,26 @@
     "countdown": "^2.6.0"
   },
   "devDependencies": {
+    "@ava/typescript": "^1.1.1",
     "ava": "^3.5.0",
     "terser-webpack-plugin": "^2.3.5",
     "ts-loader": "^6.2.1",
+    "ts-node": "^8.6.2",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
+  },
+  "ava": {
+    "extensions": [
+      "ts",
+      "js"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "rewritePaths": {
+      "src/": "dist/"
+    }
   }
 }
