@@ -7,6 +7,7 @@ class Timeline extends Array<Period> {
             this.push(new Period(name, start, end))
         }
         this.sort(Period.compare)
+        Object.freeze(this)
     }
 }
 

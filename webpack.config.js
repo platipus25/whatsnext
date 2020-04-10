@@ -2,15 +2,15 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 let config = {
-  entry: './src/whatsnext.ts',
-  mode: "production",
-  //externals: ["countdown"],
+  entry: path.resolve(__dirname, 'src/whatsnext.ts'),
+  mode: 'production',
+  //externals: ['countdown'],
   output: {
       filename: 'whatsnext.js',
       path: path.resolve(__dirname, 'public'),
-      library: "whatsnext",
+      library: 'whatsnext',
       globalObject: 'this',
-      libraryTarget: "umd",
+      libraryTarget: 'umd',
   },
   module: {
     rules: [
@@ -20,8 +20,8 @@ let config = {
   resolve: {
     extensions: ['.js', '.ts'],
     modules: [
-      "node_modules",
-      path.resolve(__dirname, "src")
+      'node_modules',
+      path.resolve(__dirname, 'src')
     ]
   },
   optimization: {

@@ -1,9 +1,10 @@
 import Time from "./time"
 import Period from "./period"
 import TimelineGenerator from "./generator"
-//const countdown: object = require("countdown")
+import Timeline from "./timeline"
+const countdown = require("countdown")
 
-class Whatsnext {
+/*class Whatsnext {
     schedule_base: TimelineGenerator
 
     constructor(schedule_base_raw: Object) {
@@ -20,25 +21,20 @@ class Whatsnext {
         
         return this.schedule_base.getTimeline(config_id)
     }
-}
+}*/
 
-/*class WhatsnextStatic {
-    schedule_base: any;
+class WhatsnextStatic {
+    schedule_base: TimelineGenerator;
+    schedule_base_raw: { custom: [{name: string, date: Date, type: string}] }
     date: Date
-    constructor(schedule_base: any, date: Date){
+    constructor(schedule_base_raw: any, date: Date){
         this.date = date
-
-        if(schedule_base instanceof Promise){
-            schedule_base.then((base) => {
-                this.schedule_base = transformFromRaw(base)
-                })
-        }else{
-            this.schedule_base = transformFromRaw(schedule_base)
-        }
+        this.schedule_base_raw = schedule_base_raw
+        this.schedule_base = new TimelineGenerator(schedule_base_raw)
     }
 
     get now(): Date {
-        return this.date
+        return new Date(this.date)
     }
 
     get yesterday(): Date {
@@ -53,7 +49,7 @@ class Whatsnext {
         return Time.fromDate(this.now)
     }
 
-    private setTimeDate(obj, date): any {
+    /*private setTimeDate(obj, date): any {
         let object = {... obj}
         for(let nodeIndex in object){
             let node = object[nodeIndex]
@@ -71,7 +67,7 @@ class Whatsnext {
             }
         }
         return object
-    }
+    }*/
 
     get percent(): number | null {
         let period = this.thisClass()
@@ -80,7 +76,7 @@ class Whatsnext {
     }
 
     get specialOccuranceToday(): { name: string, date: Date, type: string} | null {
-        let base = this.schedule_base
+        let base = this.schedule_base_raw
         if(!base || !base.hasOwnProperty("custom")) return null
         let occuranceToday = null
         for(let occurance of base["custom"]){
@@ -99,10 +95,10 @@ class Whatsnext {
         let intDay = this.now.getDay()
         day = days_of_the_week[intDay]
         
-        let occuranceToday = this.specialOccuranceToday
+        /*let occuranceToday = this.specialOccuranceToday
         if(occuranceToday){
             day = occuranceToday.type
-        }
+        }*/
 
         return day
     }
@@ -111,27 +107,27 @@ class Whatsnext {
         let days_of_the_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         let day = ""
         let intDay = this.now.getDay()
-        day = days_of_the_week[intDay] 
+        day = days_of_the_week[intDay]
         
-        let occuranceToday = this.specialOccuranceToday
+        /*let occuranceToday = this.specialOccuranceToday
         if(occuranceToday){
             day = occuranceToday.name
-        }
+        }*/
 
         return day
     }
 
-    get schedule(): {start: Time, end: Time, periods: [Period]} | null {
+    get schedule(): Timeline | null {
         if(!this.schedule_base) return null
         let day = this._day()
-        return this.schedule_base[day] || null
+        return this.schedule_base.getTimeline(day) || null
     }
 
 
     thisClass(): Period | null {
         let schedule = this.schedule
         if(!schedule) return null
-        for(let period of schedule.periods){
+        for(let period of schedule){
             let start = period.start.toMs(this.now)
             let end = period.end.toMs(this.now)
             let now = this.time.toMs(this.now)
@@ -146,7 +142,7 @@ class Whatsnext {
     nextClass(): Period | null {
         let schedule = this.schedule
         if(!schedule) return null
-        for(let period of schedule.periods){
+        for(let period of schedule){
             let start = period.start.toMs(this.now)
             let now = this.time.toMs(this.now)
 
@@ -160,7 +156,7 @@ class Whatsnext {
     lastClass(): Period | null {
         let schedule = this.schedule
         if(!schedule) return null
-        let periods = schedule.periods
+        let periods = schedule
         for(let periodIndex = periods.length -1; periodIndex >= 0; periodIndex--){ // loop backwards
             let period = periods[periodIndex]
             let start = period.start.toMs(this.now)
@@ -179,10 +175,10 @@ class Whatsnext {
         let nextClass = this.nextClass()
         if(!nextClass){
             let tomorrowMidnight = this.tomorrow
-            let whatsnextTomorrow = new WhatsnextStatic(this.schedule_base, tomorrowMidnight)
+            let whatsnextTomorrow = new WhatsnextStatic(this.schedule_base_raw, tomorrowMidnight)
             nextClass = whatsnextTomorrow.enumerateNextClass()
-        }else{
-            nextClass = new Period(this.setTimeDate(nextClass, this.now))
+        }else {
+            nextClass = new Period(nextClass.name, nextClass.start.onDate(this.now), nextClass.end.onDate(this.now))
         }
         return nextClass
     }
@@ -193,20 +189,20 @@ class Whatsnext {
         if(!lastClass){
             let yesterdayMidnight = this.yesterday
             let yesterday = new Date(new Date(new Date(yesterdayMidnight.setHours(23)).setMinutes(59)).setSeconds(59))
-            let whatsnextYesterday = new WhatsnextStatic(this.schedule_base, yesterday)
+            let whatsnextYesterday = new WhatsnextStatic(this.schedule_base_raw, yesterday)
             lastClass = whatsnextYesterday.enumerateLastClass()
         }else{
-            lastClass = new Period(this.setTimeDate(lastClass, this.now))
+            lastClass = new Period(lastClass.name, lastClass.start.onDate(this.now), lastClass.end.onDate(this.now))
         }
         return lastClass
     }
     
     nextDayOff(): { name: string, date: Date, type: string} | null { // TODO: make less messy
-        let base = this.schedule_base
+        let base = this.schedule_base_raw
         if(!base || !base.hasOwnProperty("custom")) return null
-        let daysOff = base["custom"].filter((obj) => obj.type == null)
+        let daysOff = base["custom"].filter((obj: { type: string | null}) => obj.type == null)
         if(!daysOff) return null
-        daysOff = daysOff.sort((a, b) => a["date"] > b["date"])
+        daysOff = daysOff.sort((a: { date: Date}, b: { date: Date}) => a["date"].valueOf() - b["date"].valueOf())
         let nextDayOff: { name: string, date: Date, type: string} | null = null // has date greater than and closest to now
         let now = this.now
         for(let dayOff of daysOff){
@@ -223,7 +219,7 @@ class Whatsnext {
     enumerateNextDayOff(): { name: string, date: Date, type: string} | null {
         let nextDayOff = {...this.nextDayOff()} as { name: string, date: Date, type: string}
         if(nextDayOff == null) return null
-        let lastClassFinder = new WhatsnextStatic(this.schedule_base, nextDayOff.date)
+        let lastClassFinder = new WhatsnextStatic(this.schedule_base_raw, nextDayOff.date)
         let lastClass: Period | null = lastClassFinder.enumerateLastClass()
         if(lastClass == null) {
             return nextDayOff
@@ -237,13 +233,13 @@ class Whatsnext {
         if(!this.schedule_base) return null
         // find the end of the last day of the week
         let date = this.now
-        let incr = (date) => new Date(date.setDate(date.getDate()+1))
+        let incr = (date: Date) => new Date(date.setDate(date.getDate()+1))
         while(date.getDay() != 5){ // in `Date` speak, 5 is friday (ref the array in day())
             date = incr(date)
         }
-        let schedule = new WhatsnextStatic(this.schedule_base, date).schedule
+        let schedule = new WhatsnextStatic(this.schedule_base_raw, date).schedule
         if(schedule){
-            return schedule.end.setDate(date)
+            return schedule.slice(-1)[0].end.onDate(date)
         }
         return null
     }
@@ -259,12 +255,12 @@ class Whatsnext {
         let instance: WhatsnextStatic = this
         while(!isThisClass){
             let tomorrow = instance.tomorrow
-            instance = new WhatsnextStatic(this.schedule_base, tomorrow)
+            instance = new WhatsnextStatic(this.schedule_base_raw, tomorrow)
 
             let schedule = instance.schedule
             if(!schedule) continue;
 
-            for(let period of schedule.periods){
+            for(let period of schedule){
                 let name = period.name
 
                 if(name === needle){
@@ -276,7 +272,7 @@ class Whatsnext {
         }
 
         if(!foundClass) return null
-        foundClass = new Period(this.setTimeDate(foundClass, instance.now))
+        foundClass = new Period(foundClass.name, foundClass.start.onDate(instance.now), foundClass.end.onDate(instance.now))
         return foundClass
     }
 
@@ -337,7 +333,7 @@ class Whatsnext {
     endOfSchoolCountdown(units = countdown.DEFAULT, max =  0, digits = 0): countdown.Timespan | null {
         let ts = null
         if(this.schedule){
-            let end = this.schedule["end"].toDate(this.now)
+            let end = this.schedule.slice(-1)[0].end.toDate(this.now)
             if(this.now < end){
                 ts = countdown(this.now, end, units, max, digits)
             }
@@ -409,8 +405,7 @@ class WhatsnextSim extends WhatsnextStatic {
 }
 
 export default WhatsnextStatic;
-export {WhatsnextStatic, Whatsnext, WhatsnextSim};*/
-export { Whatsnext }
+export {WhatsnextStatic, Whatsnext, WhatsnextSim};
 export * from "./timeline"
 export * from "./generator" 
 export * from "./time"

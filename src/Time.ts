@@ -1,5 +1,5 @@
 // debug only
-const util = require("util")
+//const util = require("util")
 
 class Time {
     readonly year: number | null;
@@ -95,9 +95,9 @@ class Time {
     }
 
     // debug only
-    [util.inspect.custom]() {
-        return this.toString();
-    }
+    //[util.inspect.custom]() {
+    //    return this.toString();
+    //}
 }
 
 export default Time;
