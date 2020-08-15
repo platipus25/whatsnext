@@ -1,4 +1,4 @@
 # whatsnext
-V4 of whatsnext
+V6 of whatsnext: simpler than the last
 
-Whatsnext is a javascript library to represent the school schedule
+Whatsnext is a library to represent the school schedule
