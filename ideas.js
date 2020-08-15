@@ -140,3 +140,24 @@ class Whatsnext {
   }
 }
 
+function preprocess(schedule_base_raw) {
+  const schedule_base = {}
+
+  const found_dates = Object.keys(schedule_base_raw).filter(key => iso_date.test(key))
+  const weekdays = weekday_mapping
+
+  for (const day of [...weekdays,...found_dates]) {
+    const schedule = schedule_base_raw[day]
+    schedule_base[day] = {}
+    if (!schedule) continue
+    for (const [class_id, value] of Object.entries(schedule)) {
+      const [start, end] = value.split('-')
+      schedule_base[day][class_id] = {
+        start: parse_time(start),
+        end: parse_time(end),
+      }
+    }
+  }
+
+  return schedule_base
+}
