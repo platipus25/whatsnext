@@ -10,16 +10,16 @@ const time_regex = /(\d+):(\d+)/
 const iso_date = /\d{4}-\d+-\d+/
 const weekday_mapping = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"] // 0-6 (0 is Sunday)
 const parse_time = str => {
-  const result = time_regex.exec(str)
-  const hour = parseInt(result[1], 10)
-  const minute = parseInt(result[2], 10)
+  let [, hour, minute] = time_regex.exec(str)
+  hour = parseInt(hour, 10)
+  minute = parseInt(minute, 10)
   return { hour, minute }
 }
 const parse_timespan = str => {
-  const times = str.split("-")
+  const [ start, end ] = str.split("-")
   return {
-    start:parse_time(times[0]),
-    end: parse_time(times[1]),
+    start:parse_time(start),
+    end: parse_time(end),
   }
 }
 const to_date = (hourminuteobj, _date) =>  {
@@ -43,7 +43,7 @@ class Whatsnext {
     if (typeof schedule_base == "string") {
       this.schedule_base = YAML.parse(schedule_base)
     } else {
-      this.schedule_base = {...schedule_base}
+      this.schedule_base = schedule_base
     }
   }
 
@@ -58,8 +58,7 @@ class Whatsnext {
     const classes = []
     for (const [class_id, value] of Object.entries(schedule)) {
       if (typeof value == "string") schedule[class_id] = parse_timespan(value)
-
-      const {start, end} = schedule[class_id]
+      const { start, end } = schedule[class_id]
       classes.push({
         id: class_id,
         start: to_date(start, date),
@@ -67,16 +66,24 @@ class Whatsnext {
       })
     }
 
+    // sort them
+
     return classes
   }
 
   *classes(_date) {
     const date = new Date(_date)
+    let schedule = this.schedule(date)
+    let current_class = schedule.findIndex(item => item.end > date)
+    schedule = schedule.slice(current_class)
+    if (current_class == -1) schedule = []
+
     while(true) {
-      for (const _class of this.schedule(date)) {
+      for (const _class of schedule) {
         yield _class
       }
       date.setDate(date.getDate() + 1)
+      schedule = this.schedule(date)
     }
   }
 }

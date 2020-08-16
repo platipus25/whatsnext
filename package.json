@@ -1,6 +1,22 @@
 {
+  "name": "whatsnext",
+  "version": "6.0.0",
+  "description": "A school schedule library",
+  "repository": "https://github.com/platipus25/whatsnext",
+  "main": "src/whatsnext.js",
+  "scripts": {
+    "build": "",
+    "dev": ""
+  },
+  "keywords": [
+    "school",
+    "schedule",
+    "calendar"
+  ],
+  "author": "platipus25",
+  "license": "ISC",
+  "type": "module",
   "dependencies": {
     "yaml": "^1.10.0"
-  },
-  "type": "module"
+  }
 }
