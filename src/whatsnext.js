@@ -74,7 +74,7 @@ class Whatsnext {
   *classes(_date) {
     const date = new Date(_date)
     let schedule = this.schedule(date)
-    let current_class = schedule.findIndex(item => item.end > date)
+    const current_class = schedule.findIndex(item => item.end > date)
     schedule = schedule.slice(current_class)
     if (current_class == -1) schedule = []
 

@@ -3,9 +3,9 @@
   "version": "6.0.0",
   "description": "A school schedule library",
   "repository": "https://github.com/platipus25/whatsnext",
-  "main": "src/whatsnext.js",
+  "main": "dist/whatsnext.js",
   "scripts": {
-    "build": "",
+    "build": "webpack",
     "dev": ""
   },
   "keywords": [
@@ -15,8 +15,11 @@
   ],
   "author": "platipus25",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "yaml": "^1.10.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }

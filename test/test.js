@@ -1,4 +1,5 @@
-import Whatsnext from './whatsnext.js'
+//import Whatsnext from "./dist/whatsnext.yaml.js"
+const { Whatsnext } = whatsnext
 
 const schedule_base_yaml = `
 A_block: &A_block
@@ -36,14 +37,18 @@ friday: *B_block
 "2020-08-21": *C
 "2020-12-25": *A_block
 `
-
 let inst = new Whatsnext(schedule_base_yaml)
-let iter = inst.classes(new Date(2020, 8, 14))
+let iter = inst.classes(new Date(2020, 7, 17, 10))
 
+for (let i = 0; i < 10; i++) {
+  let {value, done} = iter.next()
+  console.log(value)
+}
+
+/*
 for (let i of iter) {
   console.log(i)
-  console.log(inst.schedule_base)
-  if (i.start > new Date(2020, 8, 20)) {
+  if (i.start > new Date(2020, 8, 10)) {
     break
   }
-}
+}*/
