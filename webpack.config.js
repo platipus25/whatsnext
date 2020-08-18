@@ -1,11 +1,16 @@
-const path = require('path');
+const path = require('path')
+//const TerserPlugin = require('terser-webpack-plugin');
 
-let baseConfig = {
-  entry: './src/whatsnext.ts',
-  mode: "production",
+let config = {
+  entry: path.resolve(__dirname, 'src/whatsnext.js'),
+  mode: 'production',
+  externals: ['yaml'],
   output: {
       filename: 'whatsnext.js',
-      path: path.resolve(__dirname, 'public')
+      path: path.resolve(__dirname, 'dist'),
+      library: 'whatsnext',
+      globalObject: 'globalThis',
+      libraryTarget: 'umd',
   },
   module: {
     rules: [
@@ -15,33 +20,29 @@ let baseConfig = {
   resolve: {
     extensions: ['.js', '.ts'],
     modules: [
-      "node_modules",
-      path.resolve(__dirname, "src")
+      'node_modules',
+      path.resolve(__dirname, 'src')
     ]
-  }
+  },
+  /*optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          keep_classnames: true,
+          //keep_fnames: true,
+        },
+      }),
+    ],
+  },*/
 }
 
-let webConfig = {
-  ...baseConfig, 
-  target: "web",
+let config_bundle_yaml= {
+  ...config,
+  externals: [],
   output: {
-    ...baseConfig.output,
-    filename: "whatsnext.web.js",
-    library: "whatsnext",
-    libraryTarget: "umd"
+    ...config.output,
+    filename: 'whatsnext.yaml.js',
   }
 }
 
-
-let nodeConfig = {
-  ...baseConfig, 
-  target: "node",
-  output:{
-    ...baseConfig.output,
-    filename: "whatsnext.node.js",
-    library: "whatsnext",
-    libraryTarget: "commonjs2"
-  }
-}
-
-module.exports = [webConfig, nodeConfig]
+module.exports = [config, config_bundle_yaml]
