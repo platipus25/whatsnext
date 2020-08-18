@@ -1,8 +1,9 @@
 {
-  "name": "whatsnext",
+  "name": "@platipus25/whatsnext",
   "version": "6.0.0",
   "description": "A school schedule library",
   "repository": "https://github.com/platipus25/whatsnext",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "main": "dist/whatsnext.js",
   "scripts": {
     "build": "webpack",
