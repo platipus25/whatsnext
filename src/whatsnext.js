@@ -72,7 +72,7 @@ class Whatsnext {
   }
 
   *classes(_date) {
-    if (!date) return
+    if (!_date) return
     const date = new Date(_date)
     let schedule = this.schedule(date)
     const current_class = schedule.findIndex(item => item.end > date)
