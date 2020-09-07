@@ -30,7 +30,7 @@ const to_date = (hourminuteobj, _date) =>  {
 
 const to_iso_date = date => {
   const pad = (num) => num < 10? '0'+num: num
-  return date.getFullYear() + '-' + pad(date.getMonth()) + '-' + pad(date.getDate())
+  return date.getFullYear() + '-' + pad(date.getMonth()+1) + '-' + pad(date.getDate())
 }
 
 /*
