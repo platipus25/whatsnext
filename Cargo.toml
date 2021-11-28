@@ -1,0 +1,17 @@
+[package]
+name = "whatsnext"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0.130", features = ["derive"] }
+serde_yaml = "0.8.21"
+chrono = { version = "0.4", features = ["serde"] }
+
+structopt = "0.3.25"
+hhmmss = "0.1.0"
+console = "0.15.0"
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }

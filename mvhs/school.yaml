@@ -1,0 +1,283 @@
+periods:
+  - Period 1
+  - Period 2
+  - Period 3
+  - Period 4
+  - Period 5
+  - Period 6
+  - Period 7
+
+non-periods:
+  - Tutorial
+  - Office Hours
+  - Period 2A
+  - Period 2B
+
+weekend:
+  name: Weekend
+  schedule: ~
+
+schedule-a:
+  name: Schedule A
+  schedule:
+    - 8:40 Period 1
+    - 9:25 Free
+    - 9:32 Period 2
+    - 10:22 Brunch
+    - 10:32 Free
+    - 10:39 Period 3
+    - 11:24 Free
+    - 11:31 Period 4
+    - 12:16 Lunch
+    - 13:01 Free
+    - 13:08 Period 5
+    - 13:53 Free
+    - 14:00 Period 6
+    - 14:45 Free
+    - 14:52 Period 7
+    - 15:37 Free
+
+schedule-b:
+  name: Schedule B
+  schedule:
+    - 8:40 Period 1
+    - 10:10 Brunch
+    - 10:20 Free
+    - 10:27 Period 3
+    - 11:52 Lunch
+    - 12:37 Free
+    - 12:44 Period 5
+    - 14:09 Free
+    - 14:16 Period 7
+    - 15:41 Free
+
+schedule-c:
+  name: Schedule C
+  schedule:
+    - 8:40 Period 2
+    - 10:10 Tutorial
+    - 11:00 Brunch
+    - 11:10 Free
+    - 11:17 Period 4
+    - 12:42 Lunch
+    - 13:27 Free
+    - 13:34 Period 6
+    - 14:59 Free
+
+schedule-d:
+  name: Schedule D
+  schedule:
+    - 11:30 Period 1
+    - 12:15 Lunch
+    - 13:00 Free
+    - 13:07 Period 3
+    - 13:52 Free
+    - 13:59 Period 5
+    - 14:44 Free
+    - 14:51 Period 7
+    - 15:36 Free
+
+schedule-e:
+  name: Schedule E
+  schedule:
+    - 11:30 Period 2
+    - 12:15 Lunch
+    - 13:00 Free
+    - 13:07 Period 4
+    - 13:52 Free
+    - 13:59 Period 6
+    - 14:44 Free
+
+schedule-f:
+  name: Schedule F (Minimum Day)
+  schedule:
+    - 8:40 Period 1
+    - 9:08 Free
+    - 9:15 Period 2
+    - 9:43 Free
+    - 9:50 Period 3
+    - 10:18 Free
+    - 10:25 Period 4
+    - 10:53 Brunch
+    - 11:03 Free
+    - 11:10 Period 5
+    - 11:38 Free
+    - 11:45 Period 6
+    - 12:13 Free
+    - 12:20 Period 7
+    - 12:48 Free
+
+schedule-g:
+  name: Schedule G (Rally)
+  schedule:
+    - 8:40 Period 1
+    - 9:20 Free
+    - 9:27 Period 2A
+    - 10:07 Free
+    - 10:14 Period 2B
+    - 10:54 Brunch
+    - 11:04 Free
+    - 11:11 Period 3
+    - 11:51 Free
+    - 11:58 Period 4
+    - 12:38 Lunch
+    - 13:18 Free
+    - 13:23 Period 5
+    - 14:03 Free
+    - 14:11 Period 6
+    - 14:51 Free
+    - 14:58 Period 7
+    - 15:38 Free
+
+schedule-h:
+  name: Schedule H
+  schedule:
+    - 8:40 Period 1
+    - 9:25 Free
+    - 9:32 Period 3
+    - 10:22 Brunch
+    - 10:32 Free
+    - 10:39 Period 5
+    - 11:24 Free
+    - 11:31 Period 7
+    - 12:16 Lunch
+    - 13:00 Free
+
+schedule-i:
+  name: Schedule I
+  schedule:
+    - 8:40 Period 2
+    - 9:25 Free
+    - 9:32 Period 4
+    - 10:22 Brunch
+    - 10:32 Free
+    - 10:39 Period 6
+    - 11:24 Free
+    - 12:24 Lunch
+    - 13:10 Free
+
+finals-dec-2021-tues:
+  name: Tuesday Finals
+  schedule:
+    - 8:40 Period 1
+    - 10:25 Brunch
+    - 10:55 Free
+    - 11:02 Period 6
+    - 12:47 Free
+
+finals-dec-2021-wed:
+  name: Wednesday Finals
+  schedule:
+    - 8:40 Period 2
+    - 10:25 Brunch
+    - 10:55 Free
+    - 11:02 Period 5
+    - 12:47 Free
+
+finals-dec-2021-thurs:
+  name: Thursday Finals
+  schedule:
+    - 8:40 Period 3
+    - 10:25 Brunch
+    - 10:55 Free
+    - 11:02 Period 7
+    - 12:47 Free
+
+finals-dec-2021-fri:
+  name: Friday Finals
+  schedule:
+    - 8:40 Period 4
+    - 10:25 Free
+
+dl-odd-block:
+  name: Odd Block
+  schedule:
+    - 9:15 Period 1
+    - 10:30 Free
+    - 10:50 Period 3
+    - 12:05 Lunch
+    - 12:50 Period 5
+    - 14:05 Free
+    - 14:25 Period 7
+    - 15:40 Free
+
+dl-even-block:
+  name: Even Block
+  schedule:
+    - 9:15 Period 2
+    - 10:30 Free
+    - 10:50 Period 4
+    - 12:05 Lunch
+    - 12:50 Period 6
+    - 14:05 Free
+
+dl-wed:
+  name: Async Wednesday
+  schedule:
+    - 9:30 Period 1
+    - 10:00 Free
+    - 10:10 Period 2
+    - 10:40 Free
+    - 10:50 Period 3
+    - 11:20 Free
+    - 11:30 Period 4
+    - 12:00 Lunch
+    - 13:00 Period 5
+    - 13:30 Free
+    - 13:40 Period 6
+    - 14:10 Free
+    - 14:20 Period 7
+    - 14:50 Free
+
+dl-finals-tues:
+  name: Tuesday Finals
+  schedule:
+    - 9:30 Period 3
+    - 11:15 Free
+    - 13:05 Period 5
+    - 14:45 Free
+
+dl-finals-wed:
+  name: Wednesday Finals
+  schedule:
+    - 9:30 Period 2
+    - 11:15 Free
+    - 13:05 Period 7
+    - 14:45 Free
+
+dl-finals-thurs:
+  name: Thursday Finals
+  schedule:
+    - 9:30 Period 1
+    - 11:15 Free
+    - 13:05 Period 4
+    - 14:45 Free
+
+dl-finals-fri:
+  name: Friday Finals
+  schedule:
+    - 9:30 Period 6
+    - 11:15 Free
+
+dl-advisory-odd:
+  name: Odd Advisory
+  schedule:
+    - 9:30 Period 1
+    - 10:40 Free
+    - 10:50 Period 3
+    - 12:20 Lunch
+    - 13:15 Period 5
+    - 14:25 Free
+    - 14:35 Period 7
+    - 15:45 Free
+
+dl-advisory-even:
+  name: Even Advisory
+  schedule:
+    - 9:30 Period 2
+    - 10:40 Free
+    - 10:50 Period 4
+    - 12:20 Lunch
+    - 13:15 Period 6
+    - 14:25 Office Hours
+    - 15:45 Free

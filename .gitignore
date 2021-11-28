@@ -3,3 +3,8 @@ node_modules
 public
 dist
 .now
+
+# Added by cargo
+
+/target
+Cargo.lock

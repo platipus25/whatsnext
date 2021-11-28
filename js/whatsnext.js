@@ -1,7 +1,5 @@
 "use strict";
 
-import YAML from 'yaml'
-
 /*
  ******************************UTILS********************************
  */
@@ -13,18 +11,16 @@ const parse_time = str => {
   let [, hour, minute] = time_regex.exec(str)
   hour = parseInt(hour, 10)
   minute = parseInt(minute, 10)
-  return { hour, minute }
+  return [ hour, minute ]
 }
 const parse_timespan = str => {
   const [ start, end ] = str.split("-")
-  return {
-    start:parse_time(start),
-    end: parse_time(end),
-  }
+  return [ parse_time(start), parse_time(end) ]
 }
 const to_date = (hourminuteobj, _date) =>  {
-  let date = new Date(_date)
-  date.setHours(hourminuteobj.hour, hourminuteobj.minute, 0, 0)
+  const date = new Date(_date)
+  const [ hour, minute ] = hourminuteobj
+  date.setHours(hour, minute, 0, 0)
   return date
 }
 
@@ -40,11 +36,7 @@ const to_iso_date = date => {
 class Whatsnext {
 
   constructor(schedule_base) {
-    if (typeof schedule_base == "string") {
-      this.schedule_base = YAML.parse(schedule_base)
-    } else {
-      this.schedule_base = schedule_base
-    }
+    this.schedule_base = schedule_base
   }
 
   schedule(_date) {
@@ -58,7 +50,7 @@ class Whatsnext {
     const classes = []
     for (const [class_id, value] of Object.entries(schedule)) {
       if (typeof value == "string") schedule[class_id] = parse_timespan(value)
-      const { start, end } = schedule[class_id]
+      const [ start, end ] = schedule[class_id]
       classes.push({
         id: class_id,
         start: to_date(start, date),
@@ -86,6 +78,16 @@ class Whatsnext {
       date.setDate(date.getDate() + 1)
       schedule = this.schedule(date)
     }
+  }
+
+  this(_date) {
+    return this.classes(_date).next().value
+  }
+
+  next(_date) {
+    const gen = this.classes(_date)
+    gen.next()
+    return gen.next().value
   }
 }
 
