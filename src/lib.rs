@@ -20,21 +20,21 @@ struct Schedule {
 
 #[derive(Debug, Clone)]
 pub struct Class {
-    name: String,
-    start: NaiveDateTime,
-    end: NaiveDateTime,
+    pub name: String,
+    pub start: NaiveDateTime,
+    pub end: NaiveDateTime,
 }
 
 #[derive(Debug)]
 pub struct Day {
-    name: String,
-    classes: Vec<Class>,
-    special_day: Option<SpecialDay>,
+    pub name: String,
+    pub classes: Vec<Class>,
+    pub special_day: Option<SpecialDay>,
 }
 
 #[derive(Debug, Clone)]
 pub struct SpecialDay {
-    name: Option<String>,
+    pub name: Option<String>,
     schedule: ScheduleId,
 }
 
@@ -54,8 +54,8 @@ pub struct Whatsnext {
 }
 
 pub struct Timeline<'a> {
-    date: NaiveDate,
-    day: Day,
+    pub date: NaiveDate,
+    pub day: Day,
     classes_remaining: VecDeque<Class>,
     whatsnext: &'a Whatsnext,
 }
@@ -142,16 +142,6 @@ impl Whatsnext {
             classes_remaining,
             whatsnext: &self,
         }
-    }
-}
-
-impl<'a> Timeline<'a> {
-    pub fn date(&self) -> &NaiveDate {
-        &self.date
-    }
-
-    pub fn day(&self) -> &Day {
-        &self.day
     }
 }
 

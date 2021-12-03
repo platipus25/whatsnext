@@ -36,13 +36,20 @@ pub struct PeriodsCalendar {
 }
 
 #[derive(Deserialize, Debug)]
-#[serde(try_from = "String")]
 pub struct CalendarEntry {
-    name: Option<String>,
-    #[serde(with = "month_day_year_slashes")]
+    content: Content,
+    #[serde(with = "month_day_year_slashes", rename = "from", alias = "date")]
     start: NaiveDate,
-    #[serde(with = "month_day_year_slashes")]
+    #[serde(default)]
+    #[serde(with = "month_day_year_slashes::option", rename = "to")]
     end: Option<NaiveDate>,
+}
+
+#[derive(Deserialize, Debug)]
+struct Content {
+    #[serde(rename = "n")]
+    name: Option<String>,
+    #[serde(rename = "t")]
     schedule: ScheduleId,
 }
 
@@ -56,28 +63,37 @@ pub struct Defaults {
 // school.yaml
 #[derive(Deserialize, Debug)]
 pub struct PeriodsSchool {
-    periods: Vec<String>,
-    #[serde(rename = "non-periods")]
-    non_periods: Vec<String>,
-    #[serde(flatten)]
+    pub periods: Vec<String>,
+    #[serde(rename = "nonPeriods")]
+    pub non_periods: Vec<String>,
+    #[serde(rename = "presets")]
     schedules: HashMap<ScheduleId, Schedule>,
 }
 
 #[derive(Deserialize)]
 pub struct PeriodsSchedule {
+    #[serde(rename = "n")]
     name: String,
+    #[serde(rename = "s")]
     schedule: Option<Vec<PartialClass>>,
 }
 
 #[derive(Deserialize, Debug)]
-#[serde(try_from = "String")]
 pub struct PartialClass {
+    #[serde(rename = "f", with = "hour_minute")]
     start: NaiveTime,
+    #[serde(rename = "n")]
     name: String,
 }
 
-impl Whatsnext {
+#[derive(Deserialize, Debug)]
+pub struct SchoolEntry {
+    #[serde(rename = "n")]
+    name: String,
+    id: String,
+}
 
+impl Whatsnext {
     pub fn from_periods(school: &PeriodsSchool, calendar: &PeriodsCalendar) -> Whatsnext {
         let weekdays = HashMap::from_iter(
             WeekdayIter::new(Weekday::Sun).zip(calendar.defaults.pattern.iter().map(|s| s.clone())),
@@ -89,8 +105,8 @@ impl Whatsnext {
                 special_days.push((
                     date,
                     SpecialDay {
-                        name: entry.name.clone(),
-                        schedule: entry.schedule.clone(),
+                        name: entry.content.name.clone(),
+                        schedule: entry.content.schedule.clone(),
                     },
                 ));
             }
@@ -159,7 +175,7 @@ impl TryFrom<String> for PartialClass {
         let mut parts = string.splitn(2, " ");
         let start = parts
             .next()
-            .map(|s| NaiveTime::parse_from_str(s, "%-H:%M"))
+            .map(|s| NaiveTime::parse_from_str(s, hour_minute::FORMAT))
             .transpose()?
             .ok_or_else(|| Self::Error::MissingPart("missing time".to_string()))?
             .into();
@@ -199,11 +215,16 @@ impl TryFrom<String> for CalendarEntry {
         let name = parts.next().map(str::to_string).into();
 
         Ok(CalendarEntry {
-            name,
+            content: Content { name, schedule },
             start,
             end,
-            schedule,
         })
+    }
+}
+
+impl fmt::Display for SchoolEntry {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} - {}", &self.id, &self.name)
     }
 }
 
@@ -241,6 +262,42 @@ mod month_day_year_slashes {
     {
         let s = String::deserialize(deserializer)?;
         NaiveDate::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)
+    }
+
+    pub mod option {
+        use chrono::NaiveDate;
+        use serde::{self, Deserialize, Deserializer};
+        pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Error>
+        where
+            D: Deserializer<'de>,
+        {
+            let s = String::deserialize(deserializer)?;
+            Ok(Some(
+                NaiveDate::parse_from_str(&s, super::FORMAT).map_err(serde::de::Error::custom)?,
+            ))
+        }
+    }
+}
+
+mod hour_minute {
+    use chrono::NaiveTime;
+    use serde::{self, Deserialize, Deserializer};
+
+    pub const FORMAT: &'static str = "%-H:%M";
+
+    // The signature of a deserialize_with function must follow the pattern:
+    //
+    //    fn deserialize<'de, D>(D) -> Result<T, D::Error>
+    //    where
+    //        D: Deserializer<'de>
+    //
+    // although it may also be generic over the output types T.
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<NaiveTime, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        NaiveTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)
     }
 }
 
