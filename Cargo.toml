@@ -11,6 +11,8 @@ chrono = { version = "0.4", features = ["serde"] }
 
 structopt = "0.3.25"
 hhmmss = "0.1.0"
+chrono-humanize = "0.2.1"
 console = "0.15.0"
+tabular = "0.1.4"
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1", features = ["full"] }

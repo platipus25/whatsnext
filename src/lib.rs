@@ -19,17 +19,17 @@ struct Schedule {
 }
 
 #[derive(Debug, Clone)]
-pub struct Class {
-    pub name: String,
+pub struct Class<'a> {
+    pub name: &'a str,
     pub start: NaiveDateTime,
     pub end: NaiveDateTime,
 }
 
 #[derive(Debug)]
-pub struct Day {
-    pub name: String,
-    pub classes: Vec<Class>,
-    pub special_day: Option<SpecialDay>,
+pub struct Day<'a> {
+    pub name: &'a str,
+    pub classes: Vec<Class<'a>>,
+    pub special_day: Option<&'a SpecialDay>,
 }
 
 #[derive(Debug, Clone)]
@@ -55,41 +55,41 @@ pub struct Whatsnext {
 
 pub struct Timeline<'a> {
     pub date: NaiveDate,
-    pub day: Day,
-    classes_remaining: VecDeque<Class>,
+    pub day: Day<'a>,
+    classes_remaining: VecDeque<Class<'a>>,
     whatsnext: &'a Whatsnext,
 }
 
 impl Period {
     pub fn on_date(self: &Self, date: &NaiveDate) -> Class {
         Class {
-            name: self.name.clone(),
+            name: &self.name,
             start: date.and_time(self.start),
             end: date.and_time(self.end),
         }
     }
 }
 
-impl Schedule {
-    pub fn on_date(self: &Self, date: &NaiveDate) -> Day {
+impl<'a> Schedule {
+    pub fn on_date(self: &'a Self, date: &NaiveDate) -> Day<'a> {
         let mut classes = Vec::<Class>::new();
         for period in self.periods.iter() {
             classes.push(period.on_date(date));
         }
 
         Day {
-            name: self.name.clone(),
+            name: &self.name,
             classes,
             special_day: None,
         }
     }
 }
 
-impl Day {
+impl<'a> Day<'a> {
     fn empty() -> Self {
         Day {
-            name: "".to_string(),
-            classes: Vec::<Class>::new(),
+            name: "",
+            classes: Vec::new(),
             special_day: None,
         }
     }
@@ -116,20 +116,22 @@ impl Whatsnext {
             .ok_or(ScheduleResolutionError::UnknownId(schedule_id.to_string()))
     }
 
-    pub fn day(self: &Self, date: &NaiveDate) -> Day {
+    pub fn day(&self, date: &NaiveDate) -> Day {
         let schedule = self.schedule(&date);
 
         let mut day = schedule
             .ok()
-            .map_or_else(Day::empty, |schedule| schedule.on_date(date));
+            .map(|schedule| schedule.on_date(date))
+            .unwrap_or_else(Day::empty);
 
-        day.special_day = self.special_days.get(date).cloned();
+        day.special_day = self.special_days.get(date);
 
         day
     }
 
     pub fn timeline(&self, date: NaiveDateTime) -> Timeline {
         let day = self.day(&date.date());
+
         let classes_remaining = day
             .classes
             .clone()
@@ -145,22 +147,8 @@ impl Whatsnext {
     }
 }
 
-impl Day {
-    pub fn name(&self) -> &str {
-        &self.name
-    }
-
-    pub fn classes(&self) -> &Vec<Class> {
-        &self.classes
-    }
-
-    pub fn special_day(&self) -> &Option<SpecialDay> {
-        &self.special_day
-    }
-}
-
 impl<'a> Iterator for Timeline<'a> {
-    type Item = Class;
+    type Item = Class<'a>;
 
     fn next(self: &mut Self) -> Option<Self::Item> {
         loop {
@@ -171,7 +159,7 @@ impl<'a> Iterator for Timeline<'a> {
             self.date += Duration::days(1);
             self.day = self.whatsnext.day(&self.date);
 
-            self.classes_remaining = self.day.classes.clone().into();
+            self.classes_remaining = self.day.classes.clone().into_iter().collect();
         }
     }
 }

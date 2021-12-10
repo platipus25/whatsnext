@@ -89,8 +89,8 @@ pub struct PartialClass {
 #[derive(Deserialize, Debug)]
 pub struct SchoolEntry {
     #[serde(rename = "n")]
-    name: String,
-    id: String,
+    pub name: String,
+    pub id: String,
 }
 
 impl Whatsnext {
