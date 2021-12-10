@@ -1,10 +1,12 @@
 use chrono::{Duration, Local, NaiveDate, NaiveDateTime, NaiveTime};
+use chrono_humanize::{Accuracy, HumanTime, Tense};
 use console::{Style, Term};
-use futures::try_join;
 use hhmmss::Hhmmss;
 use serde::Deserialize;
 use std::fmt;
 use structopt::StructOpt;
+use tabular::{Row, Table};
+use tokio::try_join;
 use whatsnext::parse::{PeriodsCalendar, PeriodsSchool, SchoolEntry};
 use whatsnext::Whatsnext;
 
@@ -32,6 +34,10 @@ struct Cli {
     /// count down to the next class
     #[structopt(long, short = "u")]
     update: bool,
+
+    /// dump the next few classes
+    #[structopt(long)]
+    next: Option<u32>,
 }
 
 #[tokio::main]
@@ -44,9 +50,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .await?
             .json::<Vec<SchoolEntry>>()
             .await?;
+        let mut table = Table::new("{:<} - {:<}");
         for school in schools {
-            term.write_line(&format!("{}", school))?;
+            table.add_row(Row::new().with_cell(school.id).with_cell(school.name));
         }
+        print!("{}", table);
         return Ok(());
     }
 
@@ -74,14 +82,38 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let todays_schedule = whatsnext.day(&date.date());
 
         //todays_schedule.special_day.name
-        term.write_line(&format!("{}", todays_schedule.name))?;
+        let mut table = Table::new("{:<} - {:<}");
+        table.add_heading(todays_schedule.name);
         for class in todays_schedule.classes {
             let time = class.start.time().format("%H:%M").to_string();
             /*if true {//args.time.is_some() && args.date.is_none() {
                 time = (class.start.time() - now.time()).hhmmss();
             }*/
-            term.write_line(&format!("{} - {}", class.name, time))?;
+            table.add_row(Row::new().with_cell(class.name).with_cell(time));
         }
+        print!("{}", table);
+        return Ok(());
+    }
+
+    if let Some(num) = args.next {
+        let mut timeline = whatsnext.timeline(date);
+        let mut table = Table::new("{:<} {:<}");
+        for _ in 0..num {
+            let class = timeline.next().unwrap();
+            let duration = class.start - date;
+            if class.start < date {
+                continue;
+            }
+            let ht = chrono_humanize::HumanTime::from(duration);
+            table.add_row(
+                Row::new()
+                    //.with_cell(timeline.day.name)
+                    .with_cell(class.name)
+                    .with_cell(ht.to_text_en(Accuracy::Rough, Tense::Present)), //.with_cell(class.start)
+                                                                                //.with_cell(class.end)
+            );
+        }
+        print!("{}", table);
         return Ok(());
     }
 
@@ -100,8 +132,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .next()
             .expect("could not find next class");
         let in_class = next_class.start < now;
-        let is_free_class = !school.periods.contains(&next_class.name)
-            || school.non_periods.contains(&next_class.name);
+        let is_free_class = !school.periods.contains(&next_class.name.to_string())
+            || school.non_periods.contains(&next_class.name.to_string());
         let color = if in_class {
             if is_free_class {
                 &green
@@ -112,7 +144,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             &green
         };
 
-        term.write_line(&format!("{}", color.apply_to(&next_class.name)))?;
+        term.write_line(&format!("{}", color.apply_to(next_class.name)))?;
 
         let duration = if in_class {
             next_class.end - now
@@ -128,11 +160,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         interval.tick().await;
         term.clear_last_lines(2)?;
     }
-
-    /*let mut timeline = whatsnext.timeline(now);
-    for _ in 0..20 {
-        println!("{:?} {:?}", timeline.next().unwrap(), &timeline.day.name);
-    }*/
 
     Ok(())
 }
