@@ -4,15 +4,22 @@ use std::collections::{HashMap, VecDeque};
 
 pub mod parse;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
+pub struct School {
+    pub periods: Vec<String>,
+    schedules: HashMap<ScheduleId, Schedule>,
+    weekdays: HashMap<Weekday, ScheduleId>,
+    special_days: HashMap<NaiveDate, SpecialDay>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 struct Period {
     name: String,
     start: NaiveTime,
     end: NaiveTime,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(from = "parse::PeriodsSchedule")]
+#[derive(Debug, Serialize, Deserialize)]
 struct Schedule {
     name: String,
     periods: Vec<Period>,
@@ -32,7 +39,7 @@ pub struct Day<'a> {
     pub special_day: Option<&'a SpecialDay>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct SpecialDay {
     pub name: Option<String>,
     schedule: ScheduleId,
@@ -48,9 +55,7 @@ pub enum ScheduleResolutionError {
 
 #[derive(Debug)]
 pub struct Whatsnext {
-    schedules: HashMap<ScheduleId, Schedule>,
-    weekdays: HashMap<Weekday, ScheduleId>,
-    special_days: HashMap<NaiveDate, SpecialDay>,
+    pub school: School,
 }
 
 pub struct Timeline<'a> {
@@ -96,8 +101,8 @@ impl<'a> Day<'a> {
 }
 
 impl Whatsnext {
-    pub fn new() -> Self {
-        todo!();
+    pub fn new(school: School) -> Self {
+        Whatsnext { school }
     }
 
     fn schedule<'a>(
@@ -105,13 +110,15 @@ impl Whatsnext {
         date: &NaiveDate,
     ) -> Result<&'a Schedule, ScheduleResolutionError> {
         let schedule_id = self
+            .school
             .special_days
             .get(date)
             .map(|special_day| &special_day.schedule)
-            .or_else(|| self.weekdays.get(&date.weekday()))
+            .or_else(|| self.school.weekdays.get(&date.weekday()))
             .ok_or(ScheduleResolutionError::NotFound(date.clone()))?;
 
-        self.schedules
+        self.school
+            .schedules
             .get(schedule_id)
             .ok_or(ScheduleResolutionError::UnknownId(schedule_id.to_string()))
     }
@@ -124,7 +131,7 @@ impl Whatsnext {
             .map(|schedule| schedule.on_date(date))
             .unwrap_or_else(Day::empty);
 
-        day.special_day = self.special_days.get(date);
+        day.special_day = self.school.special_days.get(date);
 
         day
     }

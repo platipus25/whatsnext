@@ -1,8 +1,7 @@
-use crate::{Period, Schedule, ScheduleId, SpecialDay, Whatsnext};
+//use crate::{Period, Schedule, ScheduleId, SpecialDay};
 use chrono::{Duration, NaiveDate, NaiveTime, Weekday};
 use core::fmt;
 use serde::Deserialize;
-use std::collections::HashMap;
 
 /*struct WhatsnextFormat {
     HashMap<KeyType, >
@@ -27,65 +26,6 @@ struct WhatsnextFormat {
 }
 
 */
-
-// schedule.yaml
-#[derive(Deserialize, Debug)]
-pub struct PeriodsCalendar {
-    defaults: Defaults,
-    calendar: Vec<CalendarEntry>,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct CalendarEntry {
-    content: Content,
-    #[serde(with = "month_day_year_slashes", rename = "from", alias = "date")]
-    start: NaiveDate,
-    #[serde(default)]
-    #[serde(with = "month_day_year_slashes::option", rename = "to")]
-    end: Option<NaiveDate>,
-}
-
-#[derive(Deserialize, Debug)]
-struct Content {
-    #[serde(rename = "n")]
-    name: Option<String>,
-    #[serde(rename = "t")]
-    schedule: ScheduleId,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Defaults {
-    #[serde(with = "month_day_year_slashes")]
-    start: NaiveDate,
-    pattern: Vec<ScheduleId>,
-}
-
-// school.yaml
-#[derive(Deserialize, Debug)]
-pub struct PeriodsSchool {
-    pub periods: Vec<String>,
-    #[serde(rename = "nonPeriods")]
-    pub non_periods: Vec<String>,
-    #[serde(rename = "presets")]
-    schedules: HashMap<ScheduleId, Schedule>,
-}
-
-#[derive(Deserialize)]
-pub struct PeriodsSchedule {
-    #[serde(rename = "n")]
-    name: String,
-    #[serde(rename = "s")]
-    schedule: Option<Vec<PartialClass>>,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct PartialClass {
-    #[serde(rename = "f", with = "hour_minute")]
-    start: NaiveTime,
-    #[serde(rename = "n")]
-    name: String,
-}
-
 #[derive(Deserialize, Debug)]
 pub struct SchoolEntry {
     #[serde(rename = "n")]
@@ -93,14 +33,79 @@ pub struct SchoolEntry {
     pub id: String,
 }
 
-impl Whatsnext {
-    pub fn from_periods(school: &PeriodsSchool, calendar: &PeriodsCalendar) -> Whatsnext {
+pub mod periods_io {
+    use crate::parse::{hour_minute, month_day_year_slashes};
+    use crate::parse::{DaysBetweenIter, WeekdayIter};
+    use crate::{Period, Schedule, ScheduleId, School, SpecialDay};
+    use chrono::{NaiveDate, NaiveTime, Weekday};
+    use serde::Deserialize;
+    use std::collections::HashMap;
+
+    // schedule.yaml
+    #[derive(Deserialize, Debug)]
+    pub struct PeriodsCalendar {
+        defaults: Defaults,
+        calendar: Vec<CalendarEntry>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct CalendarEntry {
+        content: Content,
+        #[serde(with = "month_day_year_slashes", rename = "from", alias = "date")]
+        start: NaiveDate,
+        #[serde(default)]
+        #[serde(with = "month_day_year_slashes::option", rename = "to")]
+        end: Option<NaiveDate>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct Content {
+        #[serde(rename = "n")]
+        name: Option<String>,
+        #[serde(rename = "t")]
+        schedule: ScheduleId,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct Defaults {
+        #[serde(with = "month_day_year_slashes")]
+        start: NaiveDate,
+        pattern: Vec<ScheduleId>,
+    }
+
+    // school.yaml
+    #[derive(Deserialize, Debug)]
+    pub struct PeriodsSchool {
+        pub periods: Vec<String>,
+        #[serde(rename = "nonPeriods")]
+        pub non_periods: Vec<String>,
+        #[serde(rename = "presets")]
+        schedules: HashMap<ScheduleId, PeriodsSchedule>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct PeriodsSchedule {
+        #[serde(rename = "n")]
+        name: String,
+        #[serde(rename = "s")]
+        schedule: Option<Vec<PartialClass>>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct PartialClass {
+        #[serde(rename = "f", with = "hour_minute")]
+        start: NaiveTime,
+        #[serde(rename = "n")]
+        name: String,
+    }
+
+    pub fn to_school(school: PeriodsSchool, calendar: PeriodsCalendar) -> School {
         let weekdays = HashMap::from_iter(
-            WeekdayIter::new(Weekday::Sun).zip(calendar.defaults.pattern.iter().map(|s| s.clone())),
+            WeekdayIter::new(Weekday::Sun).zip(calendar.defaults.pattern.into_iter()),
         );
 
         let mut special_days = Vec::new();
-        for entry in calendar.calendar.iter() {
+        for entry in calendar.calendar.into_iter() {
             for date in DaysBetweenIter::new(entry.start, entry.end) {
                 special_days.push((
                     date,
@@ -112,43 +117,50 @@ impl Whatsnext {
             }
         }
         let special_days = HashMap::from_iter(special_days.into_iter());
+        let schedules = HashMap::from_iter(
+            school
+                .schedules
+                .into_iter()
+                .map(|entry| (entry.0, entry.1.into())),
+        );
 
-        Whatsnext {
-            schedules: school.schedules.clone(),
+        School {
+            periods: [school.periods, school.non_periods].concat(),
+            schedules,
             weekdays,
             special_days,
         }
     }
-}
 
-impl From<PeriodsSchedule> for Schedule {
-    fn from(periods_schedule: PeriodsSchedule) -> Self {
-        let mut periods = Vec::<Period>::new();
+    impl From<PeriodsSchedule> for Schedule {
+        fn from(periods_schedule: PeriodsSchedule) -> Self {
+            let mut periods = Vec::<Period>::new();
 
-        let schedule = periods_schedule.schedule.unwrap_or_default();
-        let iter = &mut schedule.iter().peekable();
-        while let Some(first) = iter.next() {
-            let end = iter.peek().unwrap_or(&first);
-            periods.push(Period {
-                name: first.name.clone(),
-                start: first.start,
-                end: end.start,
-            });
-        }
+            let schedule = periods_schedule.schedule.unwrap_or_default();
+            let iter = &mut schedule.iter().peekable();
+            while let Some(first) = iter.next() {
+                let end = iter.peek().unwrap_or(&first);
+                periods.push(Period {
+                    name: first.name.clone(),
+                    start: first.start,
+                    end: end.start,
+                });
+            }
 
-        let periods = periods
-            .into_iter()
-            .filter(|period| period.name != "Free")
-            .collect();
+            let periods = periods
+                .into_iter()
+                .filter(|period| period.name != "Free")
+                .collect();
 
-        Schedule {
-            name: periods_schedule.name,
-            periods,
+            Schedule {
+                name: periods_schedule.name,
+                periods,
+            }
         }
     }
 }
 
-pub enum ParseError {
+/*pub enum ParseError {
     MissingPart(String),
     TimeError(chrono::ParseError),
 }
@@ -166,9 +178,9 @@ impl From<chrono::ParseError> for ParseError {
     fn from(err: chrono::ParseError) -> Self {
         Self::TimeError(err)
     }
-}
+}*/
 
-impl TryFrom<String> for PartialClass {
+/*impl TryFrom<String> for PartialClass {
     type Error = ParseError;
 
     fn try_from(string: String) -> Result<Self, Self::Error> {
@@ -186,9 +198,9 @@ impl TryFrom<String> for PartialClass {
 
         Ok(PartialClass { name, start })
     }
-}
+}*/
 
-impl TryFrom<String> for CalendarEntry {
+/*impl TryFrom<String> for CalendarEntry {
     type Error = ParseError;
 
     fn try_from(string: String) -> Result<Self, Self::Error> {
@@ -220,7 +232,7 @@ impl TryFrom<String> for CalendarEntry {
             end,
         })
     }
-}
+}*/
 
 impl fmt::Display for SchoolEntry {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

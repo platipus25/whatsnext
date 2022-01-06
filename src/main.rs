@@ -7,8 +7,8 @@ use std::fmt;
 use structopt::StructOpt;
 use tabular::{Row, Table};
 use tokio::try_join;
-use whatsnext::parse::{PeriodsCalendar, PeriodsSchool, SchoolEntry};
-use whatsnext::Whatsnext;
+use whatsnext::parse::{periods_io, SchoolEntry};
+use whatsnext::{School, Whatsnext};
 
 #[derive(StructOpt)]
 struct Cli {
@@ -61,19 +61,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let school = async {
         reqwest::get(format!("https://api.periods.io/school/{}", args.school))
             .await?
-            .json::<PeriodsSchool>()
+            .json::<periods_io::PeriodsSchool>()
             .await
     };
     let calendar = async {
         reqwest::get(format!("https://api.periods.io/schedule/{}", args.school))
             .await?
-            .json::<PeriodsCalendar>()
+            .json::<periods_io::PeriodsCalendar>()
             .await
     };
 
     let (school, calendar) = try_join!(school, calendar)?;
+    let school = periods_io::to_school(school, calendar);
 
-    let whatsnext = Whatsnext::from_periods(&school, &calendar);
+    let whatsnext = Whatsnext::new(school);
 
     //println!("{:#?}", resp.text().await?);
     let date = args.date.unwrap_or_else(|| Local::now().naive_local());
@@ -96,21 +97,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if let Some(num) = args.next {
-        let mut timeline = whatsnext.timeline(date);
-        let mut table = Table::new("{:<} {:<}");
+        let timeline = whatsnext.timeline(date);
+        let mut table = Table::new("{:<} {:>} {:<}");
+        let mut timeline = timeline.skip_while(|class| class.start < date);
         for _ in 0..num {
             let class = timeline.next().unwrap();
             let duration = class.start - date;
-            if class.start < date {
-                continue;
-            }
             let ht = chrono_humanize::HumanTime::from(duration);
             table.add_row(
                 Row::new()
                     //.with_cell(timeline.day.name)
                     .with_cell(class.name)
-                    .with_cell(ht.to_text_en(Accuracy::Rough, Tense::Present)), //.with_cell(class.start)
-                                                                                //.with_cell(class.end)
+                    .with_cell(class.start.format("%-I:%M%P"))
+                    .with_cell(ht.to_text_en(Accuracy::Rough, Tense::Present)),
             );
         }
         print!("{}", table);
@@ -132,8 +131,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .next()
             .expect("could not find next class");
         let in_class = next_class.start < now;
-        let is_free_class = !school.periods.contains(&next_class.name.to_string())
-            || school.non_periods.contains(&next_class.name.to_string());
+        let is_free_class = !whatsnext
+            .school
+            .periods
+            .contains(&next_class.name.to_string());
         let color = if in_class {
             if is_free_class {
                 &green
