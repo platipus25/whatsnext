@@ -1,14 +1,12 @@
-use chrono::{Duration, Local, NaiveDate, NaiveDateTime, NaiveTime};
-use chrono_humanize::{Accuracy, HumanTime, Tense};
+use chrono::{Local, NaiveDateTime, NaiveTime};
+use chrono_humanize::{Accuracy, Tense};
 use console::{Style, Term};
 use hhmmss::Hhmmss;
-use serde::Deserialize;
-use std::fmt;
 use structopt::StructOpt;
 use tabular::{Row, Table};
-use tokio::try_join;
-use whatsnext::parse::{periods_io, SchoolEntry};
-use whatsnext::{School, Whatsnext};
+use whatsnext::parse::{SchoolEntry};
+use whatsnext::{Whatsnext};
+use whatsnext::sources;
 
 #[derive(StructOpt)]
 struct Cli {
@@ -58,21 +56,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         return Ok(());
     }
 
-    let school = async {
-        reqwest::get(format!("https://api.periods.io/school/{}", args.school))
-            .await?
-            .json::<periods_io::PeriodsSchool>()
-            .await
-    };
-    let calendar = async {
-        reqwest::get(format!("https://api.periods.io/schedule/{}", args.school))
-            .await?
-            .json::<periods_io::PeriodsCalendar>()
-            .await
-    };
-
-    let (school, calendar) = try_join!(school, calendar)?;
-    let school = periods_io::to_school(school, calendar);
+    let school = sources::get_school(&args.school, &chrono::Duration::hours(8).to_std().unwrap()).await?;
 
     let whatsnext = Whatsnext::new(school);
 
