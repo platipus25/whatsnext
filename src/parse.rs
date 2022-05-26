@@ -68,8 +68,8 @@ pub mod periods_io {
 
     #[derive(Deserialize, Debug)]
     pub struct Defaults {
-        #[serde(with = "month_day_year_slashes")]
-        start: NaiveDate,
+        /*#[serde(with = "month_day_year_slashes")]
+        start: NaiveDate,*/
         pattern: Vec<ScheduleId>,
     }
 
@@ -591,4 +591,24 @@ impl Iterator for DaysBetweenIter {
             Some(day)
         }
     }
+}
+
+/**
+ * We can parse
+ * HH
+ * HH:MM
+ * HH:MMp
+ * HH:MM p
+ * HH:MM:SS
+ * MM/DD
+ * MM/DD/YY
+ * YYYY-MM-DD
+ * YYYY-MM-DDTHH:MM
+ * YYYY-MM-DDTHH:MMp
+ * YYYY-MM-DDTHH:MM:SS
+ *
+ * And fill in the missing parts with the current datetime
+ */
+fn opinionated_time_parsing(to_parse: &str, fill_with: NaiveDateTime) -> NaiveDateTime {
+    todo!("time parsing is hard ok?")
 }

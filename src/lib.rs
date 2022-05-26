@@ -36,6 +36,7 @@ pub struct Class<'a> {
 #[derive(Debug)]
 pub struct Day<'a> {
     pub name: &'a str,
+    pub date: NaiveDate,
     pub classes: Vec<Class<'a>>,
     pub special_day: Option<&'a SpecialDay>,
 }
@@ -86,16 +87,18 @@ impl<'a> Schedule {
         Day {
             name: &self.name,
             classes,
+            date: date.clone(),
             special_day: None,
         }
     }
 }
 
 impl<'a> Day<'a> {
-    fn empty() -> Self {
+    fn empty(date: &NaiveDate) -> Self {
         Day {
             name: "",
             classes: Vec::new(),
+            date: date.clone(),
             special_day: None,
         }
     }
@@ -130,7 +133,7 @@ impl Whatsnext {
         let mut day = schedule
             .ok()
             .map(|schedule| schedule.on_date(date))
-            .unwrap_or_else(Day::empty);
+            .unwrap_or_else(|| Day::empty(date));
 
         day.special_day = self.school.special_days.get(date);
 

@@ -109,7 +109,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let green = Style::new().green().bright().bold();
     let red = Style::new().red().bright().bold();
-    let mut interval = tokio::time::interval(tokio::time::Duration::from_millis(100));
+    let mut interval = tokio::time::interval(tokio::time::Duration::from_millis(500));
     interval.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
 
     let start = Local::now().naive_local();
