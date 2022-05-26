@@ -4,9 +4,9 @@ use console::{Style, Term};
 use hhmmss::Hhmmss;
 use structopt::StructOpt;
 use tabular::{Row, Table};
-use whatsnext::parse::{SchoolEntry};
-use whatsnext::{Whatsnext};
+use whatsnext::parse::SchoolEntry;
 use whatsnext::sources;
+use whatsnext::Whatsnext;
 
 #[derive(StructOpt)]
 struct Cli {
@@ -38,13 +38,19 @@ struct Cli {
     next: Option<u32>,
 }
 
+struct Config {
+    default_school: sources::SchoolId,
+    cache_stale_after: std::time::Duration,
+    // OAuth something or other
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::from_args();
     let term = Term::stdout();
 
     if args.schools {
-        let schools = reqwest::get("https://api.periods.io/schools")
+        let schools = reqwest::get("https://bell.plus/api/sources")
             .await?
             .json::<Vec<SchoolEntry>>()
             .await?;
@@ -56,7 +62,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         return Ok(());
     }
 
-    let school = sources::get_school(&args.school, &chrono::Duration::hours(8).to_std().unwrap()).await?;
+    let school =
+        sources::get_school(&args.school, &chrono::Duration::hours(8).to_std().unwrap()).await?;
 
     let whatsnext = Whatsnext::new(school);
 

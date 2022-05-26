@@ -1,5 +1,5 @@
 //use crate::{Period, Schedule, ScheduleId, SpecialDay};
-use chrono::{Duration, NaiveDate, NaiveTime, Weekday};
+use chrono::{Duration, NaiveDate, NaiveDateTime, Weekday};
 use core::fmt;
 use serde::Deserialize;
 
@@ -160,6 +160,238 @@ pub mod periods_io {
     }
 }
 
+pub mod bell_plus {
+    use crate::parse::DaysBetweenIter;
+    use crate::parse::{hour_minute, month_day_year_slashes};
+    use crate::sources::SchoolId;
+    use crate::{Period, Schedule, ScheduleId, School, SpecialDay};
+    use chrono::{NaiveDate, NaiveTime, Weekday};
+    use lazy_regex::regex;
+    use serde::Deserialize;
+    use std::collections::HashMap;
+
+    //https://bell.plus/api/sources
+
+    #[derive(Deserialize, Debug)]
+    pub struct BellSource {
+        meta: BellSchoolEntry,
+        correction: String,
+        #[serde(rename = "calendar")]
+        calendar_blob: String,
+        #[serde(rename = "schedules")]
+        schedules_blob: String,
+    }
+
+    struct ParsedBellSource {
+        meta: BellSchoolEntry,
+        correction: Option<i32>,
+        calendar: BellCalendar,
+        schedules: Vec<BellSchedule>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    pub struct BellSchoolEntry {
+        name: String,
+        periods: Vec<String>,
+        id: Option<ScheduleId>,
+    }
+
+    #[derive(Debug)]
+    struct BellSchedule {
+        name: String,
+        id: ScheduleId,
+        periods: Vec<BellPeriod>,
+    }
+
+    #[derive(Debug)]
+    struct BellPeriod {
+        start: NaiveTime,
+        name: String,
+    }
+
+    #[derive(Debug)]
+    struct BellCalendar {
+        default_week: HashMap<Weekday, ScheduleId>,
+        special_days: Vec<BellSpecialDay>,
+    }
+
+    #[derive(Debug)]
+    struct BellSpecialDay {
+        start: NaiveDate,
+        end: Option<NaiveDate>,
+        id: ScheduleId,
+        name: Option<String>,
+    }
+
+    pub fn to_school(source: BellSource) -> School {
+        let source: ParsedBellSource = source.into();
+        let mut schedules = HashMap::<ScheduleId, Schedule>::new();
+        let mut special_days = HashMap::<NaiveDate, SpecialDay>::new();
+
+        for schedule in source.schedules {
+            let id = schedule.id.clone();
+            schedules.insert(id, schedule.into());
+        }
+
+        for bell_special_day in source.calendar.special_days {
+            for day in
+                DaysBetweenIter::new(bell_special_day.start.clone(), bell_special_day.end.clone())
+            {
+                special_days.insert(
+                    day,
+                    SpecialDay {
+                        name: bell_special_day.name.clone(),
+                        schedule: bell_special_day.id.clone(),
+                    },
+                );
+            }
+        }
+
+        School {
+            periods: source.meta.periods,
+            weekdays: source.calendar.default_week,
+            schedules,
+            special_days,
+        }
+    }
+
+    impl From<BellSchedule> for Schedule {
+        fn from(bell_schedule: BellSchedule) -> Self {
+            let mut periods = Vec::<Period>::new();
+
+            let iter = &mut bell_schedule.periods.iter().peekable();
+            while let Some(first) = iter.next() {
+                let end = iter.peek().unwrap_or(&first);
+                periods.push(Period {
+                    name: first.name.clone(),
+                    start: first.start,
+                    end: end.start,
+                });
+            }
+
+            let periods = periods
+                .into_iter()
+                .filter(|period| !period.name.contains("Passing to"))
+                .collect();
+
+            Schedule {
+                name: bell_schedule.name,
+                periods,
+            }
+        }
+    }
+
+    impl From<BellSource> for ParsedBellSource {
+        fn from(bell_source: BellSource) -> Self {
+            println!("{:?}", bell_source);
+
+            let calendar = parse_calendar(bell_source.calendar_blob);
+            let schedules = parse_schedules(bell_source.schedules_blob);
+
+            ParsedBellSource {
+                meta: bell_source.meta,
+                correction: bell_source.correction.parse().ok(),
+                calendar,
+                schedules,
+            }
+        }
+    }
+
+    fn parse_calendar(source: String) -> BellCalendar {
+        //let lines = source.lines().peekable();
+
+        let weekday_regex =
+            regex!(r"(?P<weekday>Mon|Tue|Wed|Thu|Fri|Sat|Sun) (?P<schedule>[a-z-]+)");
+        let mut default_week = HashMap::new();
+
+        for day in weekday_regex.captures_iter(&source) {
+            let weekday = day.name("weekday").unwrap().as_str().parse::<Weekday>();
+
+            // TODO: give a nicer error
+            let weekday = weekday.unwrap();
+
+            let id = day.name("schedule").unwrap().as_str().to_string();
+
+            default_week.insert(weekday, id);
+        }
+
+        let mut special_days = Vec::new();
+        let special_day_regex = regex!(r#"
+        (?P<start>\d{2}/\d{2}/\d{4})
+        -?
+        (?P<end>\d{2}/\d{2}/\d{4})?
+        \x20
+        (?P<id>[a-z-]+)
+        (?:\x20\#\x20)?
+        (?P<name>[0-9a-zA-Z',\x20]+)?"#x);
+
+        for special_day in special_day_regex.captures_iter(&source) {
+            let start = special_day.name("start").unwrap().as_str();
+            let end = special_day.name("end").map(|cap| cap.as_str());
+
+            let start = NaiveDate::parse_from_str(start, month_day_year_slashes::FORMAT).unwrap();
+            let end = end.and_then(|end| {
+                NaiveDate::parse_from_str(end, month_day_year_slashes::FORMAT).ok()
+            });
+
+            special_days.push(BellSpecialDay {
+                start,
+                end,
+                id: special_day.name("id").unwrap().as_str().to_string(),
+                name: special_day.name("name").map(|cap| cap.as_str().to_string()),
+            })
+        }
+
+        BellCalendar {
+            default_week,
+            special_days,
+        }
+    }
+
+    fn parse_schedules(source: String) -> Vec<BellSchedule> {
+        let heading_regex = regex!(r"\* (?P<id>[a-z-]+) # (?P<name>[a-zA-Z0-9/\- ]+)");
+        let period_regex = regex!(r"(?P<time>\d+:\d+) (?P<name>.+)+");
+        //r"(?P<time>\d+:\d+) (?:(?P<passing>[a-zA-Z0-9 ]+)?(?:{(?P<normal_period_name>[a-zA-Z0-9 {}\/,\-]+)}))?(?P<name>[a-zA-Z0-9 \/,\-]+)*"
+
+        let mut headings_iter = heading_regex.captures_iter(&source).peekable();
+        let mut schedules = Vec::new();
+
+        while let Some(heading) = headings_iter.next() {
+            let section_end = headings_iter
+                .peek()
+                .and_then(|next_capture| next_capture.get(0))
+                .map(|next| next.start())
+                .unwrap_or(source.len());
+            let section_start = heading.get(0).unwrap().end();
+
+            let section = source.get(section_start..section_end).unwrap();
+            let mut periods = Vec::new();
+
+            for period in period_regex.captures_iter(section) {
+                let name = period.name("name").unwrap().as_str();
+                let name = regex!(r"[{}]").replace_all(name, "").into_owned();
+
+                periods.push(BellPeriod {
+                    start: NaiveTime::parse_from_str(
+                        period.name("time").unwrap().as_str(),
+                        hour_minute::FORMAT,
+                    )
+                    .unwrap(),
+                    name,
+                });
+            }
+
+            schedules.push(BellSchedule {
+                name: heading.name("name").unwrap().as_str().to_string(),
+                id: heading.name("id").unwrap().as_str().to_string(),
+                periods,
+            });
+        }
+
+        schedules
+    }
+}
+
 /*pub enum ParseError {
     MissingPart(String),
     TimeError(chrono::ParseError),
@@ -242,7 +474,7 @@ impl fmt::Display for SchoolEntry {
 
 mod month_day_year_slashes {
     use chrono::NaiveDate;
-    use serde::{self, Deserialize, Deserializer, Serializer};
+    use serde::{self, Deserialize, Deserializer};
 
     pub const FORMAT: &'static str = "%-m/%-d/%Y";
 
@@ -253,13 +485,13 @@ mod month_day_year_slashes {
     //        S: Serializer
     //
     // although it may also be generic over the input types T.
-    pub fn serialize<S>(date: &NaiveDate, serializer: S) -> Result<S::Ok, S::Error>
+    /*pub fn serialize<S>(date: &NaiveDate, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
         let s = format!("{}", date.format(FORMAT));
         serializer.serialize_str(&s)
-    }
+    }*/
 
     // The signature of a deserialize_with function must follow the pattern:
     //

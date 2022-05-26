@@ -5,7 +5,6 @@ use std::collections::{HashMap, VecDeque};
 pub mod parse;
 pub mod sources;
 
-
 #[derive(Debug, Serialize, Deserialize)]
 pub struct School {
     pub periods: Vec<String>,
